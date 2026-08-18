@@ -4,14 +4,14 @@ Single compiled reference for the Innovative Design Project. **Nothing has been 
 summarised away** — the four source documents are reproduced in full in Sections A–D below,
 including their original ranking matrices.
 
-What's new here is **Section 0**: one ranking scheme applied to **all 55 ideas**, in the
+What's new here is **Section 0**: one ranking scheme applied to **all 56 ideas**, in the
 master-catalog style, so a research idea and a product idea can finally be compared in the same table.
 
 | Section | Source file | What it holds |
 |---|---|---|
-| **0** | *(new)* | Unified ranking of all 55 ideas + overlap map + verdict |
+| **0** | *(new)* | Unified ranking of all 56 ideas + overlap map + verdict |
 | **A** | `IDP-MASTER-CATALOG.md` | 24 research-track ideas, grouped by domain, original 8-criteria matrix |
-| **B** | `IDP-PRODUCT-IDEAS.md` | 31 product/patent ideas (17 classical, 14 quantum), original matrix |
+| **B** | `IDP-PRODUCT-IDEAS.md` | 32 product/patent ideas (18 classical, 14 quantum), original matrix |
 | **C** | `idp-research-shortlist.md` | The two original research sweeps that produced Section A |
 | **D** | `idp-topics-explained.md` | Long-form per-topic explainers for the Section C ideas |
 
@@ -19,7 +19,7 @@ Compiled 2026-08-18. Underlying research: 2025–2026. **Lock baseline versions 
 
 ---
 
-# Section 0 — Unified ranking, all 55 ideas
+# Section 0 — Unified ranking, all 56 ideas
 
 ## How to read it
 
@@ -38,6 +38,8 @@ catalog; **Patent** and **Users** are carried over from the product track, so ev
 | **Cheap** | Low compute/hardware cost (5 = laptop or pure software; 1 = special hardware) |
 | **Data** | Public dataset readiness (5 = download today; 1 = collect it yourself) |
 | **Risk⁻** | Low failure risk (5 = can't really fail; 1 = might never converge) |
+
+**Team-proposed ideas** carry the same scoring as the researched ones; P18 (NeuroRender) is the first.
 
 **Track:** `R` = research-first (optimised for a paper) · `P` = product-first (optimised for a patent
 and real users). Tier is overall capstone fit across both goals — an idea can be S on one track and
@@ -80,6 +82,7 @@ mediocre on the other, so the per-goal verdicts at the end of this section say w
 | P3 | Two-way Indian Sign Language | P | 2 | 4 | 4 | 4 | 5 | 5 | 5 | 4 | 2 | 2 | **B** |
 | P16 | Two-wheeler collision warning | P | 3 | 3 | 3 | 2 | 5 | 5 | 5 | 4 | 3 | 3 | **B** |
 | P17 | Anemia screening from a photo | P | 4 | 2 | 2 | 2 | 5 | 4 | 4 | 5 | 3 | 4 | **B** |
+| P18 | NeuroRender adaptive AI rendering | P | 3 | 4 | 2 | 2 | 3 | 5 | 5 | 3 | 4 | 3 | **B** |
 | P6 | DPDP consent + erasure toolkit | P | 4 | 2 | 3 | 2 | 3 | 3 | 2 | 5 | 5 | 4 | **B** |
 | P9 | Road hazard mapper | P | 4 | 2 | 3 | 2 | 4 | 3 | 4 | 4 | 4 | 4 | **B** |
 | Q4 | Personal quantum-safe vault | P | 5 | 2 | 3 | 2 | 3 | 3 | 3 | 5 | 5 | 5 | **B** |
@@ -934,6 +937,106 @@ framing**, since uneven performance across skin tones is the documented harm in 
 
 ---
 
+### P18 — NeuroRender: Adaptive AI Rendering for Real-Time Gaming
+
+*(Team-proposed idea. Added here in full, with an honest prior-art assessment — the demo is excellent
+and the user need is real, but the patent story as originally framed does not survive contact with
+2026 prior art. The retarget at the end is how to save it.)*
+
+**The proposal:** render the game at low resolution and reconstruct high-resolution frames from the
+current low-res frame + previous frame + depth + motion vectors. Add temporal upscaling, AI frame
+generation between rendered frames, a per-pixel **confidence map**, an **adaptive decision** to render
+vs. generate each frame based on GPU load / motion / scene complexity / confidence, and ghosting
+detection with fallback to traditional rendering.
+
+**The demo:** outstanding, and the strongest reason to keep this idea. Split-screen — native render,
+low-res input, AI reconstruction — with a live FPS counter and a frame-time graph. The examiner moves
+the camera and watches the frame budget. Few ideas in this repo demo better.
+
+**The user need is real and proven:** DLSS/FSR/XeSS adoption shows gamers turn this on and leave it on.
+Users score 5 — that is not in doubt.
+
+#### Where the prior art actually stands (read before drafting anything)
+
+This is one of the most heavily patented areas in graphics, and two findings hit the proposal's stated
+**main innovation** directly:
+
+1. **"Adaptive decision based on GPU load" is shipped.** **DLSS 4.5**, announced at **CES 2026**,
+   introduced Dynamic Multi Frame Generation which "**dynamically adjusts the multiplier based on GPU
+   load and your screen refresh rate**." That is the proposal's headline mechanism, in a shipping
+   commercial product, before your filing date.
+2. **"Confidence-driven render-vs-generate" is published *and* patented.** Disney Research's
+   *Kernel-Based Frame Interpolation for Spatio-Temporally Adaptive Rendering* optimises "decisions on
+   which image regions to render or interpolate" using an "**implicit interpolation error prediction
+   model**" — i.e. the confidence map driving the adaptive choice. There is a corresponding granted US
+   patent (**12,367,544**).
+
+Other granted patents in the immediate neighbourhood: **US 12,367,549** (motion-vector refinement for
+temporally amortized supersampling), **US 12,400,293** (temporally amortized supersampling with a
+mixed-precision CNN), **US 12,548,204** (neural frame extrapolation rendering mechanism).
+
+**Verdict on patentability as proposed: weak.** Not because the idea is bad — because NVIDIA, AMD,
+Intel, Disney and Arm have been filing here continuously, and the specific combination named as the
+innovation is now both shipped and claimed. Filing this as stated would likely fail on obviousness.
+
+#### What is still genuinely open
+
+The 2026 literature is unusually explicit about what remains unsolved:
+
+- **Ghosting/disocclusion is not fixed.** Temporal supersampling "causes ghosting, where visual trails
+  are left behind disocclusions", and these artefacts "cannot be easily removed with regular
+  disocclusion detection algorithms, as they can simply **re-introduce aliasing**." A real dilemma,
+  not a tuning problem.
+- **Extrapolation is starved of information.** Frame extrapolation (which, unlike interpolation, does
+  not add latency) struggles from "the lack of information in disocclusion regions and complex future
+  motions."
+- **Engine integration cost is a named blocker** — methods "have a high engine integration cost due to
+  requiring G-buffers as input" (which is exactly what GFFE attacks by going G-buffer-free).
+- **Hand-tuned heuristics don't scale** across content, which is why the field moved to learned models.
+
+#### The retarget — two claims that could survive
+
+**(a) Deadline-constrained partial re-render.** Disney's adaptive scheme chooses render-vs-interpolate
+*per region* against a quality target; DLSS 4.5 adapts a *global* multiplier against GPU load. The gap
+between them: a **hard real-time deadline**. Claim a scheduler that takes the calibrated per-tile
+failure prediction and solves a **tile-allocation problem under a fixed frame-time budget** — re-render
+only the tiles predicted to fail, at whatever count fits the remaining milliseconds, and composite —
+so the system degrades gracefully instead of making an all-or-nothing per-frame choice. The technical
+effect is measurable and is the right one: **image error at a fixed frame-time budget**, not error at
+unbounded cost. Requires the confidence to be *calibrated*, which is itself claimable and is the part
+most systems skip.
+
+**(b) Target the hardware everyone else abandoned.** DLSS needs NVIDIA tensor cores; **FSR 4's AI path
+is locked to RDNA 4**. Arm is only now bringing Neural Super Sampling to mobile. That leaves integrated
+GPUs, older discrete cards and mid-range Android — **the machines most people in India actually game
+on** — with no good option. The constraints there are different enough (no tensor cores, tight thermal
+and power budgets, unified memory bandwidth) that an architecture and scheduling claim can stand on its
+own. This also lifts Impact and Users well above the "make a 4090 faster" framing.
+
+**Take (b) as the project framing and (a) as the claim.** "DLSS for machines that can't run DLSS" is a
+better capstone story, a better demo, and a much better patent position than competing head-on with
+NVIDIA's roadmap.
+
+#### Build
+
+Feasible, and the data problem is already solved for you. Public datasets with the exact modalities
+this needs: **QRISP** (diverse scenes; colour, depth, motion vectors at multiple resolutions) and an
+open UE5-based dataset with precise motion vectors and G-buffers published by the RDNU project. Open
+baselines to compare against: FSR (open source), ExtraNet, GFFE, PatchEX. Renderer: Unity or Godot with
+G-buffer/motion-vector export, or UE5. Inference: ONNX Runtime / TensorRT to hit the millisecond budget;
+train on the college GPU.
+
+**The hard part, stated plainly:** the whole thing lives or dies on the **inference budget**. A
+reconstruction that looks beautiful at 40 ms/frame is worthless — it must land in single-digit
+milliseconds to beat just rendering natively. Budget your schedule around hitting that, not around
+image quality; quality is the easy half. Measure and report ms/frame from week one.
+
+**Honest risk:** you are competing with three corporate research labs shipping annually. A partial
+result still publishes (error-vs-budget curves on a public dataset are a real contribution), and the
+demo works regardless — but do not plan on beating DLSS 4 on image quality.
+
+---
+
 **Considered and skipped:** hyperlocal air-quality sensor calibration (real gap — one calibration model
 doesn't hold over time — but the demo is a chart, and demo quality was the filter here).
 
@@ -1318,6 +1421,7 @@ CRI 2025. **Users** = will real people use it repeatedly. **Prior⁻** = low pri
 | P3 | Two-way Indian Sign Language | 2 | 4 | 5 | 4 | 2 | 4 | 5 | 2 | **B** |
 | P16 | Two-wheeler collision warning | 3 | 3 | 5 | 2 | 3 | 4 | 5 | 3 | **B** |
 | P17 | Anemia screening from photo | 4 | 2 | 4 | 1 | 3 | 5 | 4 | 4 | **B** |
+| P18 | NeuroRender adaptive AI rendering | 3 | 2 | 5 | 1 | 4 | 3 | 5 | 3 | **B** |
 | Q13 | Tensor-network anomaly detection | 3 | 3 | 3 | 2 | 4 | 4 | 2 | 3 | **C** |
 | Q5 | Learned error mitigation | 3 | 3 | 2 | 2 | 4 | 4 | 2 | 3 | **C** |
 | Q6 | Quantum kernels, tiny-n | 3 | 3 | 2 | 3 | 4 | 4 | 2 | 2 | **C** |
@@ -1398,6 +1502,16 @@ PQC: [India's quantum-safe roadmap 2027–29](https://postquantum.com/security-p
 [RBI Q-SAFE committee](https://www.whalesbook.com/news/English/bankingfinance/RBI-Assembles-Panel-to-Tackle-Quantum-Computing-Threats-to-Banking-Security/6a14e783b979113840cab662) ·
 [RBIH banking whitepaper](https://rbih-website-assets.s3.ap-south-1.amazonaws.com/resources/whitepaper-on-securing-indian-banks-in-the-age-of-quantum-computing.pdf) ·
 [CBOM tooling gaps](https://quantumsecuritydefence.com/insights/automated-cryptographic-discovery-tools-pqc/)
+
+Neural rendering (P18): [DLSS 4 / FSR 4 / XeSS 2 in 2026](https://rigpulse.ai/blog/dlss-4-vs-fsr-4-vs-xess-2) ·
+[Arm Neural Super Sampling architecture](https://developer.arm.com/community/arm-community-blogs/b/mobile-graphics-and-gaming-blog/posts/how-arm-neural-super-sampling-works) ·
+[Disney: kernel-based frame interpolation for adaptive rendering](https://studios.disneyresearch.com/app/uploads/2023/06/Kernel-Based-Frame-Interpolation-for-Spatio-Temporally.pdf) ·
+[US 12,367,544 — adaptive frame interpolation](https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/12367544) ·
+[US 12,548,204 — neural frame extrapolation](https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/12548204) ·
+[ExtraNet (SIGGRAPH Asia)](https://dl.acm.org/doi/10.1145/3478513.3480531) ·
+[GFFE: G-buffer free frame extrapolation](https://arxiv.org/pdf/2406.18551) ·
+[PatchEX](https://arxiv.org/pdf/2407.17501) ·
+[QRISP gaming super-resolution dataset](https://openaccess.thecvf.com/content/ICCV2023/papers/Mercier_Efficient_Neural_Supersampling_on_a_Novel_Gaming_Dataset_ICCV_2023_paper.pdf)
 
 Batch-2 products: [India's QR mandate on medicines](https://www.outlookindia.com/national/outlook-explains-how-indias-new-qr-code-system-will-help-you-spot-fake-medicines) ·
 [AI vs counterfeit drugs in India](https://www.ijpsjournal.com/article/unmasking-counterfeit-medicines-the-role-of-ai-in-strengthening-india-s-drug-safety) ·
