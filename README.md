@@ -14,7 +14,8 @@ Goal: pick one impressive, real-world, software-only project that can become a p
 
 | File | What it is |
 |------|-----------|
-| [`IDP-MASTER-CATALOG.md`](./IDP-MASTER-CATALOG.md) | **Start here.** All 24 ideas, explained, ranked across 8 criteria, tiered S→C, with recommendations. |
+| [`IDP-COMPLETE.md`](./IDP-COMPLETE.md) | **Start here.** Everything in one file — all 55 ideas ranked on one 10-criteria scheme, plus every source doc reproduced in full. |
+| [`IDP-MASTER-CATALOG.md`](./IDP-MASTER-CATALOG.md) | Research-paper track. All 24 ideas, explained, ranked across 8 criteria, tiered S→C, with recommendations. |
 | [`IDP-PRODUCT-IDEAS.md`](./IDP-PRODUCT-IDEAS.md) | **Patent + real-user track.** 31 ideas (17 classical, 14 quantum) picked for a claimable mechanism, real daily use, and a demo that lands — not just a paper. |
 | [`idp-research-shortlist.md`](./idp-research-shortlist.md) | Ranked shortlist from two deep-research sweeps (cybersecurity + all software fields). |
 | [`idp-topics-explained.md`](./idp-topics-explained.md) | Long-form explainer: problem, why it's open, what to build, dataset, baseline, novelty knob per topic. |
