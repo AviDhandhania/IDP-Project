@@ -14,9 +14,10 @@ Goal: pick one impressive, real-world, software-only project that can become a p
 
 | File | What it is |
 |------|-----------|
-| [`IDP-COMPLETE.md`](./IDP-COMPLETE.md) | **Start here.** Everything in one file — all 56 ideas ranked on one 10-criteria scheme, plus every source doc reproduced in full. |
+| [`IDP-COMPLETE.md`](./IDP-COMPLETE.md) | **Start here.** Everything in one file — all 56 research/product ideas on one 10-criteria scheme, plus the 12 awe-track builds, plus every source doc in full. |
 | [`IDP-MASTER-CATALOG.md`](./IDP-MASTER-CATALOG.md) | Research-paper track. All 24 ideas, explained, ranked across 8 criteria, tiered S→C, with recommendations. |
 | [`IDP-PRODUCT-IDEAS.md`](./IDP-PRODUCT-IDEAS.md) | **Patent + real-user track.** 32 ideas (18 classical, 14 quantum) picked for a claimable mechanism, real daily use, and a demo that lands — not just a paper. |
+| [`IDP-HOLY-SHIT-IDEAS.md`](./IDP-HOLY-SHIT-IDEAS.md) | **Awe track.** 12 from-scratch builds (own CPU, own OS, own database, own LLM, a satellite ground station). Impressive, not novel. |
 | [`idp-research-shortlist.md`](./idp-research-shortlist.md) | Ranked shortlist from two deep-research sweeps (cybersecurity + all software fields). |
 | [`idp-topics-explained.md`](./idp-topics-explained.md) | Long-form explainer: problem, why it's open, what to build, dataset, baseline, novelty knob per topic. |
 
@@ -36,6 +37,7 @@ If you're optimising for a **patent + something people actually use** instead of
 - **Strongest patent + a waiting customer:** crypto-agility copilot (dataflow-aware CBOM + PQC migration).
 - **Best demo:** counterfeit-medicine verification from packaging microstructure (no QR needed).
 - **Most lives touched:** scam interception at the moment of payment.
+- **Pure flex, no paper needed:** build your own CPU + OS, or a satellite ground station for ₹3,000 — see [`IDP-HOLY-SHIT-IDEAS.md`](./IDP-HOLY-SHIT-IDEAS.md).
 - **Rule #2:** file the provisional *before* you publish — an arXiv post kills Indian patent novelty.
 
 ## Status
