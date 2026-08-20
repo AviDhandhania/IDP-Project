@@ -18,6 +18,7 @@ Goal: pick one impressive, real-world, software-only project that can become a p
 | [`IDP-MASTER-CATALOG.md`](./IDP-MASTER-CATALOG.md) | Research-paper track. All 24 ideas, explained, ranked across 8 criteria, tiered S→C, with recommendations. |
 | [`IDP-PRODUCT-IDEAS.md`](./IDP-PRODUCT-IDEAS.md) | **Patent + real-user track.** 32 ideas (18 classical, 14 quantum) picked for a claimable mechanism, real daily use, and a demo that lands — not just a paper. |
 | [`IDP-HOLY-SHIT-IDEAS.md`](./IDP-HOLY-SHIT-IDEAS.md) | **Awe track.** 12 from-scratch builds (own CPU, own OS, own database, own LLM, a satellite ground station). Impressive, not novel. |
+| [`IDP-Topics-For-Guide.md`](./IDP-Topics-For-Guide.md) | **The five we're pitching.** One page each on the shortlisted topics, plain language, for the project guide. `.docx` alongside. |
 | [`idp-research-shortlist.md`](./idp-research-shortlist.md) | Ranked shortlist from two deep-research sweeps (cybersecurity + all software fields). |
 | [`idp-topics-explained.md`](./idp-topics-explained.md) | Long-form explainer: problem, why it's open, what to build, dataset, baseline, novelty knob per topic. |
 
