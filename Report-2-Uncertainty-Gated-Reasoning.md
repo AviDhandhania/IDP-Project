@@ -79,6 +79,75 @@ surface. The problem is to extract a marginal-utility-of-compute signal from a *
 activations and use it to allocate reasoning budget, and to evaluate that allocation under controls
 strong enough to rule out the trivial explanations.*
 
+### 1.5 Preliminaries
+
+**Test-time scaling and thinking modes.** A reasoning model emits an intermediate trace before its final
+answer, and accuracy rises with trace length up to a point — buying accuracy with generated tokens
+rather than parameters. All costs here are denominated in generated tokens, since that is what the user
+pays for. Crucially, contemporary open models expose the switch explicitly (Qwen3 thinking/non-thinking;
+R1-distilled models can be constrained to answer directly), so **both branches already exist** and a
+gate is implementable without touching the weights.
+
+**Linear probing.** A small classifier trained on a frozen network's activations to predict some
+property. Its performance is evidence about what the representation *contains*, not what the network
+*uses* — the standard and correct objection to probing results, which we state rather than paper over.
+
+**Calibration.** For confidence estimates *pᵢ* and outcomes *yᵢ* partitioned into *M* equal-width bins,
+
+```
+ECE = Σₘ (|Bₘ| / n) · | acc(Bₘ) − conf(Bₘ) |          Brier = (1/n) Σᵢ (pᵢ − yᵢ)²
+```
+
+We report ECE (with the bin count stated, since ECE is sensitive to it), the smooth ECE₂ variant used by
+[R3] so our numbers are comparable to their 0.089, and Brier as a proper scoring rule that ECE is not.
+
+**Self-consistency.** Sample *k* answers, take the majority; agreement serves as confidence. Strong and
+expensive — cost scales linearly in *k*, the very resource a gate exists to conserve. Any gate needing
+self-consistency *at inference time* has defeated its own purpose; this is the trap [R3]'s offline design
+avoids and ours must too.
+
+### 1.6 Formal problem formulation
+
+Let *M* be a frozen reasoning model, *q* an input, and *B* = {b₁ < … < b_m} the available reasoning
+budgets (b₁ being short/no-think, b_m the full chain). Write *A(q, b)* for the expected accuracy of *M*
+on *q* under budget *b*, and *C(q, b)* for the expected generated tokens.
+
+The quantity we predict is the **marginal utility of compute**:
+
+```
+Δ(q) = A(q, b_m) − A(q, b₁)
+```
+
+Δ is estimated empirically from sampled outcomes (§7.2), and it partitions inputs into three regimes
+that a correctness predictor cannot distinguish:
+
+| Regime | A(q,b₁) | A(q,b_m) | Δ(q) | Correct budget |
+|---|---|---|---|---|
+| Easy | high | high | ≈ 0 | **b₁** — thinking is pure waste |
+| Reasoning-sensitive | low | high | **large** | **b_m** — this is where the budget belongs |
+| Hopeless | low | low | ≈ 0 | **b₁** — thinking buys nothing |
+
+Note that the Easy and Hopeless regimes have opposite correctness and *identical* optimal budgets. Any
+gate driven by predicted correctness — which is what the entire calibration literature provides [R1, R3,
+R9] — must therefore be wrong on one of them. **This table is the argument for the whole project.**
+
+A gate is a policy π: *q* → *B*. We seek
+
+```
+maximise   E_q [ A(q, π(q)) ]     subject to   E_q [ C(q, π(q)) ] ≤ κ
+```
+
+for a token budget κ, which is the same constrained programme [R2] solves by Lagrangian relaxation. Our
+departure is the *information available to π*: we set π(q) = g(h(q)) where h(q) is the frozen model's
+residual-stream activation at the final prompt token, whereas [R2] sets π(q) = g(φ(q)) for surface
+features φ. The **oracle policy** π\*(q), computed with knowledge of Δ(q), bounds what any π can achieve
+and is objective O1 — reporting it means our result is measured against the achievable ceiling rather
+than only against baselines, which is the presentation most papers in this area omit.
+
+**Regret** R(π) = E_q[A(q, π\*(q))] − E_q[A(q, π(q))] at matched cost is then the single number that
+summarises how much of the available headroom a gate captures, and it is how we will compare an
+activation gate against a surface-feature gate on equal terms.
+
 ---
 
 ## 2. Justification
@@ -116,10 +185,6 @@ accuracy is a result.
 **2.5 Cost and access are trivial.** All datasets are public (GSM8K, MATH-500, AIME, LiveCodeBench).
 All models are open weights in the 1.5B–8B range. One 24 GB GPU suffices. There is no annotation
 requirement, no human-subject component, no hardware, and no API spend for the core experiments.
-
-**2.6 The area is active and the venue path is clear.** Two 2025–2026 surveys organise it [R5, R11],
-an ICLR 2026 paper works the adjacent difficulty-adaptive problem [R10], and the efficient-reasoning
-workshop circuit is well established. There is no risk of the topic being unrecognisable to reviewers.
 
 ---
 
@@ -169,9 +234,8 @@ likely patent/product angle if we pursue one.
   project.
 - **Proprietary/API models.** Activations are inaccessible, so they cannot be studied and their version
   drift breaks reproducibility.
-- **Open-ended generation, multi-turn dialogue, agentic tool use.** Correctness must be automatically
-  checkable for the label-generation stage to work.
-- **Training a new reasoning model, or any claim about pretraining.**
+- **Open-ended generation, multi-turn dialogue, agentic tool use** (correctness must be automatically
+  checkable for label generation), and any claim about pretraining.
 
 ### 4.3 Assumptions
 
@@ -189,7 +253,8 @@ our label construction, since both branches see the same possibly-contaminated i
 Search over arXiv, OpenReview, ACL Anthology and ICLR/COLM 2026 proceedings for January 2025 – August
 2026, over the query families *{adaptive test-time compute, efficient reasoning, overthinking, reasoning
 length control, hidden-state probing, LLM calibration, verbalised confidence}*, with citation chasing
-from the two surveys. Fourteen works retained, thirteen from 2025–2026.
+from the two surveys. Seventeen works retained: sixteen from 2025–2026, plus one ICLR 2025 paper
+submitted in late 2024 that is the closest published relative of our mechanism.
 
 ### 5.2 Summary of surveyed work
 
@@ -209,6 +274,9 @@ from the two surveys. Fourteen works retained, thirteen from 2025–2026.
 | **R12** | *Stop When Reasoning Converges: Semantic-Preserving Early Exit for Reasoning Models* | 2026, arXiv 2605.17672 | Mid-generation early exit when the reasoning trace semantically converges | Complementary intervention point (during, not before, generation) |
 | **R13** | *Calibrating LLM Judges: Linear Probes for Fast and Reliable Uncertainty Estimation* | 2025, arXiv 2512.22245 | Linear probes for uncertainty in the LLM-as-judge setting | Establishes the linear-probe recipe in an adjacent task |
 | **R14** | *ADaPT: Token-Level Decoupling for Efficient Large Reasoning Models* | 2026, arXiv 2606.19919 | Token-level compute decoupling within the reasoning trace | Finer-grained, orthogonal intervention |
+| **R15** | Y. Wang et al. — *Latent Space Chain-of-Embedding Enables Output-free LLM Self-Evaluation* | ICLR 2025, arXiv 2410.13640 | Uses the *progressive* hidden states across layers during inference; training-free and label-free | Four domains, seven LLMs; **millisecond-level** computational cost; no training required |
+| **R16** | Yong et al. — *Think or Not? Exploring Thinking Efficiency in Large Reasoning Models via an Information-Theoretic Lens* | Jun 2025, arXiv 2505.18237 | Information-theoretic metrics for the information gain contributed by intermediate reasoning steps | Finds reasoning efficiency varies substantially by problem type and model size; some reasoning tokens contribute minimally |
+| **R17** | *Calibrating Overconfidence Without Sacrificing Confidence: Probe-Conditioned Head Intervention for LLMs* | 2026, arXiv 2606.09876 | Uses a probe to *conditionally* intervene on attention heads, suppressing unwarranted confidence while preserving warranted confidence | Partially decouples suppression of unwarranted from loss of warranted confidence |
 
 ### 5.3 Critical analysis: where each work falls short, and how we correct it
 
@@ -344,6 +412,45 @@ relative to the model.
 **Our correction.** We adopt R5's L1/L2 vocabulary for positioning and then split its L2 category into
 *externally estimated difficulty* and *internally read state*, which is the distinction our experiment
 isolates.
+
+**R15 — Chain-of-Embedding (the closest thing to our mechanism, aimed elsewhere).**
+*Flaw 1 (post-hoc, again).* It evaluates a response that has already been generated. As a *self-evaluation*
+method that is the point; as an allocator it is useless, because the tokens are already spent.
+*Flaw 2 (training-free by design, and that costs accuracy).* The label-free construction is elegant and
+deployable, but it cannot exploit a small amount of supervision when supervision is cheaply obtainable —
+and our Δ labels are obtainable offline for free.
+*Flaw 3 (correctness target).* Predicts whether a response is right, not whether more compute would have
+helped — the §1.6 regime problem.
+**Our correction.** We take R15's most valuable and under-exploited idea: use the *trajectory* of hidden
+states across layers rather than one layer's activation. Our layer sweep is therefore complemented by a
+layer-trajectory feature set, with the single-layer probe as the ablation baseline. We also adopt its
+cost discipline — R15 reports millisecond-level overhead, and any gate that costs more than that is not
+worth having, which is why gate overhead is a first-class metric for us (N5).
+
+**R16 — information-theoretic thinking efficiency.**
+*Flaw 1 (measurement, not control).* It quantifies how much information intermediate steps contribute
+and stops there. Like R4, it produces a strong argument for a controller it does not build.
+*Flaw 2 (post-hoc measurement).* Information gain is computed over a trace that exists. It cannot be
+evaluated before deciding whether to generate that trace.
+*Flaw 3 (generalisation, admitted).* The authors note limits in measurement precision across reasoning
+patterns and difficulty generalising efficiency metrics across architectures and domains.
+**Our correction.** Its per-step information-gain metric becomes a *diagnostic* in our analysis: for
+items our probe routes to the long branch, we can ask whether the trace actually carried information, and
+for items it routes short, whether the trace we skipped would have. This converts a token-count result
+into a mechanistic explanation of *what* the probe is detecting — the kind of analysis that separates a
+solid paper from a table of numbers.
+
+**R17 — probe-conditioned head intervention.**
+*Flaw 1 (modifies the model).* Intervening on attention heads changes the network's behaviour. Ruled out
+by our design constraint, and it makes the resulting artefact model-specific and hard to audit.
+*Flaw 2 (target is calibration, not allocation).* It fixes the *reported* confidence. A well-calibrated
+verbalised confidence is a better gating signal than a badly-calibrated one, but it is still a
+downstream, lossy readout of the state the probe already read — so having a probe and then using its
+intervention's *output* to gate is strictly worse than gating on the probe.
+**Our correction.** We cite R17 as strong independent evidence that a probe can extract confidence
+information the verbalisation stage destroys — which is exactly our O4 hypothesis — while declining its
+intervention. This yields a clean argument: R6 localises the corruption, R17 shows a probe can bypass it,
+and we show the bypassed signal is good enough to allocate compute.
 
 ### 5.4 Consolidated research gap
 
@@ -491,27 +598,26 @@ result deployable rather than merely interesting.
 ### 7.6 Stage 5 — Baselines, controls, ablations
 
 **Baselines.**
-1. Always-think (accuracy ceiling, token ceiling).
-2. Never-think / short-answer only (token floor).
-3. Fixed truncated budgets at several levels (the L1-controllability family, [R5]).
-4. Verbalised-confidence gate (the naive approach; expected to lose, with R6 explaining why).
-5. Self-consistency@k gate (strong but expensive; also the R3 comparison point).
-6. Output-entropy gate (the R10 signal).
-7. **Prompt-surface-feature gate** — a reimplementation of R2's input class, which is the controlled
-   comparison that isolates our contribution.
-8. Prompt-length-only gate (the trivial baseline; R1's 0.657 reference).
-9. Oracle gate (O1 — the ceiling).
-10. AdaptThink / Thinkless published numbers as external context, **explicitly labelled not
-    like-for-like** since they retrain the backbone.
 
-**Controls.** Length residualisation on every metric; length-matched evaluation subsets; permutation
-test on probe labels; verification that the probe is not separating datasets rather than items when
-pooled.
+| # | Baseline | Role |
+|---|---|---|
+| 1–2 | Always-think / never-think | Accuracy and token ceilings and floors |
+| 3 | Fixed truncated budgets | The L1-controllability family [R5] |
+| 4 | Verbalised-confidence gate | The naive approach; expected to lose, with R6 explaining why |
+| 5 | Self-consistency@k gate | Strong but expensive; the [R3] comparison point |
+| 6 | Output-entropy gate | The [R10] signal |
+| **7** | **Prompt-surface-feature gate** | Reimplementation of [R2]'s input class — the controlled comparison that isolates our contribution |
+| 8 | Prompt-length-only gate | The trivial baseline; [R1]'s 0.657 reference |
+| 9 | Oracle gate | The ceiling (O1), giving regret at matched cost |
+| 10 | AdaptThink / Thinkless published numbers | External context, **explicitly not like-for-like** — they retrain the backbone |
 
-**Ablations.** Layer depth; probe capacity; n in label generation; activations-only vs
+**Controls.** Length residualisation on every metric; length-matched subsets; permutation test on probe
+labels; a check that the probe is not merely separating datasets rather than items when pooled.
+
+**Ablations.** Layer depth; probe capacity; *n* in label generation; activations-only vs
 activations+entropy vs entropy-only; cross-dataset transfer (train on MATH, test on GSM8K and
-LiveCodeBench); **cross-model transfer** (does a probe trained on 1.5B transfer to 7B — a strong result
-if yes, an informative limitation if no); binary vs graded gate.
+LiveCodeBench); **cross-model transfer** (1.5B probe applied to 7B — a strong result if it holds, an
+informative limitation if not); binary vs graded gate.
 
 **Metrics.** Accuracy at matched token budget; token reduction at matched accuracy; area under the
 accuracy-cost curve; probe AUROC/AUPRC (raw and residualised); ECE and Brier for calibration; **negative
@@ -545,6 +651,83 @@ The two explicit go/no-go gates in months 2 and 4 are the point of the design: t
 hypothesis is tested cheaply and early, and a negative answer at month 4 still leaves eight months to
 convert the work into the calibration-and-audit paper (O4 + N4), which does not depend on the gate
 working.
+
+### 7.9 Metric definitions
+
+**Token reduction at matched accuracy.** With accuracy tolerance ε, the largest reduction in mean
+generated tokens for which gated accuracy ≥ always-think accuracy − ε. Reported at ε = 0 and ε = 1
+point, because the honest version of "same accuracy" requires stating the tolerance.
+
+**Area under the accuracy-cost curve (AUACC).** The integral of accuracy over mean token cost,
+normalised to the always-think cost. A single scalar summarising a whole Pareto curve, which permits
+comparison of methods whose operating points differ — and prevents the common failure of comparing two
+methods at incomparable budgets.
+
+**Regret at matched cost.** As defined in §1.6: the accuracy gap to the oracle policy at equal token
+spend. This is the metric that answers "how much of the available headroom did we capture," and it is
+absent from every paper surveyed.
+
+**Probe discrimination.** AUROC and AUPRC for the Δ classification task, each reported three ways: raw,
+length-residualised (regressing out prompt token count), and on length-matched subsets. AUPRC matters
+because the reasoning-sensitive class is the minority class on easy datasets, where AUROC flatters.
+
+**Calibration.** ECE (bin count stated), ECE₂ for comparability with [R3]'s 0.089, and Brier.
+
+**Negative flip rate.** Following [R4], the fraction of items answered correctly under the short branch
+and incorrectly under the gate's chosen branch. A gate that saves tokens while increasing this number is
+not an improvement, and no adaptive-compute paper we surveyed reports it.
+
+**Gate overhead.** Wall-clock milliseconds for the forward pass plus probe evaluation, and the same
+figure expressed as a percentage of the tokens saved. Reference point: [R15] reports millisecond-level
+cost for a comparable hidden-state computation, so this is the bar.
+
+### 7.10 Compute budget
+
+Stated explicitly because it is the project's binding constraint and a review panel should be able to
+check the arithmetic.
+
+| Stage | Model | Items × samples | Est. tokens | Est. GPU-days (24 GB, vLLM) |
+|---|---|---|---|---|
+| Pilot label generation | 1.5B | 300 × 16 | ~7 × 10⁶ | < 1 |
+| Full label generation | 1.5B | 4,000 × 16 | ~1 × 10⁸ | 3–5 |
+| Full label generation | 7–8B | 4,000 × 8 | ~5 × 10⁷ | 8–12 |
+| Activation extraction | all | 4,000 × 1 fwd pass | — | < 1 total |
+| Probe training + sweeps | — | CPU-bound | — | negligible |
+| Baselines (self-consistency@k) | 1.5B + 7B | 1,000 × 16 | ~3 × 10⁷ | 2–3 |
+| Reserve for reruns | — | — | — | 5 |
+
+Total ≈ 25–30 GPU-days across twelve months on a single card. Probe training and every ablation in §7.6
+are CPU-bound once activations are cached, which is the structural reason this project fits the budget:
+**the expensive stage happens once and the science happens on the cache.** If the 7–8B stage overruns, it
+is a scaling ablation and can be cut without touching the primary result.
+
+### 7.11 Risk register
+
+| # | Risk | Trigger / early indicator | Response | Checkpoint |
+|---|---|---|---|---|
+| RR1 | Δ has insufficient variance (nearly all items in one regime) | Pilot shows < 15% of items in the reasoning-sensitive band | Rebalance the benchmark mix toward harder datasets; widen the budget gap between b₁ and b_m | Month 2 |
+| RR2 | Residualised probe AUROC below 0.7 | Month-4 result | Pivot to the correctness target (known AUC 0.881 [R1]) and reframe as the O4 + N4 calibration-and-audit paper | Month 4 |
+| RR3 | Sampling overruns | Pilot extrapolation exceeds 8 GPU-days for the 1.5B stage | Reduce n to 4 (R3 works with 5 samples); cut GSM8K item count first as the easiest dataset | Month 3 |
+| RR4 | Gate overhead comparable to savings on short prompts | Overhead > 5% of tokens saved | Report per-prompt-length breakdown and restrict the claim to prompts above the break-even length — an honest scoping, not a failure | Month 5 |
+| RR5 | Probes do not transfer across models | Cross-model AUROC near chance | Report as a limitation; per-model probes remain cheap, which is the comparative advantage over per-model RL | Month 7 |
+| RR6 | Published-first by a larger group | Preprint appears | Submit the calibration/audit component (O4 + N4) immediately as a standalone short paper rather than holding for one large submission | Continuous |
+| RR7 | Backbone or benchmark versions change | Upstream repository update | Weights, tokenizers and benchmark snapshots archived locally at month 1 with recorded commits (project Rule #1) | Month 1 |
+
+### 7.12 Reproducibility and ethics
+
+**Reproducibility.** Weights, tokenizers, benchmark snapshots and seeds pinned and archived in month 1;
+every reported number produced by a released script; cached activations and Δ labels published so probe
+results can be re-derived without re-running generation — which is what makes the artefact reusable
+rather than nominally open.
+
+**Contamination.** GSM8K and MATH are likely partially contaminated for this model generation. Our label
+is a *within-item* difference between two branches of the same model, so contamination inflates both and
+largely cancels in Δ. AIME 2025 is included as a fresher slice, and any result holding on the
+contaminated sets but not the fresh one will be reported as such.
+
+**Ethics.** No human subjects, no personal data, no dual-use concern. The one substantive consideration
+is claim discipline: a probe shows what a representation *contains*, not what the model *uses*, and we
+will not present a probing result as a mechanistic finding.
 
 ---
 
@@ -584,7 +767,6 @@ working.
 | O3 | The per-item marginal-utility label set (N6) is the kind of artefact other groups adopt, which is how a student paper accumulates citations. |
 | O4 | Natural composition with mid-generation early exit [R12] and token-level decoupling [R14] — a follow-up paper on the combined policy with a plausible multiplicative saving. |
 | O5 | Direct industrial relevance: inference cost is the dominant line item for anyone serving reasoning models, and a detachable gate is deployable in a way a retrained backbone is not. |
-| O6 | The frozen-probe-versus-RL comparison (N3) speaks to an interpretability question — where the information about difficulty lives — giving the work an audience beyond efficiency. |
 
 ### Threats
 
@@ -608,21 +790,19 @@ itself is about.
 
 ## 9. Expected Outcomes and Deliverables
 
-1. **Primary result** — accuracy-versus-token Pareto curves for activation-gated reasoning against nine
-   baselines and an oracle ceiling; target 30–50% token reduction at parity accuracy.
+1. **Primary result** — accuracy-versus-token Pareto curves against nine baselines and an oracle
+   ceiling, with regret at matched cost; target 30–50% token reduction at parity accuracy.
 2. **Probe results** — AUROC/AUPRC for marginal-utility prediction, raw and length-residualised, across
    three models and four datasets, with layer and capacity ablations.
 3. **Calibration finding** — internal probe versus verbalised confidence versus self-consistency, with
    R6's circuit-level account supplying the mechanism for the verbalised-confidence failure.
-4. **Methodological contribution** — the length-residualisation audit of existing gating signals, and
-   the introduction of gate overhead and negative-flip-rate as required reporting.
+4. **Methodological contribution** — the length-residualisation audit of existing gating signals, plus
+   gate overhead and negative-flip-rate as required reporting.
 5. **Attribution finding** — how much of the RL-based adaptive-thinking gain is recoverable from a
-   frozen model.
-6. **Artefacts** — per-item marginal-utility labels (~4,000 items × 3 models), trained probes, extraction
-   and evaluation harness, all public.
-7. **Stretch** — conformal risk-controlled gate with a bounded-accuracy-loss guarantee.
-8. **Demonstration** — side-by-side inference on a mixed workload: same accuracy, visibly fewer tokens,
-   with the gate's decision shown per query.
+   frozen model, and the stretch conformal risk-controlled gate (O7).
+6. **Artefacts** — per-item marginal-utility labels (~4,000 items × 3 models), trained probes and the
+   full harness, all public; plus a demonstration on a mixed workload showing equal accuracy at visibly
+   fewer tokens with the gate's per-query decision displayed.
 
 ---
 
@@ -655,6 +835,12 @@ itself is about.
 **[R13]** *Calibrating LLM Judges: Linear Probes for Fast and Reliable Uncertainty Estimation.* arXiv:2512.22245, 2025. <https://arxiv.org/abs/2512.22245>
 
 **[R14]** *ADaPT: Token-Level Decoupling for Efficient Large Reasoning Models.* arXiv:2606.19919, 2026. <https://arxiv.org/abs/2606.19919>
+
+**[R15]** Y. Wang, P. Zhang, B. Yang, D. F. Wong and R. Wang. *Latent Space Chain-of-Embedding Enables Output-free LLM Self-Evaluation.* ICLR 2025; arXiv:2410.13640. <https://arxiv.org/abs/2410.13640>
+
+**[R16]** X. Yong, X. Zhou, Y. Zhang, J. Li, Y. Zheng and X. Wu. *Think or Not? Exploring Thinking Efficiency in Large Reasoning Models via an Information-Theoretic Lens.* arXiv:2505.18237, June 2025. <https://arxiv.org/abs/2505.18237>
+
+**[R17]** *Calibrating Overconfidence Without Sacrificing Confidence: Probe-Conditioned Head Intervention for LLMs.* arXiv:2606.09876, 2026. <https://arxiv.org/abs/2606.09876>
 
 **Benchmarks and models.** GSM8K; MATH / MATH-500; AIME 2024 and 2025; LiveCodeBench;
 DeepSeek-R1-Distill-Qwen-1.5B/7B; Qwen3-4B/8B. All versions to be pinned and archived at project start

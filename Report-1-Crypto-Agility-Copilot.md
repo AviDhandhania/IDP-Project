@@ -63,6 +63,73 @@ therefore no existing technique can produce a defensible migration order or supp
 context-irrelevant findings. Post-quantum migration tooling reports **what** cryptography exists; the
 operational question is **what to migrate first**, and it is unanswered.*
 
+### 1.3 Preliminaries and threat model
+
+**Cryptographic assets.** Following the CycloneDX 1.6 CBOM object model [P6], a cryptographic asset is
+one of: *material* (keys, certificates, secrets), *artefacts* (protocol or file-format configuration),
+or *invocations* (calls into a cryptographic API). Our analysis operates over invocations and the data
+flowing through them, and consumes material and artefacts as context.
+
+**Standardised replacements.** NIST FIPS 203 (ML-KEM, key encapsulation), FIPS 204 (ML-DSA,
+lattice signatures) and FIPS 205 (SLH-DSA, hash-based signatures) are final. Deployment practice is
+*hybrid* — a classical and a post-quantum primitive combined so that security holds if either survives
+(X25519 + ML-KEM for key establishment being the common construction). Hybrid deployment is what we
+generate, and it is the conservative choice: a defect in the PQC implementation cannot make the system
+worse than it was.
+
+**Crypto-agility.** We adopt the operational definition: the property that a cryptographic primitive can
+be replaced without redesigning the system that uses it. It is a property of *architecture*, not of
+algorithm choice, which is why it is measurable from code and why CARS [P5] attempts to score it.
+
+**Threat model.** The adversary is passive and patient. They cannot break RSA or ECC today. They can
+(a) record ciphertext in transit or exfiltrate encrypted data at rest, (b) store it indefinitely at
+negligible cost, and (c) decrypt it once a CRQC exists. They do not need to be detected, and detection
+after the fact provides no remedy — this is the property that distinguishes HNDL from every other
+vulnerability class, and the reason forward secrecy cannot help retroactively [P8].
+
+Formally, **Mosca's inequality**: for a given data path, let *x* be the required confidentiality
+lifetime, *y* the time to migrate that path, and *z* the time until a CRQC exists. The path is
+*already breached* when
+
+```
+x + y > z
+```
+
+Every term except *z* is a property of the specific data path, and both *x* and *y* are in principle
+recoverable from code and configuration. **This is the observation the project rests on:** the
+literature treats *x* as an input supplied by a human analyst, and we treat it as something to infer.
+
+### 1.4 A worked example
+
+Two call sites in the same repository, matched by the same discovery rule and assigned the same
+algorithm-severity score by every tool surveyed:
+
+```python
+# A — payments/archive.py
+record = build_settlement_record(txn)              # source: database read
+blob   = rsa_oaep_encrypt(record, archive_pubkey)  # RSA-2048
+s3.put_object(Bucket="settlements-archive",        # sink: object store,
+              Key=k, Body=blob)                    # lifecycle: retain 10 years
+
+# B — web/session.py
+tok    = make_csrf_token()                         # source: local RNG
+sealed = rsa_oaep_encrypt(tok, session_pubkey)     # RSA-2048 — identical primitive
+redis.setex(k, 900, sealed)                        # sink: cache, TTL 900 s
+```
+
+Site **A** protects a financial record with a ten-year retention obligation, written to an
+externally-reachable object store. Under Mosca's inequality with *x* = 10 years, it is already breached.
+Site **B** protects a value that is worthless in fifteen minutes; *x* ≈ 0, so migrating it delivers no
+risk reduction whatsoever.
+
+Both sites are `RSA_OAEP` with a 2048-bit key. An algorithm-intrinsic score [P2] must rank them
+identically. A pattern-matching inventory [P1] reports them identically. Yet the correct migration order
+is unambiguous, and every piece of evidence needed to derive it — `s3.put_object` with a ten-year
+lifecycle rule versus `setex` with a 900-second TTL, a database-derived source versus a locally
+generated token — is present in the repository and machine-readable.
+
+**That gap between "the information is in the code" and "no tool reads it" is the whole project.**
+
 ---
 
 ## 2. Justification
@@ -166,9 +233,10 @@ available for approximately 20 hours of priority labelling.
 We searched arXiv, IACR ePrint, ACM DL, IEEE Xplore and Springer for the period January 2025 – August
 2026 using the query families *{crypto-agility, cryptographic inventory, CBOM, PQC migration, quantum-safe
 static analysis, harvest-now-decrypt-later}*, followed by forward and backward citation chasing from the
-two most recent scanner papers. Thirteen works were retained as directly load-bearing: eleven from
-2025–2026, one 2024 pre-standardisation toolchain, and one 2019 classical baseline retained because
-every modern paper positions against it.
+two most recent scanner papers. Sixteen works were retained as directly load-bearing: eleven from
+2025–2026, three from 2024 (a pre-standardisation binary toolchain and a systematic literature review),
+and two classical baselines from 2017 and 2019 retained because every modern paper positions against
+them.
 
 ### 5.2 Summary of surveyed work
 
@@ -187,6 +255,9 @@ every modern paper positions against it.
 | **P11** | *A Toolchain for Assisting Migration of Software Executables Towards PQC* | 2024, arXiv 2409.07852 | Binary-level detection and migration assistance for compiled artefacts | Pre-standardisation; complementary analysis level |
 | **P12** | *The Cost of Waiting: Decision-Theoretic Synthesis of Early vs Late PQC Migration Under Uncertainty* | 2026, Frontiers Quantum Sci. Tech. | Decision-theoretic treatment of migration timing under CRQC-date uncertainty | Provides the utility model our score can be justified against |
 | **P13** | Rahaman et al. — *CryptoGuard* | CCS 2019 | Backward dataflow analysis detecting 22 classes of classical cryptographic API misuse in Java | The classical baseline; **proves inter-procedural crypto dataflow at scale is tractable** |
+| **P14** | Näther et al. — *Migrating Software Systems towards Post-Quantum Cryptography: A Systematic Literature Review* | 2024, arXiv 2404.12854 | SLR extracting four migration phases, substeps and emerging role archetypes | Names three adopter obstacles: missing PQC experience and high realisation effort, security concerns about the new system, high complexity; finds terminology and steps "not defined precisely or consistently" and implementations "mostly experimental," yielding an "overall chaotic situation" |
+| **P15** | *Harvest Now, Decrypt Later: Examining Post-Quantum Risk* | 2025, Federal Reserve FEDS working paper series | Economic and financial-stability framing of HNDL exposure | Establishes HNDL as a supervisory concern for the financial sector independent of any CRQC date estimate |
+| **P16** | Krüger et al. — *CogniCrypt* | ASE 2017 | Developer-facing generation of correct cryptographic code plus misuse analysis | The "help the developer write it correctly" line of work; 2026 evidence reports general-purpose LLMs now exceeding CogniCrypt, CryptoGuard and Snyk Code on misuse precision and recall |
 
 ### 5.3 Critical analysis: what each work gets wrong, and our correction
 
@@ -317,6 +388,45 @@ sites — and repoint it at a different question. CryptoGuard asks "is this call
 does this call protect, and for how long?" Its existence is also our strongest feasibility argument:
 scalable crypto-focused dataflow analysis was demonstrated in 2019, so the engineering risk in our core
 mechanism is bounded.
+
+**P14 — the systematic literature review, and a revealing authorship overlap.**
+*Flaw 1 (the field has no shared vocabulary, by the review's own finding).* Terminology, migration steps
+and roles are "not defined precisely or consistently across the literature," implementations are
+"mostly experimental," and the situation is characterised as "chaotic." A review that concludes the
+field lacks agreed definitions cannot itself supply a measurable target.
+*Flaw 2 (phases without mechanisms).* Four migration phases and substeps are identified descriptively.
+The review says *that* inventory and prioritisation are phases; it does not say how either is performed.
+*Flaw 3 (pre-standardisation).* Published April 2024, before FIPS 203/204/205 finalisation, so its
+treatment of algorithm selection is dated.
+**The authorship point, which strengthens our case considerably.** The first author of this 2024 review
+is also the first author of Crypsy [P1], the strongest 2026 scanner. The same group therefore (i)
+surveyed the field and named its obstacles, then (ii) built a tool addressing discovery — and their own
+2026 evaluation still reports actionable precision ≈ 0.3 with no dataflow and no prioritisation. The gap
+we target has survived a dedicated review *and* a dedicated implementation by the people best placed to
+close it. That is strong evidence the gap is real and non-trivial rather than merely unattempted.
+**Our correction.** We supply exactly the missing mechanism for the prioritisation phase P14 names, and
+we commit to one precise, computable definition (the per-data-path exposure score) rather than adding
+another informal one to a field the review already calls chaotic.
+
+**P15 — Federal Reserve HNDL analysis.**
+*Flaw:* it operates at the level of the financial system, establishing HNDL as a supervisory and
+financial-stability concern. It has no view of any individual system, and its unit of analysis is an
+institution, so it cannot inform an engineering decision.
+**Our correction.** We cite it strictly as institutional justification for §2.1 — evidence that a
+central bank treats this exposure as material — and not as technical support. Our contribution is the
+layer that converts an institution-level concern into a ranked engineering backlog.
+
+**P16 — CogniCrypt.**
+*Flaw 1 (wrong direction).* It helps a developer write *new* cryptographic code correctly. The
+post-quantum problem is overwhelmingly about code that already exists, was written correctly by the
+standards of its time, and is now obsolete for a reason unrelated to correctness.
+*Flaw 2 (superseded on its own task).* 2026 evidence reports general-purpose LLMs exceeding CogniCrypt,
+CryptoGuard and Snyk Code on misuse detection precision and recall, so the rule-based misuse-detection
+approach is no longer the frontier even for its original purpose.
+**Our correction.** We treat correct-but-obsolete usage as the target class — the case all misuse
+tooling is designed to ignore — and we use an LLM only inside a template-constrained, differentially
+verified patch step (§7.5), which takes the demonstrated LLM strength (code adaptation) without
+inheriting its unreliability on cryptographic content.
 
 ### 5.4 Consolidated research gap
 
@@ -524,6 +634,63 @@ construction and patch verification harness. Each part is independently reportab
 Month 8 is the gate: if ranking quality is achieved, the paper exists. Everything after is
 strengthening.
 
+### 7.9 Metric definitions
+
+Stated precisely, because the ranking metrics are the ones no prior paper in this area reports and are
+therefore the ones a reviewer will scrutinise.
+
+**Discovery accuracy.** Standard precision, recall and F1 over ground-truth cryptographic assets, matched
+by (file, line, algorithm) triple. Reported per language and per asset category, so our numbers are
+directly comparable to the per-category breakdown in [P1].
+
+**Actionable-finding precision.** Of findings the tool presents as requiring action, the fraction an
+expert annotator agrees require action. This is the metric on which [P1] reports ≈ 0.3, and matching its
+definition exactly is required for the comparison to be meaningful.
+
+**Ranking quality.** With expert relevance grades *relᵢ* over the top-*k* findings,
+
+```
+DCG@k = Σᵢ₌₁..k  relᵢ / log₂(i + 1)          nDCG@k = DCG@k / IDCG@k
+```
+
+reported at k = 10 and k = 20. Complemented by Kendall's τ and Spearman's ρ against the full expert
+ordering, since nDCG rewards getting the head of the list right while τ measures agreement throughout —
+and an operator works down the list, so both matter.
+
+**Retention inference.** Coverage (fraction of persistence sinks for which a retention value was
+resolved) reported separately from accuracy (fraction of resolved values within one retention class of
+the annotated truth). Separating them is deliberate: a tool that resolves 40% of sinks accurately is
+more useful than one that resolves 90% badly, and a single blended number would hide the difference.
+
+**Patch correctness.** Fraction of proposed patches passing all three verification gates (§7.5),
+reported per migration class, with failures categorised by cause.
+
+**Annotation reliability.** Krippendorff's α for the asset labels and for the priority orderings, so the
+subjectivity of the ranking target is quantified rather than assumed away.
+
+### 7.10 Risk register
+
+| # | Risk | Trigger / early indicator | Response | Checkpoint |
+|---|---|---|---|---|
+| RR1 | Dataflow coverage too low to support scoring | < 40% of call sites bound on the first three repositories | Fall back to analyst-supplied retention per *data class*, propagated through the dataflow graph — automates the propagation, drops the inference. N1–N3 survive. | Month 5 |
+| RR2 | Retention evidence absent from real repositories | Fewer than half of persistence sinks have any machine-readable retention signal | Extend evidence sources to code comments and commit messages via an LLM extractor, reported separately as *inferred* provenance | Month 5 |
+| RR3 | Expert annotator unavailable | No confirmed labeller by month 4 | Two-team-member rubric-driven ordering plus guide adjudication; report α and state the weaker authority | Month 4 |
+| RR4 | Baseline replication fails (cannot reproduce [P1]/CBOMkit numbers) | Month 4 replication off by > 10 points | Report on our benchmark only, with the discrepancy documented; do not claim comparability we cannot support | Month 4 |
+| RR5 | Patch synthesis unreliable | < 50% passing the verification gate | Ship as a *diagnostic-only* tool; N1–N3 stand alone and the patch stage becomes future work | Month 9 |
+| RR6 | Competing product release | Vendor announcement of dataflow prioritisation | File provisional immediately; pivot the paper's framing to the open, evaluated, benchmarked comparison — which a product release does not provide | Continuous |
+| RR7 | Schema churn | CISA/NIST minimum-elements publication | Adapter layer already isolates emission; re-map fields only | Continuous |
+
+### 7.11 Ethics and responsible disclosure
+
+The tool analyses real open-source repositories and produces findings that, in the aggregate, describe
+exploitable weakness in deployed software. Three commitments follow. **(a)** Genuine
+present-day vulnerabilities discovered incidentally (CVE-linked dependencies, hardcoded keys) are
+reported privately to maintainers before any publication, on a 90-day disclosure clock. **(b)** The
+published benchmark reports assets and priority orderings at pinned commits, and does not include
+credentials or exploit paths. **(c)** Quantum-vulnerable-but-currently-secure findings — the project's
+actual subject — are not treated as vulnerabilities requiring embargo, and this distinction is stated
+explicitly in the artefact so the benchmark is not misread as a list of live weaknesses.
+
 ---
 
 ## 8. SWOT Analysis
@@ -629,6 +796,12 @@ design.
 **[P12]** *The Cost of Waiting: A Decision-Theoretic Synthesis of Early Versus Late Post-Quantum Migration Under Uncertainty.* Frontiers in Quantum Science and Technology, 2026. <https://www.frontiersin.org/journals/quantum-science-and-technology/articles/10.3389/frqst.2026.1918786/abstract>
 
 **[P13]** S. Rahaman et al. *CryptoGuard: High Precision Detection of Cryptographic Vulnerabilities in Massive-Sized Java Projects.* ACM CCS 2019.
+
+**[P14]** C. Näther et al. *Migrating Software Systems towards Post-Quantum Cryptography: A Systematic Literature Review.* arXiv:2404.12854, April 2024. <https://arxiv.org/abs/2404.12854>
+
+**[P15]** *Harvest Now, Decrypt Later: Examining Post-Quantum Risk.* Finance and Economics Discussion Series, Board of Governors of the Federal Reserve System, 2025. <https://www.federalreserve.gov/econres/feds/files/2025093pap.pdf>
+
+**[P16]** S. Krüger et al. *CogniCrypt: Supporting Developers in Using Cryptography.* IEEE/ACM ASE 2017.
 
 **Standards and regulatory sources.** NIST FIPS 203 (ML-KEM), FIPS 204 (ML-DSA), FIPS 205 (SLH-DSA);
 OWASP CycloneDX 1.6 CBOM specification; RBI Q-SAFE committee terms of reference; SEBI Cyber Security and
