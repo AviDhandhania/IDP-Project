@@ -19,6 +19,8 @@ Goal: pick one impressive, real-world, software-only project that can become a p
 | [`IDP-PRODUCT-IDEAS.md`](./IDP-PRODUCT-IDEAS.md) | **Patent + real-user track.** 32 ideas (18 classical, 14 quantum) picked for a claimable mechanism, real daily use, and a demo that lands — not just a paper. |
 | [`IDP-HOLY-SHIT-IDEAS.md`](./IDP-HOLY-SHIT-IDEAS.md) | **Awe track.** 12 from-scratch builds (own CPU, own OS, own database, own LLM, a satellite ground station). Impressive, not novel. |
 | [`IDP-Topics-For-Guide.md`](./IDP-Topics-For-Guide.md) | **The five we're pitching.** One page each on the shortlisted topics, plain language, for the project guide. `.docx` alongside. |
+| [`Report-1-Crypto-Agility-Copilot.md`](./Report-1-Crypto-Agility-Copilot.md) | **Review-1 report, topic 1.** Problem, justification, objectives, scope, 13-paper survey with per-paper critique, novelty, methodology, SWOT. 21 pages. `.docx` alongside. |
+| [`Report-2-Uncertainty-Gated-Reasoning.md`](./Report-2-Uncertainty-Gated-Reasoning.md) | **Review-1 report, topic 2.** Same structure, 14-paper survey. 21 pages. `.docx` alongside. |
 | [`IDP-Speaker-Notes.md`](./IDP-Speaker-Notes.md) | Cue notes for pitching the five topics — ~12 min, the line to land per topic, likely questions with answers. `.docx` alongside. |
 | [`idp-research-shortlist.md`](./idp-research-shortlist.md) | Ranked shortlist from two deep-research sweeps (cybersecurity + all software fields). |
 | [`idp-topics-explained.md`](./idp-topics-explained.md) | Long-form explainer: problem, why it's open, what to build, dataset, baseline, novelty knob per topic. |
