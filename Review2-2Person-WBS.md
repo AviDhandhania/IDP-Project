@@ -13,7 +13,7 @@
 **Focus Area:** Static analysis infrastructure, system architecture, and core data flow tracking.
 
 ### Code & Prototype (TRL 3)
-- **Retention Extractor:** Built the declarative retention parser to identify lifecycle policies and TTLs from source code.
+*(All tasks completed)*
 
 ### Report & Documentation
 - **Section 4 (Requirements):** Formulated the Functional and Non-Functional Requirements (FR/NFR) and stakeholder mapping.
