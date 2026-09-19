@@ -13,7 +13,6 @@
 **Focus Area:** Static analysis infrastructure, system architecture, and core data flow tracking.
 
 ### Code & Prototype (TRL 3)
-- **Subsystem 2 (Semantic Binding):** Engineered the inter-procedural taint analysis (`dataflow.py`) that traces plaintext sources and ciphertext sinks.
 - **Retention Extractor:** Built the declarative retention parser to identify lifecycle policies and TTLs from source code.
 
 ### Report & Documentation
