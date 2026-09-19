@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto-Agility Copilot Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg flex flex-col">
+            <div class="p-4 border-b">
+                <h1 class="text-xl font-bold text-blue-700">Crypto-Agility Copilot</h1>
+                <p class="text-xs text-gray-500 mt-1">Review II Prototype</p>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="block p-2 bg-blue-50 text-blue-700 rounded-md font-medium">Dashboard</a>
+                <a href="#" class="block p-2 text-gray-600 hover:bg-gray-100 rounded-md">Cryptographic Assets</a>
+                <a href="#" class="block p-2 text-gray-600 hover:bg-gray-100 rounded-md">Dataflow Mapping</a>
+                <a href="#" class="block p-2 text-gray-600 hover:bg-gray-100 rounded-md">PQC Patches</a>
+                <a href="#" class="block p-2 text-gray-600 hover:bg-gray-100 rounded-md">Settings</a>
+            </nav>
+            <div class="p-4 border-t text-sm text-gray-500">
+                Team Member 1<br>Avi Dhandhania (25BCE1207)
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <header class="mb-8">
+                <h2 class="text-2xl font-semibold">Risk & Migration Dashboard</h2>
+                <p class="text-gray-500">Overview of cryptographic vulnerabilities and HNDL scoring.</p>
+            </header>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-sm font-medium text-gray-500">Discovered Primitives</h3>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">1,204</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-sm font-medium text-gray-500">Mosca Breaches (Critical)</h3>
+                    <p class="text-3xl font-bold text-red-600 mt-2">142</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-sm font-medium text-gray-500">Quantum-Safe Handshakes</h3>
+                    <p class="text-3xl font-bold text-green-600 mt-2">18%</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-sm font-medium text-gray-500">Noise Suppressed</h3>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">812</p>
+                </div>
+            </div>
+
+            <!-- Charts & Lists -->
+            <div class="grid grid-cols-3 gap-6">
+                
+                <!-- Chart -->
+                <div class="col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-medium mb-4">Algorithm Distribution</h3>
+                    <canvas id="algoChart" width="400" height="400"></canvas>
+                </div>
+
+                <!-- Vulnerable Paths -->
+                <div class="col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-medium mb-4">Top Vulnerable Data Paths (HNDL Sorted)</h3>
+                    <table class="min-w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="pb-2 text-gray-600 font-semibold">Location</th>
+                                <th class="pb-2 text-gray-600 font-semibold">Primitive</th>
+                                <th class="pb-2 text-gray-600 font-semibold">Retention Evidence</th>
+                                <th class="pb-2 text-gray-600 font-semibold">HNDL Score</th>
+                                <th class="pb-2 text-gray-600 font-semibold">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="py-3 font-mono text-gray-700">payments/archive.py:108</td>
+                                <td class="py-3"><span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs font-bold">RSA-2048</span></td>
+                                <td class="py-3 text-gray-600">S3 Lifecycle (10 Years)</td>
+                                <td class="py-3 font-bold text-red-600">8.42</td>
+                                <td class="py-3"><button class="px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700">Patch (X25519+ML-KEM)</button></td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-3 font-mono text-gray-700">auth/tokens.py:42</td>
+                                <td class="py-3"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs font-bold">ECDSA-P256</span></td>
+                                <td class="py-3 text-gray-600">DB Schema (1 Year)</td>
+                                <td class="py-3 font-bold text-yellow-600">5.10</td>
+                                <td class="py-3"><button class="px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700">Patch (ML-DSA)</button></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 font-mono text-gray-700">web/session.py:12</td>
+                                <td class="py-3"><span class="px-2 py-1 bg-gray-100 text-gray-800 rounded text-xs font-bold">RSA-2048</span></td>
+                                <td class="py-3 text-gray-600">Redis TTL (900s)</td>
+                                <td class="py-3 font-bold text-gray-500">0.02 (Deferred)</td>
+                                <td class="py-3"><button class="px-3 py-1 bg-gray-300 text-gray-700 rounded text-xs" disabled>Low Priority</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('algoChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['RSA-2048', 'ECDSA', 'AES-256', 'ML-KEM', 'SHA-256 (Non-Sec)'],
+                datasets: [{
+                    data: [142, 210, 305, 95, 452],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#9ca3af']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+</body>
+</html>

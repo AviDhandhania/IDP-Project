@@ -16,7 +16,6 @@
 - **Subsystem 1 (AST Discovery):** Developed the Tree-sitter/AST parsing engine (`discovery.py`) capable of locating cryptographic primitives across codebases and handling constant propagation.
 - **Subsystem 2 (Semantic Binding):** Engineered the inter-procedural taint analysis (`dataflow.py`) that traces plaintext sources and ciphertext sinks.
 - **Retention Extractor:** Built the declarative retention parser to identify lifecycle policies and TTLs from source code.
-- **Front-End Development:** Design and build the interactive web dashboard (UI/UX) to visually expose cryptographic vulnerabilities and asset inventory.
 
 ### Report & Documentation
 - **Section 4 (Requirements):** Formulated the Functional and Non-Functional Requirements (FR/NFR) and stakeholder mapping.
