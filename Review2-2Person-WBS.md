@@ -19,7 +19,7 @@
 *(All tasks completed)*
 
 ### Presentation & Defense
-- **Deck Design:** Created the base presentation layout, styling, and Slide generation script (`generate_review2_pptx.js`).
+*(All tasks completed)*
 
 ---
 
