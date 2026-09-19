@@ -13,7 +13,6 @@
 **Focus Area:** Static analysis infrastructure, system architecture, and core data flow tracking.
 
 ### Code & Prototype (TRL 3)
-- **Subsystem 1 (AST Discovery):** Developed the Tree-sitter/AST parsing engine (`discovery.py`) capable of locating cryptographic primitives across codebases and handling constant propagation.
 - **Subsystem 2 (Semantic Binding):** Engineered the inter-procedural taint analysis (`dataflow.py`) that traces plaintext sources and ciphertext sinks.
 - **Retention Extractor:** Built the declarative retention parser to identify lifecycle policies and TTLs from source code.
 
