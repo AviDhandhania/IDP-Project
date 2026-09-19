@@ -2,9 +2,9 @@
 
 ## Crypto-Agility Copilot: Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration
 
-**Innovative Design Project (BACSE291)  Review 2 (Initial Design and Development  20 Marks)**  
-**Target Milestone:** ~20% Implementation (Technology Readiness Level 3  Proof of Concept)  
-**Team Size:** 2 (Avi Dhandhania - 25BCE1207, Anmol Saluja - 25BCE1332)  **Duration:** One Academic Year (20262027)  **Track:** Software-Only, No Specialised Hardware  
+**Innovative Design Project (BACSE291)  Review 2 (Initial Design and Development — 20 Marks)**  
+**Target Milestone:** ~20% Implementation (Technology Readiness Level 3 — Proof of Concept)  
+**Team Size:** 2 (Avi Dhandhania - 25BCE1207, Anmol Saluja - 25BCE1332)  **Duration:** One Academic Year (2026–2027)  **Track:** Software-Only, No Specialised Hardware  
 
 ---
 
@@ -44,12 +44,12 @@ This urgency is dictated by the **Harvest-Now-Decrypt-Later (HNDL)** threat mode
 Cryptographic inventory scanners have recently emergedincluding CBOMkit, IBM Quantum Safe Explorer, SandboxAQ AQtive Guard, and the academic scanner Crypsy [P1]standardising around the **Cryptography Bill of Materials (CBOM)** as an extension to CycloneDX 1.6 [P6]. However, the output of all existing tools is **semantically flat**: a list of the form *"RSA-2048 appears at `payments/crypto.py:214`"*.
 
 Two measured operational consequences follow:
-1. **Findings are not actionable (Noise):** Existing scanners fire pattern-matching rules on all matching invocations regardless of usage context. Nther and Hirsch report that on real deployed services, Crypsy exhibits a real-world actionable precision of approximately **0.30** [P1]. Over two-thirds of reported findings are noisepredominantly non-security hashing (cache keys, ETags, checksums) matched by the same heuristic rules as password hashing.
+1. **Findings are not actionable (Noise):** Existing scanners fire pattern-matching rules on all matching invocations regardless of usage context. Näther and Hirsch report that on real deployed services, Crypsy exhibits a real-world actionable precision of approximately **0.30** [P1]. Over two-thirds of reported findings are noisepredominantly non-security hashing (cache keys, ETags, checksums) matched by the same heuristic rules as password hashing.
 2. **Findings are not ordered (Flat Scoring):** Where risk scoring exists, it is *algorithm-intrinsic*. Shaw's quantum-aware scorer [P2] derives a 010 severity from key size, Shor-path qubit costs, Grover speedup factors, and forward-security exposure. Every RSA-2048 call site in an entire codebase receives an identical score. It provides zero signal for prioritising engineering remediation backlogs.
 
 ### 1.3 Formalization via Mosca's Inequality & Worked Example
 
-The deadline for quantum migration is formalised by **Moscas Inequality**:
+The deadline for quantum migration is formalised by **Mosca's Inequality**:
 
 $$\text{Let } x = \text{Data Confidentiality Lifetime (years required to keep data secret)}$$
 $$\text{Let } y = \text{Migration Duration (years required to re-engineer the system)}$$
@@ -97,13 +97,13 @@ A comprehensive survey was conducted across ACM Digital Library, IEEE Xplore, IA
 $$\{\text{crypto-agility}, \text{cryptographic inventory}, \text{CBOM}, \text{PQC migration}, \text{static analysis}, \text{HNDL}, \text{Mosca inequality}\}$$
 Forward and backward citation chasing from the most recent scanners identified **16 core papers**: eleven published in 20252026, three from 2024, and two foundational classical baselines (2017, 2019).
 
-### 2.2 Summary of Surveyed Work (P1P16)
+### 2.2 Summary of Surveyed Work (P1–P16)
 
 | Ref | Authors & Venue | Core Contribution | Key Reported Numbers |
 |---|---|---|---|
-| **P1** | Nther & Hirsch (Crypsy / Crypistry)<br>*arXiv:2608.04857 (Aug 2026)* | 214-rule static scanner, rule repository, and CBOM export for Go/Python. | Benchmark $F_1 = 0.75$ ($P=0.87, R=0.66$); Go invocations $F_1 = 0.92$; scanned 57,610 files in $<6$ min; **real-world actionable precision $\approx 0.30$**. |
+| **P1** | Näther & Hirsch (Crypsy / Crypistry)<br>*arXiv:2608.04857 (Aug 2026)* | 214-rule static scanner, rule repository, and CBOM export for Go/Python. | Benchmark $F_1 = 0.75$ ($P=0.87, R=0.66$); Go invocations $F_1 = 0.92$; scanned 57,610 files in $<6$ min; **real-world actionable precision $\approx 0.30$**. |
 | **P2** | Shaw (Quantum-Safe Auditing)<br>*arXiv:2604.00560 (Apr 2026)* | Regex detection of 15 vulnerable cipher classes $\to$ LLM enrichment $\to$ VQE quantum threat score (010). | $P=71.98\%$, $R=100\%$, $F_1=83.71\%$ on a **stratified 10.4% sample** (602/5,775 findings); algorithm-only scoring. |
-| **P3** | Pallars de Bonrostro et al.<br>*arXiv:2606.07341 (Jun 2026)* | Evaluated LLMs on migrating 800 paired synthetic Python fragments across 6 crypto families. | Fine-tuned GPT-4.1-mini achieved **92.5% functional correctness**; zero-shot achieved **15%**; degrades heavily on multi-file repos. |
+| **P3** | Pallarés de Bonrostro et al.<br>*arXiv:2606.07341 (Jun 2026)* | Evaluated LLMs on migrating 800 paired synthetic Python fragments across 6 crypto families. | Fine-tuned GPT-4.1-mini achieved **92.5% functional correctness**; zero-shot achieved **15%**; degrades heavily on multi-file repos. |
 | **P4** | Zhang (AQuA Vision)<br>*ICSE 2026, arXiv:2602.05759* | Defined quantum-safe SE agenda across 3 pillars: PQC-aware detection, semantic refactoring, hybrid verification. | Two-page vision; **no implementation or evaluation provided**. |
 | **P5** | Costa (CARS Framework)<br>*IACR ePrint 2026/1467 (Jul 2026)* | Delphi-derived 5-dimension readiness score (inventory, algorithm compliance, decoupling, toolchain, governance). | Evaluated on 43 OSS repos; mean scores 24.947.5; admits external validation against outcomes is unperformed. |
 | **P6** | IBM Research (CBOM Anatomy)<br>*Eurocrypt 2026* | Object model for cryptographic assets, dependencies, and evidence capture in CycloneDX. | Standardisation reference for the CycloneDX 1.6 CBOM schema. |
@@ -114,9 +114,9 @@ Forward and backward citation chasing from the most recent scanners identified *
 | **P11** | *Migration of Software Executables*<br>*arXiv:2409.07852 (2024)* | Binary-level disassembly and migration toolchain for compiled binaries. | Pre-standardisation; binary analysis loses variable names, types, and configuration context. |
 | **P12** | *Cost of Waiting: Decision Theory*<br>*Frontiers Quantum Sci. 2026* | Decision-theoretic model for early vs. late PQC migration under CRQC arrival uncertainty. | Provides the mathematical utility model underlying our prioritisation score. |
 | **P13** | Rahaman et al. (CryptoGuard)<br>*ACM CCS 2019* | Backward inter-procedural dataflow analysis detecting 22 classical cryptographic API misuse patterns in Java. | Demonstrated that **inter-procedural cryptographic dataflow at scale is tractable** (scanned millions of LOC). |
-| **P14** | Nther et al. (PQC Migration SLR)<br>*arXiv:2404.12854 (Apr 2024)* | Systematic literature review defining 4 migration phases: inventory, prioritisation, migration, verification. | Highlights lack of formal definitions and that implementations are "mostly experimental," creating an "overall chaotic situation." |
+| **P14** | Näther et al. (PQC Migration SLR)<br>*arXiv:2404.12854 (Apr 2024)* | Systematic literature review defining 4 migration phases: inventory, prioritisation, migration, verification. | Highlights lack of formal definitions and that implementations are "mostly experimental," creating an "overall chaotic situation." |
 | **P15** | *Harvest Now, Decrypt Later: Fed Reserve*<br>*Federal Reserve FEDS 2025* | Financial stability analysis of HNDL risks for regulated banking institutions. | Establishes HNDL as a systemic banking supervisor concern. |
-| **P16** | Krger et al. (CogniCrypt)<br>*IEEE/ACM ASE 2017* | Developer-facing generation of correct cryptographic code and misuse static analysis. | Rule-based code synthesis; superseded on misuse detection by modern LLMs. |
+| **P16** | Krüger et al. (CogniCrypt)<br>*IEEE/ACM ASE 2017* | Developer-facing generation of correct cryptographic code and misuse static analysis. | Rule-based code synthesis; superseded on misuse detection by modern LLMs. |
 
 ### 2.3 Critical Analysis: What Prior Work Gets Wrong & Our Corrections
 
@@ -146,7 +146,7 @@ Forward and backward citation chasing from the most recent scanners identified *
 
 ### 2.4 Consolidated Research Gap Matrix
 
-| Capability / Dimension | P1 (Crypsy) | P2 (Shaw) | P3 (Pallars) | P5 (CARS) | P6/P7 (CBOM) | P8/P12 (HNDL) | P13 (CryptoGuard) | **Crypto-Agility Copilot** |
+| Capability / Dimension | P1 (Crypsy) | P2 (Shaw) | P3 (Pallarés) | P5 (CARS) | P6/P7 (CBOM) | P8/P12 (HNDL) | P13 (CryptoGuard) | **Crypto-Agility Copilot** |
 |---|---|---|---|---|---|---|---|---|
 | Multi-language Discovery |  |  |  |  |  |  |  | **** |
 | CycloneDX 1.6 CBOM Output |  |  |  |  |  |  |  | **** |
@@ -204,7 +204,7 @@ Under the **Indian Patent Office Computer-Related Inventions (CRI) Guidelines (2
 
 ---
 
-## 4. Requirement Analysis & Problem Understanding (Rubric Parameter 1  3 Marks)
+## 4. Requirement Analysis & Problem Understanding (Rubric Parameter 1 — 3 Marks)
 
 ### 4.1 Stakeholder Analysis & Target Ecosystems
 
@@ -259,7 +259,7 @@ The copilot enforces compliance with:
 
 ---
 
-## 5. System Design and Architecture (Rubric Parameter 2  3 Marks)
+## 5. System Design and Architecture (Rubric Parameter 2 — 3 Marks)
 
 ### 5.1 End-to-End Architectural Pipeline
 
@@ -377,7 +377,7 @@ The tool emits a standard CycloneDX 1.6 CBOM enriched with custom dataflow prope
 
 ---
 
-## 6. Component & Tool Selection with Technical Justification (Rubric Parameter 3  3 Marks)
+## 6. Component & Tool Selection with Technical Justification (Rubric Parameter 3 — 3 Marks)
 
 ### 6.1 Parsing & AST Infrastructure Evaluation
 
@@ -419,7 +419,7 @@ The tool emits a standard CycloneDX 1.6 CBOM enriched with custom dataflow prope
 
 ---
 
-## 7. Initial Prototype & Module Development (~20% Proof-of-Concept) (Rubric Parameter 4  3 Marks)
+## 7. Initial Prototype & Module Development (~20% Proof-of-Concept) (Rubric Parameter 4 — 3 Marks)
 
 ### 7.1 Implemented Package Structure (`src/crypto_agility_copilot/`)
 
@@ -540,7 +540,7 @@ To enable security analysts and panel evaluators to visually inspect cryptograph
 
 ---
 
-## 8. Innovation and Feasibility (Rubric Parameter 5  3 Marks)
+## 8. Innovation and Feasibility (Rubric Parameter 5 — 3 Marks)
 
 ### 8.1 Mathematical Derivation & Theoretical Soundness of the HNDL Score
 
@@ -580,7 +580,7 @@ In static program analysis, achieving 100% soundness across dynamically typed la
 
 ---
 
-## 9. Project Planning, Teamwork and Presentation (Rubric Parameter 6  3 Marks)
+## 9. Project Planning, Teamwork and Presentation (Rubric Parameter 6 — 3 Marks)
 
 ### 9.1 Academic Year Milestone Schedule (Reviews I through VII)
 
@@ -601,7 +601,7 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 
 | Review Stage | Evaluation Period | Marks | Evaluator | Target Deliverable |
 |---|---|---|---|---|
-| **Review I** | 1721 Aug 2026 | 5 | Guide | Problem definition, literature review (P1P16), objectives, methodology. *(Completed)* |
+| **Review I** | 1721 Aug 2026 | 5 | Guide | Problem definition, literature review (P1–P16), objectives, methodology. *(Completed)* |
 | **Review II** | **2125 Sep 2026** | **20** | **School Panel** | **~20% completion: system design, tool justification, working prototype, TRL 3 proof-of-concept. *(Current)* |
 | **Review III** | 1216 Oct 2026 | 10 | Guide | ~30% completion: follow-up on panel observations, refined Java discovery, initial benchmark repo selection. |
 | **Review IV** | 2529 Jan 2027 | 15 | Guide | ~50% completion: inter-procedural taint engine integrated across Python & Java, retention extractor. |
@@ -640,7 +640,7 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 
 ---
 
-## 10. Individual Contribution and Technical Response (Rubric Parameter 7  2 Marks)
+## 10. Individual Contribution and Technical Response (Rubric Parameter 7 — 2 Marks)
 
 ### 10.1 Individual Responsibility Matrix
 
@@ -668,9 +668,9 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 
 ## 11. References & Regulatory Standards
 
-1. **[P1]** C. Nther and E. Hirsch. *Hidden Ciphers and Where to Find Them: Static Discovery and Assessment of Cryptographic Assets in Software.* arXiv:2608.04857, August 2026. <https://arxiv.org/abs/2608.04857>
+1. **[P1]** C. Näther and E. Hirsch. *Hidden Ciphers and Where to Find Them: Static Discovery and Assessment of Cryptographic Assets in Software.* arXiv:2608.04857, August 2026. <https://arxiv.org/abs/2608.04857>
 2. **[P2]** A. Shaw. *Quantum-Safe Code Auditing: LLM-Assisted Static Analysis and Quantum-Aware Risk Scoring for Post-Quantum Cryptography Migration.* arXiv:2604.00560, April 2026. <https://arxiv.org/abs/2604.00560>
-3. **[P3]** J. Pallars de Bonrostro, A. I. Gonzlez-Tabales and M. I. Gonzlez Vasco. *Empirical Evaluation of Large Language Models for Migration of Code Fragments to Post-Quantum Cryptography.* arXiv:2606.07341, June 2026. <https://arxiv.org/abs/2606.07341>
+3. **[P3]** J. Pallarés de Bonrostro, A. I. González-Tabales and M. I. González Vasco. *Empirical Evaluation of Large Language Models for Migration of Code Fragments to Post-Quantum Cryptography.* arXiv:2606.07341, June 2026. <https://arxiv.org/abs/2606.07341>
 4. **[P4]** L. Zhang. *Toward Quantum-Safe Software Engineering: A Vision for Post-Quantum Cryptography Migration.* Poster, ICSE 2026; arXiv:2602.05759. <https://arxiv.org/abs/2602.05759>
 5. **[P5]** A. D. B. Costa. *Crypto-Agility Readiness Score (CARS).* IACR ePrint 2026/1467, July 2026. <https://eprint.iacr.org/2026/1467>
 6. **[P6]** IBM Research. *The Anatomy of Cryptography Bills of Materials: Standardization and Practice in CycloneDX.* Eurocrypt 2026.
@@ -681,9 +681,9 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 11. **[P11]** *A Toolchain for Assisting Migration of Software Executables Towards Post-Quantum Cryptography.* arXiv:2409.07852, 2024.
 12. **[P12]** *The Cost of Waiting: A Decision-Theoretic Synthesis of Early Versus Late Post-Quantum Migration Under Uncertainty.* Frontiers in Quantum Science and Technology, 2026.
 13. **[P13]** S. Rahaman et al. *CryptoGuard: High Precision Detection of Cryptographic Vulnerabilities in Massive-Sized Java Projects.* ACM CCS 2019.
-14. **[P14]** C. Nther et al. *Migrating Software Systems towards Post-Quantum Cryptography: A Systematic Literature Review.* arXiv:2404.12854, April 2024.
+14. **[P14]** C. Näther et al. *Migrating Software Systems towards Post-Quantum Cryptography: A Systematic Literature Review.* arXiv:2404.12854, April 2024.
 15. **[P15]** *Harvest Now, Decrypt Later: Examining Post-Quantum Risk.* Finance and Economics Discussion Series, Board of Governors of the Federal Reserve System, 2025.
-16. **[P16]** S. Krger et al. *CogniCrypt: Supporting Developers in Using Cryptography.* IEEE/ACM ASE 2017.
+16. **[P16]** S. Krüger et al. *CogniCrypt: Supporting Developers in Using Cryptography.* IEEE/ACM ASE 2017.
 
 **Regulatory & Standards References:**
 - NIST FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard (ML-KEM).

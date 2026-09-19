@@ -2,7 +2,7 @@
 
 ## Overview
 - **Project:** Crypto-Agility Copilot: Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration
-- **Target Milestone:** Review II (Initial Design and Development  20 Marks)
+- **Target Milestone:** Review II (Initial Design and Development — 20 Marks)
 - **Team Size:** 2 Members
 - **Objective:** Provide a perfectly equitable (50/50) division of all Review 2 deliverables, covering the prototype implementation, theoretical research, report authoring, and presentation preparation.
 
