@@ -24,7 +24,6 @@
 
 ### Presentation & Defense
 - **Deck Design:** Created the base presentation layout, styling, and Slide generation script (`generate_review2_pptx.js`).
-- **Panel Defense Preparation:** Prepared to defend the AST parsing choices, dataflow soundness, memory constraints, and architectural scalability.
 
 ---
 
