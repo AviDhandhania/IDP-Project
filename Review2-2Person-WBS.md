@@ -26,7 +26,6 @@
 
 ### Presentation & Defense
 - **Deck Design:** Created the base presentation layout, styling, and Slide generation script (`generate_review2_pptx.js`).
-- **Theme Transition:** Update the PPTX generation script to migrate the presentation design from a dark theme to a professional light theme.
 - **Panel Defense Preparation:** Prepared to defend the AST parsing choices, dataflow soundness, memory constraints, and architectural scalability.
 
 ---

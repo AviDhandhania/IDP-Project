@@ -11,15 +11,15 @@ const pres = new pptxgen();
 pres.layout = 'LAYOUT_16x9'; // 10 x 5.625 inches
 
 // Color Palette matching Review 1
-const BG_DARK = '0A0A0A';
-const CARD_BG = '1F1F1F';
-const BORDER_COLOR = '4A4A4A';
-const TEXT_MUTED = '9A9A9A';
-const TEXT_BODY = 'D9D9D9';
-const TEXT_WHITE = 'FFFFFF';
-const ACCENT_RED = 'E05252';
-const ACCENT_GREEN = '4EAF51';
-const ACCENT_BLUE = '4A90E2';
+const BG_DARK = 'FFFFFF';
+const CARD_BG = 'F8F9FA';
+const BORDER_COLOR = 'E0E0E0';
+const TEXT_MUTED = '666666';
+const TEXT_BODY = '333333';
+const TEXT_WHITE = '000000';
+const ACCENT_RED = 'D32F2F';
+const ACCENT_GREEN = '2E7D32';
+const ACCENT_BLUE = '1976D2';
 
 const TOTAL_SLIDES = 36;
 
