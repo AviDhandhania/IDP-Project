@@ -349,7 +349,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
     s.addText(r.title, { x: x + 0.2, y: 2.0, w: 2.55, h: 0.3, fontSize: 11, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
     s.addText('PRIMARY PAIN POINT:', { x: x + 0.2, y: 2.4, w: 2.55, h: 0.2, fontSize: 8, fontFace: 'Arial', color: ACCENT_RED, bold: true });
     s.addText(r.pain, { x: x + 0.2, y: 2.65, w: 2.55, h: 0.8, fontSize: 8.2, fontFace: 'Arial', color: TEXT_BODY, lineSpacing: 12 });
-    s.addText('COPILOT SOLUTION:', { x: x + 0.2, y: 3.5, w: 2.55, h: 0.2, fontSize: 8, fontFace: 'Arial', color: ACCENT_GREEN, bold: true });
+    s.addText('NAVIGATOR SOLUTION:', { x: x + 0.2, y: 3.5, w: 2.55, h: 0.2, fontSize: 8, fontFace: 'Arial', color: ACCENT_GREEN, bold: true });
     s.addText(r.solution, { x: x + 0.2, y: 3.75, w: 2.55, h: 0.8, fontSize: 8.2, fontFace: 'Arial', color: TEXT_BODY, lineSpacing: 12 });
   });
 }
@@ -817,7 +817,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
   s.addText([
     { text: '• The Baseline Failure:\n', options: { bold: true, color: ACCENT_RED } },
     { text: '  Crypsy [P1] and Shaw [P2] report archive.py and session.py identically as RSA-2048 with identical severity.\n\n', options: { color: TEXT_BODY } },
-    { text: '• The Copilot Resolution:\n', options: { bold: true, color: ACCENT_GREEN } },
+    { text: '• The Navigator Resolution:\n', options: { bold: true, color: ACCENT_GREEN } },
     { text: '  Archive (Rank 1): Score 16.7, Mosca breach flagged (10y retention + 2y migration > 7y CRQC).\n\n', options: { color: TEXT_BODY } },
     { text: '  Session (Rank 2): Score 0.0, Low urgency (<1 hour cache TTL delivers zero risk reduction).', options: { color: TEXT_BODY } }
   ], { x: 0.8, y: 2.25, w: 3.7, h: 2.3, fontSize: 8.5, fontFace: 'Arial', lineSpacing: 13 });
@@ -827,7 +827,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
     { text: '• The False-Positive Trap:\n', options: { bold: true, color: ACCENT_RED } },
     { text: '  Crypsy reports SHA-256 in etags.py as an unmigrated hash finding, contributing to its ~0.30 precision.\n\n', options: { color: TEXT_BODY } },
     { text: '• Context-Based Reclassification:\n', options: { bold: true, color: ACCENT_GREEN } },
-    { text: '  Copilot traces the input (static bytes) and sink (ETag cache header), proving it has no security impact.\n\n', options: { color: TEXT_BODY } },
+    { text: '  Navigator traces the input (static bytes) and sink (ETag cache header), proving it has no security impact.\n\n', options: { color: TEXT_BODY } },
     { text: '• Status: SUPPRESSED (0.0 score);\n', options: { bold: true, color: TEXT_WHITE } },
     { text: '  Removes manual triage overhead from security teams.', options: { color: TEXT_BODY } }
   ], { x: 5.5, y: 2.25, w: 3.7, h: 2.3, fontSize: 8.5, fontFace: 'Arial', lineSpacing: 13 });
@@ -864,11 +864,11 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
   s.addText([
     { text: 'AUTOMATED UNIT TEST EXECUTION:\n', options: { bold: true, color: TEXT_MUTED } },
     { text: '$ python3 -m unittest discover -s tests -v\n\n', options: { fontFace: 'Courier New', color: ACCENT_BLUE, fontSize: 8.5 } },
-    { text: 'test_cbom_generation (test_navigator.TestCryptoAgilityCopilot.test_cbom_generation) .................. ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
-    { text: 'test_context_noise_suppression (test_navigator.TestCryptoAgilityCopilot.test_context_noise_suppression) ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
-    { text: 'test_discovery_engine (test_navigator.TestCryptoAgilityCopilot.test_discovery_engine) ................ ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
-    { text: 'test_scoring_and_mosca_inequality (test_navigator.TestCryptoAgilityCopilot.test_scoring_and_mosca) ... ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
-    { text: 'test_semantic_binding_discrimination (test_navigator.TestCryptoAgilityCopilot.test_semantic_binding) . ok\n\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_cbom_generation (test_navigator.TestCryptoAgilityNavigator.test_cbom_generation) .................. ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_context_noise_suppression (test_navigator.TestCryptoAgilityNavigator.test_context_noise_suppression) ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_discovery_engine (test_navigator.TestCryptoAgilityNavigator.test_discovery_engine) ................ ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_scoring_and_mosca_inequality (test_navigator.TestCryptoAgilityNavigator.test_scoring_and_mosca) ... ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_semantic_binding_discrimination (test_navigator.TestCryptoAgilityNavigator.test_semantic_binding) . ok\n\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
     { text: '----------------------------------------------------------------------\n', options: { fontFace: 'Courier New', color: BORDER_COLOR, fontSize: 8 } },
     { text: 'Ran 5 tests in 0.015s — ALL TESTS PASSED (OK)\n', options: { fontFace: 'Courier New', color: TEXT_WHITE, bold: true, fontSize: 8.5 } },
     { text: 'TRL 3 Proof of Concept Verified: Code base is reproducible, modular, and regression-tested.', options: { bold: true, color: ACCENT_GREEN, fontSize: 8.5 } }

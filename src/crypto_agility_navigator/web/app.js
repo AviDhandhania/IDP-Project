@@ -83,14 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initTheme() {
   const toggleBtn = document.getElementById('theme-toggle');
-  const savedTheme = localStorage.getItem('copilot-theme') || 'dark';
+  const savedTheme = localStorage.getItem('navigator-theme') || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
 
   toggleBtn.addEventListener('click', () => {
     const current = document.documentElement.getAttribute('data-theme');
     const next = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('copilot-theme', next);
+    localStorage.setItem('navigator-theme', next);
   });
 }
 

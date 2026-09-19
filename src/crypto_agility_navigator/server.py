@@ -115,7 +115,7 @@ def analyze_custom_code(code_snippet: str, filename: str = "custom_module.py") -
         return result
 
 
-class CopilotApiHandler(SimpleHTTPRequestHandler):
+class NavigatorApiHandler(SimpleHTTPRequestHandler):
     """Handles API routes and serves dashboard web UI."""
 
     def __init__(self, *args, **kwargs):
@@ -265,7 +265,7 @@ class CopilotApiHandler(SimpleHTTPRequestHandler):
 def run_server(port: int = 8000, host: str = "127.0.0.1"):
     """Starts the HTTP server on specified host and port."""
     server_address = (host, port)
-    httpd = ThreadingHTTPServer(server_address, CopilotApiHandler)
+    httpd = ThreadingHTTPServer(server_address, NavigatorApiHandler)
     print(f"[*] Crypto-Agility Navigator Dashboard & API running at http://{host}:{port}/")
     print("Press Ctrl+C to stop.")
     try:

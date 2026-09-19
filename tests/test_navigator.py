@@ -17,7 +17,7 @@ from src.crypto_agility_navigator.models import (
 )
 
 
-class TestCryptoAgilityCopilot(unittest.TestCase):
+class TestCryptoAgilityNavigator(unittest.TestCase):
 
     def setUp(self):
         self.discovery = DiscoveryEngine()

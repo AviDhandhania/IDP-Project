@@ -212,7 +212,7 @@ Under the **Indian Patent Office Computer-Related Inventions (CRI) Guidelines (2
 
  STAKEHOLDER MAPPING & OPERATIONAL VALUE PROPOSITION                                    
 
- Stakeholder Class      Primary Pain Point               Copilot Solution             
+ Stakeholder Class      Primary Pain Point               Navigator Solution             
 
  Chief Information      Looming regulatory deadlines     Defensible, auditable CBOM   
  Security Officer       (RBI 20272029) without an       aligned with national CII    
@@ -250,7 +250,7 @@ Under the **Indian Patent Office Computer-Related Inventions (CRI) Guidelines (2
 
 ### 4.4 Regulatory & Compliance Constraints
 
-The copilot enforces compliance with:
+The navigator enforces compliance with:
 - **India National CII Directive:** Critical infrastructure quantum-safe transition by 20272029.
 - **Reserve Bank of India Q-SAFE Mandate:** Cryptographic asset inventorying and crypto-agility measurement.
 - **SEBI Cyber Security Framework:** Protection against Harvest-Now-Decrypt-Later threats.
@@ -492,14 +492,14 @@ An automated unit test suite in `tests/test_navigator.py` verifies all core pipe
 
 ```
 $ python -m unittest discover tests -v
-test_cbom_generation (test_navigator.TestCryptoAgilityCopilot.test_cbom_generation) ... ok
-test_context_noise_suppression (test_navigator.TestCryptoAgilityCopilot.test_context_noise_suppression) ... ok
-test_custom_code_snippet_analysis (test_navigator.TestCryptoAgilityCopilot.test_custom_code_snippet_analysis) ... ok
-test_discovery_engine (test_navigator.TestCryptoAgilityCopilot.test_discovery_engine) ... ok
-test_full_pipeline_ranking (test_navigator.TestCryptoAgilityCopilot.test_full_pipeline_ranking) ... ok
-test_quantum_safe_scoring (test_navigator.TestCryptoAgilityCopilot.test_quantum_safe_scoring) ... ok
-test_scoring_and_mosca_inequality (test_navigator.TestCryptoAgilityCopilot.test_scoring_and_mosca_inequality) ... ok
-test_semantic_binding_discrimination (test_navigator.TestCryptoAgilityCopilot.test_semantic_binding_discrimination) ... ok
+test_cbom_generation (test_navigator.TestCryptoAgilityNavigator.test_cbom_generation) ... ok
+test_context_noise_suppression (test_navigator.TestCryptoAgilityNavigator.test_context_noise_suppression) ... ok
+test_custom_code_snippet_analysis (test_navigator.TestCryptoAgilityNavigator.test_custom_code_snippet_analysis) ... ok
+test_discovery_engine (test_navigator.TestCryptoAgilityNavigator.test_discovery_engine) ... ok
+test_full_pipeline_ranking (test_navigator.TestCryptoAgilityNavigator.test_full_pipeline_ranking) ... ok
+test_quantum_safe_scoring (test_navigator.TestCryptoAgilityNavigator.test_quantum_safe_scoring) ... ok
+test_scoring_and_mosca_inequality (test_navigator.TestCryptoAgilityNavigator.test_scoring_and_mosca_inequality) ... ok
+test_semantic_binding_discrimination (test_navigator.TestCryptoAgilityNavigator.test_semantic_binding_discrimination) ... ok
 
 ----------------------------------------------------------------------
 Ran 8 tests in 0.050s
@@ -654,7 +654,7 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 ### 10.2 Panel Defense & Technical Q&A Preparation Guide
 
 #### Q1: How does your tool address dynamic typing and runtime dispatch in Python?
-> **Defense:** We deliberately scope our target: we aim for 70% dataflow coverage on real-world repositories rather than claiming full mathematical soundness. For dynamic dispatch, we employ local type inference, constant propagation, and standard type stubs (`typeshed`). Crucially, when an invocation's dataflow cannot be resolved statically, the copilot does not guess; it flags the finding in an explicit "insufficient context" audit bucket for security analysts, preserving transparent provenance.
+> **Defense:** We deliberately scope our target: we aim for 70% dataflow coverage on real-world repositories rather than claiming full mathematical soundness. For dynamic dispatch, we employ local type inference, constant propagation, and standard type stubs (`typeshed`). Crucially, when an invocation's dataflow cannot be resolved statically, the navigator does not guess; it flags the finding in an explicit "insufficient context" audit bucket for security analysts, preserving transparent provenance.
 
 #### Q2: Why not simply rely on algorithm-severity scores like Shaw [P2]?
 > **Defense:** Shaw's score is algorithm-intrinsic (key length, Shor qubit costs). In any real repository, all RSA-2048 or ECDSA-P256 call sites receive identical scores. It provides zero signal for prioritising remediation. As demonstrated in our prototype, an RSA call protecting a 10-year settlement archive violates Mosca's inequality and demands immediate remediation, whereas an identical RSA call protecting a 15-minute token requires no immediate action. Only dataflow-derived retention can differentiate them.
