@@ -1,14 +1,14 @@
 """
-Unit tests for Crypto-Agility Copilot prototype (Review II).
+Unit tests for Crypto-Agility Navigator prototype (Review II).
 """
 
 import unittest
 from pathlib import Path
-from src.crypto_agility_copilot.discovery import DiscoveryEngine
-from src.crypto_agility_copilot.dataflow import DataflowBindingEngine
-from src.crypto_agility_copilot.scorer import HNDLScoringEngine
-from src.crypto_agility_copilot.cbom import CBOMGenerator
-from src.crypto_agility_copilot.models import (
+from src.crypto_agility_navigator.discovery import DiscoveryEngine
+from src.crypto_agility_navigator.dataflow import DataflowBindingEngine
+from src.crypto_agility_navigator.scorer import HNDLScoringEngine
+from src.crypto_agility_navigator.cbom import CBOMGenerator
+from src.crypto_agility_navigator.models import (
     CryptoPrimitiveType,
     QuantumVulnerability,
     SourceClassification,
@@ -100,7 +100,7 @@ class TestCryptoAgilityCopilot(unittest.TestCase):
         self.assertEqual(comp["dataflowProperties"]["retentionEvidence"]["retentionYears"], 10.0)
 
     def test_full_pipeline_ranking(self):
-        from src.crypto_agility_copilot.server import scan_target
+        from src.crypto_agility_navigator.server import scan_target
         results = scan_target("examples/sample_project")
         self.assertEqual(results["status"], "success")
         self.assertEqual(results["metrics"]["totalFindings"], 3)
@@ -116,7 +116,7 @@ class TestCryptoAgilityCopilot(unittest.TestCase):
         self.assertEqual(rank1["urgencyTier"], "CRITICAL_IMMEDIATE")
 
     def test_custom_code_snippet_analysis(self):
-        from src.crypto_agility_copilot.server import analyze_custom_code
+        from src.crypto_agility_navigator.server import analyze_custom_code
         snippet = '''
 import boto3
 from cryptography.hazmat.primitives.asymmetric import padding

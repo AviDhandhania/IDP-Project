@@ -732,9 +732,9 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
-  s.addText('PROTOTYPE PACKAGE: crypto_agility_copilot', { x: 0.8, y: 1.9, w: 3.7, h: 0.3, fontSize: 11, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
+  s.addText('PROTOTYPE PACKAGE: crypto_agility_navigator', { x: 0.8, y: 1.9, w: 3.7, h: 0.3, fontSize: 11, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
   s.addText([
-    { text: 'src/crypto_agility_copilot/\n', options: { fontFace: 'Courier New', color: ACCENT_BLUE, bold: true } },
+    { text: 'src/crypto_agility_navigator/\n', options: { fontFace: 'Courier New', color: ACCENT_BLUE, bold: true } },
     { text: '├── models.py       # Domain entities\n', options: { fontFace: 'Courier New', color: TEXT_BODY } },
     { text: '├── discovery.py    # AST scanner (Stage 1)\n', options: { fontFace: 'Courier New', color: TEXT_BODY } },
     { text: '├── dataflow.py     # Taint & retention (Stage 2)\n', options: { fontFace: 'Courier New', color: TEXT_BODY } },
@@ -793,7 +793,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 
   s.addText([
     { text: 'CLI EXECUTION COMMAND:\n', options: { bold: true, color: TEXT_MUTED } },
-    { text: '$ python3 -m src.crypto_agility_copilot.cli examples/sample_project --output-cbom examples/sample_cbom.json --show-suppressed\n\n', options: { fontFace: 'Courier New', color: ACCENT_BLUE, fontSize: 8.2 } },
+    { text: '$ python3 -m src.crypto_agility_navigator.cli examples/sample_project --output-cbom examples/sample_cbom.json --show-suppressed\n\n', options: { fontFace: 'Courier New', color: ACCENT_BLUE, fontSize: 8.2 } },
     { text: 'TERMINAL OUTPUT TABLE:\n', options: { bold: true, color: TEXT_MUTED } },
     { text: 'RANK | ALGORITHM    | LOCATION        | RETENTION | EXPOSURE        | SCORE | URGENCY\n', options: { fontFace: 'Courier New', color: TEXT_WHITE, bold: true, fontSize: 7.8 } },
     { text: '---------------------------------------------------------------------------------------------\n', options: { fontFace: 'Courier New', color: BORDER_COLOR, fontSize: 7.8 } },
@@ -857,18 +857,18 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 28: Section 06 - Unit Test Suite Evidence
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 28, 'Parameter 4 (3 M)', '7.5 AUTOMATED TEST HARNESS', '100% Pass Rate on Unit Testing (tests/test_copilot.py)');
+  const s = addSlideBase(pres, 28, 'Parameter 4 (3 M)', '7.5 AUTOMATED TEST HARNESS', '100% Pass Rate on Unit Testing (tests/test_navigator.py)');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
   s.addText([
     { text: 'AUTOMATED UNIT TEST EXECUTION:\n', options: { bold: true, color: TEXT_MUTED } },
     { text: '$ python3 -m unittest discover -s tests -v\n\n', options: { fontFace: 'Courier New', color: ACCENT_BLUE, fontSize: 8.5 } },
-    { text: 'test_cbom_generation (test_copilot.TestCryptoAgilityCopilot.test_cbom_generation) .................. ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
-    { text: 'test_context_noise_suppression (test_copilot.TestCryptoAgilityCopilot.test_context_noise_suppression) ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
-    { text: 'test_discovery_engine (test_copilot.TestCryptoAgilityCopilot.test_discovery_engine) ................ ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
-    { text: 'test_scoring_and_mosca_inequality (test_copilot.TestCryptoAgilityCopilot.test_scoring_and_mosca) ... ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
-    { text: 'test_semantic_binding_discrimination (test_copilot.TestCryptoAgilityCopilot.test_semantic_binding) . ok\n\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_cbom_generation (test_navigator.TestCryptoAgilityCopilot.test_cbom_generation) .................. ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_context_noise_suppression (test_navigator.TestCryptoAgilityCopilot.test_context_noise_suppression) ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_discovery_engine (test_navigator.TestCryptoAgilityCopilot.test_discovery_engine) ................ ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_scoring_and_mosca_inequality (test_navigator.TestCryptoAgilityCopilot.test_scoring_and_mosca) ... ok\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
+    { text: 'test_semantic_binding_discrimination (test_navigator.TestCryptoAgilityCopilot.test_semantic_binding) . ok\n\n', options: { fontFace: 'Courier New', color: ACCENT_GREEN, fontSize: 8 } },
     { text: '----------------------------------------------------------------------\n', options: { fontFace: 'Courier New', color: BORDER_COLOR, fontSize: 8 } },
     { text: 'Ran 5 tests in 0.015s — ALL TESTS PASSED (OK)\n', options: { fontFace: 'Courier New', color: TEXT_WHITE, bold: true, fontSize: 8.5 } },
     { text: 'TRL 3 Proof of Concept Verified: Code base is reproducible, modular, and regression-tested.', options: { bold: true, color: ACCENT_GREEN, fontSize: 8.5 } }
@@ -994,7 +994,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
     {
       name: 'ANMOL SALUJA (25BCE1332)',
       role: 'Threat Modeling, HNDL Scoring & Verification Harness',
-      tasks: '• Formalised Mosca inequality operationalisation & 16-paper literature gaps.\n• Formulated HNDL Exposure Scoring equation & Stage 3 Scoring Engine (scorer.py).\n• Implemented CycloneDX 1.6 CBOM Serializer (cbom.py, cli.py).\n• Full-Stack Backend Integration & REST API server (server.py).\n• Authored 100% passing automated unit test suite (tests/test_copilot.py).\n• Authored Report Sections 1, 2, 3, 8, 9, 10 & document sanitization.\n• Next: 15-repo benchmark curation & liboqs 3-gate patch verification harness.'
+      tasks: '• Formalised Mosca inequality operationalisation & 16-paper literature gaps.\n• Formulated HNDL Exposure Scoring equation & Stage 3 Scoring Engine (scorer.py).\n• Implemented CycloneDX 1.6 CBOM Serializer (cbom.py, cli.py).\n• Full-Stack Backend Integration & REST API server (server.py).\n• Authored 100% passing automated unit test suite (tests/test_navigator.py).\n• Authored Report Sections 1, 2, 3, 8, 9, 10 & document sanitization.\n• Next: 15-repo benchmark curation & liboqs 3-gate patch verification harness.'
     }
   ];
 
@@ -1051,7 +1051,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
     { text: '  - Formalized the HNDL threat model, Mosca\'s inequality derivation, and 16-paper literature gap matrix.\n', options: { color: TEXT_BODY } },
     { text: '  - Implemented the Stage 3 HNDL Exposure Scoring Engine (scorer.py) and noise suppression filter.\n', options: { color: TEXT_BODY } },
     { text: '  - Developed the CycloneDX 1.6 CBOM Serializer (cbom.py, cli.py) with custom dataflow properties.\n', options: { color: TEXT_BODY } },
-    { text: '  - Built full-stack REST API server (server.py) and 100% passing unit test suite (tests/test_copilot.py).', options: { color: TEXT_BODY } }
+    { text: '  - Built full-stack REST API server (server.py) and 100% passing unit test suite (tests/test_navigator.py).', options: { color: TEXT_BODY } }
   ], { x: 0.8, y: 1.85, w: 8.4, h: 2.8, fontSize: 8, fontFace: 'Arial', lineSpacing: 11 });
 }
 

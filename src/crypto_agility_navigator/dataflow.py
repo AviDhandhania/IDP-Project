@@ -1,5 +1,5 @@
 """
-Crypto-Agility Copilot - Semantic Binding Engine (Stage 2)
+Crypto-Agility Navigator - Semantic Binding Engine (Stage 2)
 Performs backward taint analysis (plaintext -> source) and forward taint analysis (ciphertext -> sink),
 extracts declarative retention evidence (TTL, S3 lifecycle, ORM), and binds cryptographic operations to data paths.
 """

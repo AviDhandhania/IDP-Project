@@ -1,5 +1,5 @@
 """
-Crypto-Agility Copilot - Discovery Engine (Stage 1)
+Crypto-Agility Navigator - Discovery Engine (Stage 1)
 Parses Abstract Syntax Trees (AST) of source code to detect cryptographic material,
 artefacts, and invocations, identifying algorithms, key parameters, and call sites.
 """

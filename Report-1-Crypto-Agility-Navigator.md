@@ -1,6 +1,6 @@
 # Review Report I
 
-## Crypto-Agility Copilot: Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration
+## Crypto-Agility Navigator: Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration
 
 **Innovative Design Project — Review 1 (Problem Identification and Proposed Methodology)**
 

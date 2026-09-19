@@ -1,5 +1,5 @@
 """
-Crypto-Agility Copilot - Prioritisation & Scoring Engine (Stage 3)
+Crypto-Agility Navigator - Prioritisation & Scoring Engine (Stage 3)
 Computes the HNDL Exposure Score per data path, operationalizes Mosca's inequality,
 suppresses context-irrelevant findings, and outputs a prioritized migration plan.
 """

@@ -1,6 +1,6 @@
 """
-Converts Report-2 Markdown into Report-2-Crypto-Agility-Copilot.docx
-using Report-1-Crypto-Agility-Copilot.docx as a template archive.
+Converts Report-2 Markdown into Report-2-Crypto-Agility-Navigator.docx
+using Report-1-Crypto-Agility-Navigator.docx as a template archive.
 """
 
 import re
@@ -209,7 +209,7 @@ def generate_docx(input_md: str, template_docx: str, output_docx: str):
 
 if __name__ == "__main__":
     import sys
-    md_file = sys.argv[1] if len(sys.argv) > 1 else "Report-2-Crypto-Agility-Copilot.md"
-    template_file = sys.argv[2] if len(sys.argv) > 2 else "Report-1-Crypto-Agility-Copilot.docx"
-    output_file = sys.argv[3] if len(sys.argv) > 3 else "Report-2-Crypto-Agility-Copilot.docx"
+    md_file = sys.argv[1] if len(sys.argv) > 1 else "Report-2-Crypto-Agility-Navigator.md"
+    template_file = sys.argv[2] if len(sys.argv) > 2 else "Report-1-Crypto-Agility-Navigator.docx"
+    output_file = sys.argv[3] if len(sys.argv) > 3 else "Report-2-Crypto-Agility-Navigator.docx"
     generate_docx(md_file, template_file, output_file)

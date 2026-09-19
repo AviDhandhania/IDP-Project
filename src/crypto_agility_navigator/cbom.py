@@ -1,5 +1,5 @@
 """
-Crypto-Agility Copilot - CycloneDX 1.6 CBOM Generator
+Crypto-Agility Navigator - CycloneDX 1.6 CBOM Generator
 Generates standards-compliant CycloneDX 1.6 Cryptography Bill of Materials (CBOM) JSON
 with custom dataflow and HNDL prioritization extensions.
 """
@@ -98,8 +98,8 @@ class CBOMGenerator:
                 "timestamp": timestamp,
                 "tools": [
                     {
-                        "vendor": "Crypto-Agility Copilot",
-                        "name": "crypto-agility-copilot-engine",
+                        "vendor": "Crypto-Agility Navigator",
+                        "name": "crypto-agility-navigator-engine",
                         "version": "0.2.0-review2"
                     }
                 ],

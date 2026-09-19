@@ -1,6 +1,6 @@
 # Review Report II
 
-## Crypto-Agility Copilot: Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration
+## Crypto-Agility Navigator: Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration
 
 **Innovative Design Project (BACSE291)  Review 2 (Initial Design and Development — 20 Marks)**  
 **Target Milestone:** ~20% Implementation (Technology Readiness Level 3 — Proof of Concept)  
@@ -146,7 +146,7 @@ Forward and backward citation chasing from the most recent scanners identified *
 
 ### 2.4 Consolidated Research Gap Matrix
 
-| Capability / Dimension | P1 (Crypsy) | P2 (Shaw) | P3 (Pallarés) | P5 (CARS) | P6/P7 (CBOM) | P8/P12 (HNDL) | P13 (CryptoGuard) | **Crypto-Agility Copilot** |
+| Capability / Dimension | P1 (Crypsy) | P2 (Shaw) | P3 (Pallarés) | P5 (CARS) | P6/P7 (CBOM) | P8/P12 (HNDL) | P13 (CryptoGuard) | **Crypto-Agility Navigator** |
 |---|---|---|---|---|---|---|---|---|
 | Multi-language Discovery |  |  |  |  |  |  |  | **** |
 | CycloneDX 1.6 CBOM Output |  |  |  |  |  |  |  | **** |
@@ -421,12 +421,12 @@ The tool emits a standard CycloneDX 1.6 CBOM enriched with custom dataflow prope
 
 ## 7. Initial Prototype & Module Development (~20% Proof-of-Concept) (Rubric Parameter 4 — 3 Marks)
 
-### 7.1 Implemented Package Structure (`src/crypto_agility_copilot/`)
+### 7.1 Implemented Package Structure (`src/crypto_agility_navigator/`)
 
 In strict accordance with the Review II milestone requirements ($\approx 20\%$ implementation, TRL 3 proof-of-concept), a fully functional prototype has been implemented and verified in the repository:
 
 ```
-src/crypto_agility_copilot/
+src/crypto_agility_navigator/
  __init__.py           # Package versioning (0.2.0-review2)
  models.py             # Domain data models (CryptoInvocation, DataPath, HNDLScore, CBOM)
  discovery.py          # Stage 1: AST Cryptographic Discovery Engine
@@ -457,7 +457,7 @@ The prototype was executed against the worked benchmark in `examples/sample_proj
 #### Execution Output:
 
 ```
-$ python3 -m src.crypto_agility_copilot.cli examples/sample_project --output-cbom examples/sample_cbom.json --show-suppressed
+$ python3 -m src.crypto_agility_navigator.cli examples/sample_project --output-cbom examples/sample_cbom.json --show-suppressed
 
  Discovered 3 cryptographic invocation(s).
 
@@ -480,7 +480,7 @@ RANK  | ALGORITHM    | LOCATION                     | RETENTION      | EXPOSURE 
 
 ### 7.4 Automated Unit Test Suite & Execution Results
 
-An automated unit test suite in `tests/test_copilot.py` verifies all core pipeline stages and API integrations:
+An automated unit test suite in `tests/test_navigator.py` verifies all core pipeline stages and API integrations:
 - `test_discovery_engine`: Verifies AST extraction, algorithm recognition, and key size detection.
 - `test_semantic_binding_discrimination`: Verifies that identical algorithms are bound to different sources, sinks, and retentions.
 - `test_scoring_and_mosca_inequality`: Confirms that Mosca's breach is triggered for long-retention S3 data ($10\text{y} + 2\text{y} > 7\text{y}$) and rejected for ephemeral tokens.
@@ -492,14 +492,14 @@ An automated unit test suite in `tests/test_copilot.py` verifies all core pipeli
 
 ```
 $ python -m unittest discover tests -v
-test_cbom_generation (test_copilot.TestCryptoAgilityCopilot.test_cbom_generation) ... ok
-test_context_noise_suppression (test_copilot.TestCryptoAgilityCopilot.test_context_noise_suppression) ... ok
-test_custom_code_snippet_analysis (test_copilot.TestCryptoAgilityCopilot.test_custom_code_snippet_analysis) ... ok
-test_discovery_engine (test_copilot.TestCryptoAgilityCopilot.test_discovery_engine) ... ok
-test_full_pipeline_ranking (test_copilot.TestCryptoAgilityCopilot.test_full_pipeline_ranking) ... ok
-test_quantum_safe_scoring (test_copilot.TestCryptoAgilityCopilot.test_quantum_safe_scoring) ... ok
-test_scoring_and_mosca_inequality (test_copilot.TestCryptoAgilityCopilot.test_scoring_and_mosca_inequality) ... ok
-test_semantic_binding_discrimination (test_copilot.TestCryptoAgilityCopilot.test_semantic_binding_discrimination) ... ok
+test_cbom_generation (test_navigator.TestCryptoAgilityCopilot.test_cbom_generation) ... ok
+test_context_noise_suppression (test_navigator.TestCryptoAgilityCopilot.test_context_noise_suppression) ... ok
+test_custom_code_snippet_analysis (test_navigator.TestCryptoAgilityCopilot.test_custom_code_snippet_analysis) ... ok
+test_discovery_engine (test_navigator.TestCryptoAgilityCopilot.test_discovery_engine) ... ok
+test_full_pipeline_ranking (test_navigator.TestCryptoAgilityCopilot.test_full_pipeline_ranking) ... ok
+test_quantum_safe_scoring (test_navigator.TestCryptoAgilityCopilot.test_quantum_safe_scoring) ... ok
+test_scoring_and_mosca_inequality (test_navigator.TestCryptoAgilityCopilot.test_scoring_and_mosca_inequality) ... ok
+test_semantic_binding_discrimination (test_navigator.TestCryptoAgilityCopilot.test_semantic_binding_discrimination) ... ok
 
 ----------------------------------------------------------------------
 Ran 8 tests in 0.050s
@@ -509,7 +509,7 @@ OK (100% Passing)
 
 ### 7.5 Interactive Web Dashboard & Full-Stack REST API
 
-To ensure usability beyond command-line interfaces, we engineered a full-stack dashboard (`src/crypto_agility_copilot/web/`):
+To ensure usability beyond command-line interfaces, we engineered a full-stack dashboard (`src/crypto_agility_navigator/web/`):
 - **Backend:** A Python `http.server` REST API (`server.py`) serving endpoints like `/api/scan` and `/api/simulate-mosca`.
 - **Frontend:** A responsive Single-Page Application using HTML, CSS (vibrant dark mode, glassmorphism), and React/Babel via CDN.
 
@@ -521,7 +521,7 @@ To ensure usability beyond command-line interfaces, we engineered a full-stack d
 ![Mosca Simulation Sandbox](assets/dashboard.png)
 *Figure 7.5.2: The Mosca Simulator predicting risk tiers based on variable input.*
 
-To enable security analysts and panel evaluators to visually inspect cryptographic inventories, simulate Mosca's Inequality, and trace dataflow paths, a full-stack interactive Web Dashboard and REST API have been developed (`src/crypto_agility_copilot/server.py` and `web/`):
+To enable security analysts and panel evaluators to visually inspect cryptographic inventories, simulate Mosca's Inequality, and trace dataflow paths, a full-stack interactive Web Dashboard and REST API have been developed (`src/crypto_agility_navigator/server.py` and `web/`):
 
 1. **Executive KPI Overview:** Real-time summary tiles displaying total call sites, Shor-broken ciphers, active Mosca breaches, and noise suppression percentages.
 2. **Interactive Prioritization Inventory Table:** Multi-column sorting, filtering by urgency status (Mosca breaches, actionable, suppressed), and modal code inspector.
@@ -647,7 +647,7 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 | Team Member | Completed Responsibilities for Review II | Next Stage Commitments (Reviews III & IV) |
 |---|---|---|
 | **Avi Dhandhania (25BCE1207)** |  Designed the 4-stage pipeline architecture and intermediate data models (`models.py`).<br> Implemented the Stage 1 AST parsing and constant propagation engine (`discovery.py`).<br> Developed the Stage 2 Semantic Binding Engine (`dataflow.py`), tracing plaintext parameters to sources and ciphertext to sinks.<br> Built declarative retention extraction parsing S3 lifecycle rules and Redis TTLs.<br> Designed the interactive web dashboard UI/UX layout and styling. |  Scale inter-procedural taint analysis across multi-module call graphs.<br> Integrate CodeQL queries for enterprise Java repositories.<br> Build automated ORM and SQL migration parsers for relational databases.<br> Enhance visual taint graphs and component drilldowns in the web dashboard. |
-| **Anmol Saluja (25BCE1332)** |  Formalised the HNDL threat model, Mosca's inequality operationalisation, and 16-paper literature gap matrix.<br> Formulated the mathematical HNDL Exposure Scoring equation and implemented Stage 3 Scoring Engine (`scorer.py`).<br> Implemented CycloneDX 1.6 CBOM generator with dataflow extension schemas (`cbom.py`, `cli.py`).<br> Engineered full-stack backend integration and REST API server (`server.py`).<br> Constructed automated unit testing harness (`tests/test_copilot.py`) achieving 100% test pass rate.<br> Authored Report 2 sections (1, 2, 3, 8, 9, 10), document sanitization, and PPTX technical synthesis. |  Expand Semgrep/Tree-sitter rule corpus to cover 100+ cryptographic API variants.<br> Curate the 15-repository evaluation benchmark with domain diversity and calculate Krippendorff's alpha.<br> Implement `liboqs` hybrid patch synthesis template engine and 3-gate differential verification harness.<br> Validate automated CBOM emission against official OWASP CycloneDX 1.6 schema validators. |
+| **Anmol Saluja (25BCE1332)** |  Formalised the HNDL threat model, Mosca's inequality operationalisation, and 16-paper literature gap matrix.<br> Formulated the mathematical HNDL Exposure Scoring equation and implemented Stage 3 Scoring Engine (`scorer.py`).<br> Implemented CycloneDX 1.6 CBOM generator with dataflow extension schemas (`cbom.py`, `cli.py`).<br> Engineered full-stack backend integration and REST API server (`server.py`).<br> Constructed automated unit testing harness (`tests/test_navigator.py`) achieving 100% test pass rate.<br> Authored Report 2 sections (1, 2, 3, 8, 9, 10), document sanitization, and PPTX technical synthesis. |  Expand Semgrep/Tree-sitter rule corpus to cover 100+ cryptographic API variants.<br> Curate the 15-repository evaluation benchmark with domain diversity and calculate Krippendorff's alpha.<br> Implement `liboqs` hybrid patch synthesis template engine and 3-gate differential verification harness.<br> Validate automated CBOM emission against official OWASP CycloneDX 1.6 schema validators. |
 | **Avika Tyagi (25BCE1294)** | Conducted comprehensive stakeholder mapping & requirement gathering.<br> Assured project compliance with Indian Patent Office CRI Guidelines.<br> Prepared the functional and non-functional requirements specifications.<br> Managed the risk register and academic year milestone scheduling.<br> Synthesized technical findings into presentation slides. | Coordinate the final evaluation benchmark metrics and panel defense.<br> Ensure full compliance with RBI Q-SAFE standards in patch generation.<br> Organize final documentation and code handoff protocols. |
 
 

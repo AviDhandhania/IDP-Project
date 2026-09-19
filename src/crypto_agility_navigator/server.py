@@ -1,5 +1,5 @@
 """
-Crypto-Agility Copilot - HTTP API & Dashboard Server
+Crypto-Agility Navigator - HTTP API & Dashboard Server
 Provides REST API endpoints for discovery, dataflow analysis, Mosca simulation, and CBOM export,
 along with serving the interactive web dashboard.
 """
@@ -146,7 +146,7 @@ class CopilotApiHandler(SimpleHTTPRequestHandler):
         if path == "/api/health":
             self._send_json({
                 "status": "healthy",
-                "service": "Crypto-Agility Copilot",
+                "service": "Crypto-Agility Navigator",
                 "version": "0.2.0-review2",
                 "trl": "TRL 3 - Proof of Concept"
             })
@@ -266,7 +266,7 @@ def run_server(port: int = 8000, host: str = "127.0.0.1"):
     """Starts the HTTP server on specified host and port."""
     server_address = (host, port)
     httpd = ThreadingHTTPServer(server_address, CopilotApiHandler)
-    print(f"[*] Crypto-Agility Copilot Dashboard & API running at http://{host}:{port}/")
+    print(f"[*] Crypto-Agility Navigator Dashboard & API running at http://{host}:{port}/")
     print("Press Ctrl+C to stop.")
     try:
         httpd.serve_forever()

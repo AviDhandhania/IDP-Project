@@ -1,5 +1,5 @@
 """
-Crypto-Agility Copilot - CLI Entry Point
+Crypto-Agility Navigator - CLI Entry Point
 Executes cryptographic discovery, dataflow binding, HNDL exposure scoring, and CycloneDX 1.6 CBOM export.
 """
 
@@ -95,7 +95,7 @@ def run_pipeline(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Crypto-Agility Copilot: Dataflow-Aware Cryptographic Inventory and Prioritization"
+        description="Crypto-Agility Navigator: Dataflow-Aware Cryptographic Inventory and Prioritization"
     )
     parser.add_argument("target", nargs="?", default="examples/sample_project", help="Path to Python file or directory to scan")
     parser.add_argument("--output-cbom", "-o", help="Path to write CycloneDX 1.6 CBOM JSON", default=None)

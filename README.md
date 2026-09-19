@@ -1,4 +1,4 @@
-# Crypto-Agility Copilot
+# Crypto-Agility Navigator
 
 > **Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration**  
 > *Innovative Design Project (IDP) · Academic Year 2026–2027 · Software-Only Track (Team of 3)*
@@ -22,7 +22,7 @@ Current state-of-the-art cryptographic discovery tools (Crypsy, CBOMkit, IBM Qua
 1. **Findings lack context and actionability:** Flagging every hash or cipher indiscriminately results in actionable precision around $\approx 0.30$ (over two-thirds are non-security uses like ETags, cache keys, or checksums).
 2. **Findings are not ordered:** Risk scores in existing literature evaluate algorithm properties (e.g., key length, Shor-path qubit costs). Two identical `RSA.encrypt()` invocations—one wrapping a 30-year medical record stored in S3 and another wrapping an ephemeral 15-minute CSRF token—receive identical risk scores.
 
-**Crypto-Agility Copilot** bridges this gap by binding static cryptographic invocations to the **data they protect**, inferring **data retention lifetimes** from code and declarative configuration (DDL/ORM models, cache TTLs, cloud lifecycle policies, IaC), calculating an **HNDL Exposure Score per data path**, and generating differentially verified hybrid post-quantum patches.
+**Crypto-Agility Navigator** bridges this gap by binding static cryptographic invocations to the **data they protect**, inferring **data retention lifetimes** from code and declarative configuration (DDL/ORM models, cache TTLs, cloud lifecycle policies, IaC), calculating an **HNDL Exposure Score per data path**, and generating differentially verified hybrid post-quantum patches.
 
 ---
 
@@ -101,12 +101,12 @@ Current state-of-the-art cryptographic discovery tools (Crypsy, CBOMkit, IBM Qua
 ├── BACSE291_IDP_Common_Guidelines_2026-2027_Final.pdf # Course syllabus, review schedule & rubrics
 ├── Crypto-Agility_Navigator_Review1.pptx     # Review 1 Slide Deck (39 slides)
 ├── Crypto-Agility_Navigator_Review2.pptx     # Review 2 Slide Deck (36 slides)
-├── Report-1-Crypto-Agility-Copilot.docx     # Review 1 Report (MS Word format, 25 pages)
-├── Report-1-Crypto-Agility-Copilot.md       # Review 1 Report (Markdown source of truth)
-├── Report-2-Crypto-Agility-Copilot.docx     # Review 2 Report (MS Word format, 469 paragraphs)
-├── Report-2-Crypto-Agility-Copilot.md       # Review 2 Report (Markdown source of truth)
+├── Report-1-Crypto-Agility-Navigator.docx     # Review 1 Report (MS Word format, 25 pages)
+├── Report-1-Crypto-Agility-Navigator.md       # Review 1 Report (Markdown source of truth)
+├── Report-2-Crypto-Agility-Navigator.docx     # Review 2 Report (MS Word format, 469 paragraphs)
+├── Report-2-Crypto-Agility-Navigator.md       # Review 2 Report (Markdown source of truth)
 ├── examples/                                # Worked benchmark test cases (S3 archive vs Redis TTL)
-├── src/crypto_agility_copilot/              # Working ~20% Prototype (AST, Taint, Scorer, CBOM)
+├── src/crypto_agility_navigator/              # Working ~20% Prototype (AST, Taint, Scorer, CBOM)
 └── tests/                                   # Automated unit test suite (100% pass rate)
 ```
 
@@ -120,11 +120,11 @@ Current state-of-the-art cryptographic discovery tools (Crypsy, CBOMkit, IBM Qua
   - Architecture, mathematical scoring formulation, and 4-stage methodology defined.
   - Presentation slide deck: [`Crypto-Agility_Navigator_Review1.pptx`](Crypto-Agility_Navigator_Review1.pptx).
 - [x] **Review 2 — Initial Design, Formulation & Prototype Implementation (~20% Completion / TRL 3 — 20 Marks)**
-  - Comprehensive Review 2 Report ([`Report-2-Crypto-Agility-Copilot.md`](Report-2-Crypto-Agility-Copilot.md) & [`Report-2-Crypto-Agility-Copilot.docx`](Report-2-Crypto-Agility-Copilot.docx)) addressing all 7 evaluation parameters.
+  - Comprehensive Review 2 Report ([`Report-2-Crypto-Agility-Navigator.md`](Report-2-Crypto-Agility-Navigator.md) & [`Report-2-Crypto-Agility-Navigator.docx`](Report-2-Crypto-Agility-Navigator.docx)) addressing all 7 evaluation parameters.
   - Complete 36-slide panel presentation: [`Crypto-Agility_Navigator_Review2.pptx`](Crypto-Agility_Navigator_Review2.pptx).
-  - Working Stage 1–3 prototype (`src/crypto_agility_copilot/`) with AST discovery, dataflow taint tracking, retention inference, and HNDL scoring.
+  - Working Stage 1–3 prototype (`src/crypto_agility_navigator/`) with AST discovery, dataflow taint tracking, retention inference, and HNDL scoring.
   - Standard-compliant CycloneDX 1.6 CBOM emission with custom dataflow properties.
-  - Automated unit test suite (`tests/test_copilot.py`) passing with 100% success rate.
+  - Automated unit test suite (`tests/test_navigator.py`) passing with 100% success rate.
   - Empirical verification on worked example (`examples/sample_project`).
 - [ ] **Review 3 — Progress Review (30% Completion — 10 Marks)**
 - [ ] **Review 4 — Core Functionality and Integration (50% Completion — 15 Marks)**

@@ -1,5 +1,5 @@
 /**
- * Crypto-Agility Copilot — Web Dashboard Logic
+ * Crypto-Agility Navigator — Web Dashboard Logic
  * Integrates Python static analysis backend with interactive UI
  */
 

@@ -30,5 +30,5 @@ def fix_markdown(filepath):
     print(f"Fixed {filepath}")
 
 if __name__ == "__main__":
-    fix_markdown("Report-2-Crypto-Agility-Copilot.md")
+    fix_markdown("Report-2-Crypto-Agility-Navigator.md")
     fix_markdown("Review2-2Person-WBS.md")

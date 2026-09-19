@@ -1,5 +1,5 @@
 """
-Crypto-Agility Copilot - Data Models
+Crypto-Agility Navigator - Data Models
 Defines core data structures for cryptographic assets, dataflow paths, risk scoring, and CBOM metadata.
 """
 
