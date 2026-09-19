@@ -13,7 +13,8 @@
 **Focus Area:** Static analysis infrastructure, system architecture, and core data flow tracking.
 
 ### Code & Prototype (TRL 3)
-*(All tasks completed)*
+- **Extensive Frontend (Dashboard):** Architect the Core Dashboard UI (`index.html`) with advanced Tailwind styling, glassmorphism, and responsive Chart.js integration.
+- **Extensive Frontend (Dataflow):** Build the Dataflow Vulnerability Visualizer UI (`dataflow.html`) to map inter-procedural taint traces.
 
 ### Report & Documentation
 *(All tasks completed)*
@@ -31,7 +32,8 @@
 - **Subsystem 3 (HNDL Scoring):** Programmed the scoring engine (`scorer.py`) that mathematically evaluates Mosca’s Inequality and computes the HNDL risk score based on retention and exposure.
 - **CBOM Serialization:** Developed the standard CycloneDX 1.6 formatting and JSON generation module (`cbom.py`, `cli.py`).
 - **Testing & Benchmark:** Authored the benchmark sample (S3 Archive vs Redis Cache) and the 100% passing automated unit test suite (`test_copilot.py`).
-- **Front-End Integration:** Connect the python static analysis backend with the new front-end dashboard to display dynamic results.
+- **Extensive Frontend (Inventory):** Build the CBOM / Cryptographic Asset Inventory UI (`assets.html`) with advanced sorting, filtering, and data-table pagination.
+- **Extensive Frontend (API Logic):** Implement the client-side JavaScript logic (`app.js`) to dynamically populate all UIs with HNDL scoring data from the backend.
 
 ### Report & Documentation
 - **Sections 1 & 2 (Literature & Threat Model):** Wrote the formalization of Mosca’s Inequality, the Harvest-Now-Decrypt-Later (HNDL) framework, and the exhaustive 16-paper literature gap matrix.
