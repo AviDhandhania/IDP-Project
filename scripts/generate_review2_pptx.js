@@ -983,7 +983,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 33: Section 08 - Work Breakdown Structure
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 33, 'Parameter 6 (3 M)', '9.2 WORK BREAKDOWN STRUCTURE (WBS)', 'Equitable 2-Way Allocation Across Team Members (50/50)');
+  const s = addSlideBase(pres, 33, 'Parameter 6 (3 M)', '9.2 WORK BREAKDOWN STRUCTURE (WBS)', 'Equitable 3-Way Allocation Across Team Members');
 
   const members = [
     {
@@ -1047,6 +1047,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
     { text: '  - Developed the Stage 2 Dataflow Binding Engine (dataflow.py), tracing plaintext sources and ciphertext sinks.\n', options: { color: TEXT_BODY } },
     { text: '  - Designed the interactive Web Dashboard UI/UX layout and visual component design.\n\n', options: { color: TEXT_BODY } },
     { text: '• Anmol Saluja (25BCE1332 — Threat Modeling, Scoring Engine, Testing & Backend Integration):\n', options: { bold: true, color: ACCENT_GREEN, fontSize: 9.5 } },
+    { text: '• Avika Tyagi (25BCE1294 — Project Coordination, Requirement Analysis & Presentation Design):\n', options: { bold: true, color: '#F59E0B', fontSize: 9.5 } },
     { text: '  - Formalized the HNDL threat model, Mosca\'s inequality derivation, and 16-paper literature gap matrix.\n', options: { color: TEXT_BODY } },
     { text: '  - Implemented the Stage 3 HNDL Exposure Scoring Engine (scorer.py) and noise suppression filter.\n', options: { color: TEXT_BODY } },
     { text: '  - Developed the CycloneDX 1.6 CBOM Serializer (cbom.py, cli.py) with custom dataflow properties.\n', options: { color: TEXT_BODY } },

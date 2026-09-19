@@ -4,7 +4,7 @@
 
 **Innovative Design Project (BACSE291)  Review 2 (Initial Design and Development — 20 Marks)**  
 **Target Milestone:** ~20% Implementation (Technology Readiness Level 3 — Proof of Concept)  
-**Team Size:** 2 (Avi Dhandhania - 25BCE1207, Anmol Saluja - 25BCE1332)  **Duration:** One Academic Year (2026–2027)  **Track:** Software-Only, No Specialised Hardware  
+**Team Size:** 3 (Avi Dhandhania - 25BCE1207, Anmol Saluja - 25BCE1332, Avika Tyagi - 25BCE1294)  **Duration:** One Academic Year (2026–2027)  **Track:** Software-Only, No Specialised Hardware  
 
 ---
 
@@ -609,7 +609,7 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 | **Review VI** | 29 Mar  2 Apr 2027 | 15 | External Panel | Full end-to-end prototype demonstration, open-house presentation, public benchmark release. |
 | **Report Submission** | 2 Apr 2027 | 10 | Guide | Comprehensive final project documentation and patent filing submission. |
 
-### 9.2 Equitable 2-Way Work Breakdown Structure (WBS)
+### 9.2 Equitable 3-Way Work Breakdown Structure (WBS)
 
 ```
 
@@ -648,6 +648,7 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 |---|---|---|
 | **Avi Dhandhania (25BCE1207)** |  Designed the 4-stage pipeline architecture and intermediate data models (`models.py`).<br> Implemented the Stage 1 AST parsing and constant propagation engine (`discovery.py`).<br> Developed the Stage 2 Semantic Binding Engine (`dataflow.py`), tracing plaintext parameters to sources and ciphertext to sinks.<br> Built declarative retention extraction parsing S3 lifecycle rules and Redis TTLs.<br> Designed the interactive web dashboard UI/UX layout and styling. |  Scale inter-procedural taint analysis across multi-module call graphs.<br> Integrate CodeQL queries for enterprise Java repositories.<br> Build automated ORM and SQL migration parsers for relational databases.<br> Enhance visual taint graphs and component drilldowns in the web dashboard. |
 | **Anmol Saluja (25BCE1332)** |  Formalised the HNDL threat model, Mosca's inequality operationalisation, and 16-paper literature gap matrix.<br> Formulated the mathematical HNDL Exposure Scoring equation and implemented Stage 3 Scoring Engine (`scorer.py`).<br> Implemented CycloneDX 1.6 CBOM generator with dataflow extension schemas (`cbom.py`, `cli.py`).<br> Engineered full-stack backend integration and REST API server (`server.py`).<br> Constructed automated unit testing harness (`tests/test_copilot.py`) achieving 100% test pass rate.<br> Authored Report 2 sections (1, 2, 3, 8, 9, 10), document sanitization, and PPTX technical synthesis. |  Expand Semgrep/Tree-sitter rule corpus to cover 100+ cryptographic API variants.<br> Curate the 15-repository evaluation benchmark with domain diversity and calculate Krippendorff's alpha.<br> Implement `liboqs` hybrid patch synthesis template engine and 3-gate differential verification harness.<br> Validate automated CBOM emission against official OWASP CycloneDX 1.6 schema validators. |
+| **Avika Tyagi (25BCE1294)** | Conducted comprehensive stakeholder mapping & requirement gathering.<br> Assured project compliance with Indian Patent Office CRI Guidelines.<br> Prepared the functional and non-functional requirements specifications.<br> Managed the risk register and academic year milestone scheduling.<br> Synthesized technical findings into presentation slides. | Coordinate the final evaluation benchmark metrics and panel defense.<br> Ensure full compliance with RBI Q-SAFE standards in patch generation.<br> Organize final documentation and code handoff protocols. |
 
 
 ### 10.2 Panel Defense & Technical Q&A Preparation Guide
