@@ -2,7 +2,18 @@
 ~$*
 *.tmp
 
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Node modules
+node_modules/
+
 # OS cruft
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+

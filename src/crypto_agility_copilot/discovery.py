@@ -135,14 +135,25 @@ class CryptoASTVisitor(ast.NodeVisitor):
             }
 
         if "rsa" in lower_name and ("encrypt" in lower_name or "cipher" in lower_name):
+            # Inspect node args/keywords to detect OAEP vs PKCS1v15 vs PSS
+            node_str = (ast.unparse(node) if hasattr(ast, 'unparse') else "").lower()
+            algo = "RSA-2048"
+            if "oaep" in node_str or "oaep" in lower_name:
+                algo = "RSA-OAEP"
+            elif "pkcs1" in node_str or "pkcs1" in lower_name:
+                algo = "RSA-PKCS1v15"
+            elif "pss" in node_str or "pss" in lower_name:
+                algo = "RSA-PSS"
+
             return {
                 "primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION,
-                "algo": "RSA-2048",
+                "algo": algo,
                 "key_size": 2048,
                 "vulnerability": QuantumVulnerability.SHOR_BROKEN
             }
 
         return None
+
 
     def _get_code_snippet(self, lineno: int) -> str:
         if 1 <= lineno <= len(self.source_lines):

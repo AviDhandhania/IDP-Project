@@ -139,8 +139,12 @@ class DataflowBindingEngine:
         window_end = min(len(lines), target_line_idx + 15)
         window = "\n".join(lines[window_start:window_end])
 
-        # Check for explicit S3 lifecycle / multi-year retention evidence
-        m_years = re.search(r"retain\s+(\d+)\s+years?", window, re.IGNORECASE)
+        # Check for explicit S3 lifecycle / multi-year retention evidence (comments, bucket names, policies)
+        m_years = (
+            re.search(r"(?:retain|retention|vault|policy)[\w\s-]*?(\d+)\s*(?:years?|yr)", window, re.IGNORECASE) or
+            re.search(r"(\d+)[ -]years?\s+(?:retention|statutory|lifecycle|policy|archive)", window, re.IGNORECASE) or
+            re.search(r"(\d+)yr", window, re.IGNORECASE)
+        )
         if m_years:
             years = float(m_years.group(1))
             return RetentionEvidence(
@@ -149,6 +153,7 @@ class DataflowBindingEngine:
                 observed=True,
                 description=f"Explicit cloud storage lifecycle: retain {years} years"
             )
+
 
         # Check for Redis TTL (e.g., redis.setex(k, 900, sealed))
         m_ttl = re.search(r"setex\s*\([^,]+,\s*(\d+)", window, re.IGNORECASE)
