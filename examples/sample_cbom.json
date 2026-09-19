@@ -1,0 +1,183 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:e9b07cf7-a736-4260-b1b3-40c6d62d005b",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-09-19T17:13:44.508968+00:00",
+    "tools": [
+      {
+        "vendor": "Crypto-Agility Copilot",
+        "name": "crypto-agility-copilot-engine",
+        "version": "0.2.0-review2"
+      }
+    ],
+    "component": {
+      "bom-ref": "root-application",
+      "type": "application",
+      "name": "sample_project",
+      "version": "1.0.0"
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "crypto-asset-1",
+      "type": "cryptographic-asset",
+      "name": "RSA-OAEP",
+      "version": "keysize-2048",
+      "description": "RSA-OAEP invocation at examples/sample_project/payments/archive.py:11",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "asymmetric_encryption",
+          "parameterSetIdentifier": "RSA-OAEP",
+          "curve": "N/A",
+          "executionEnvironment": "software-plain-text",
+          "implementationPlatform": "c-python",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "oaep",
+          "padding": "oaep",
+          "cryptoFunctions": [
+            "asymmetric_encryption"
+          ],
+          "classicalSecurityLevel": 2048,
+          "nistQuantumSecurityLevel": 0
+        },
+        "detectionContext": {
+          "filePath": "examples/sample_project/payments/archive.py",
+          "lineNumber": 11,
+          "rawSnippet": "blob = rsa_oaep_encrypt(record, archive_pubkey)"
+        }
+      },
+      "dataflowProperties": {
+        "plaintextSource": "database_read",
+        "ciphertextSink": "cloud_object_store",
+        "retentionEvidence": {
+          "retentionYears": 10.0,
+          "evidenceType": "s3_lifecycle_policy",
+          "observed": true,
+          "description": "Explicit cloud storage lifecycle: retain 10.0 years"
+        },
+        "exposureSurface": "EXTERNAL_PUBLIC",
+        "hndlRiskAssessment": {
+          "normalizedScore": 16.67,
+          "urgencyTier": "HIGH",
+          "moscaViolated": true,
+          "recommendation": "High HNDL exposure. Schedule hybrid migration in next engineering sprint."
+        },
+        "securityRelevance": {
+          "isSecurityRelevant": true,
+          "suppressionReason": null
+        }
+      }
+    },
+    {
+      "bom-ref": "crypto-asset-2",
+      "type": "cryptographic-asset",
+      "name": "RSA-OAEP",
+      "version": "keysize-2048",
+      "description": "RSA-OAEP invocation at examples/sample_project/web/session.py:11",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "asymmetric_encryption",
+          "parameterSetIdentifier": "RSA-OAEP",
+          "curve": "N/A",
+          "executionEnvironment": "software-plain-text",
+          "implementationPlatform": "c-python",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "oaep",
+          "padding": "oaep",
+          "cryptoFunctions": [
+            "asymmetric_encryption"
+          ],
+          "classicalSecurityLevel": 2048,
+          "nistQuantumSecurityLevel": 0
+        },
+        "detectionContext": {
+          "filePath": "examples/sample_project/web/session.py",
+          "lineNumber": 11,
+          "rawSnippet": "sealed = rsa_oaep_encrypt(tok, session_pubkey)"
+        }
+      },
+      "dataflowProperties": {
+        "plaintextSource": "local_rng_token",
+        "ciphertextSink": "in_memory_cache",
+        "retentionEvidence": {
+          "retentionYears": 2.8519279032626055e-05,
+          "evidenceType": "redis_ttl",
+          "observed": true,
+          "description": "Explicit cache TTL: 900.0 seconds (~0.00003 years)"
+        },
+        "exposureSurface": "INTERNAL_IPC",
+        "hndlRiskAssessment": {
+          "normalizedScore": 0.0,
+          "urgencyTier": "LOW",
+          "moscaViolated": false,
+          "recommendation": "Low exposure or short-lived data. Defer migration."
+        },
+        "securityRelevance": {
+          "isSecurityRelevant": true,
+          "suppressionReason": null
+        }
+      }
+    },
+    {
+      "bom-ref": "crypto-asset-3",
+      "type": "cryptographic-asset",
+      "name": "SHA-256",
+      "version": "keysize-256",
+      "description": "SHA-256 invocation at examples/sample_project/cache/etags.py:9",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "SHA-256",
+          "curve": "N/A",
+          "executionEnvironment": "software-plain-text",
+          "implementationPlatform": "c-python",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "default",
+          "padding": "pkcs1v15",
+          "cryptoFunctions": [
+            "hash"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "detectionContext": {
+          "filePath": "examples/sample_project/cache/etags.py",
+          "lineNumber": 9,
+          "rawSnippet": "etag_digest = hashlib.sha256(static_asset_bytes).hexdigest()"
+        }
+      },
+      "dataflowProperties": {
+        "plaintextSource": "unknown",
+        "ciphertextSink": "in_memory_cache",
+        "retentionEvidence": {
+          "retentionYears": 0.00011407711613050422,
+          "evidenceType": "redis_ttl",
+          "observed": true,
+          "description": "Explicit cache TTL: 3600.0 seconds (~0.00011 years)"
+        },
+        "exposureSurface": "INTERNAL_IPC",
+        "hndlRiskAssessment": {
+          "normalizedScore": 0.0,
+          "urgencyTier": "SUPPRESSED",
+          "moscaViolated": false,
+          "recommendation": "Suppressed: Non-security context"
+        },
+        "securityRelevance": {
+          "isSecurityRelevant": false,
+          "suppressionReason": "Hash used strictly as content checksum or HTTP ETag"
+        }
+      }
+    }
+  ]
+}
