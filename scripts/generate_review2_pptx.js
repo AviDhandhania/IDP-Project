@@ -959,9 +959,9 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
   const s = addSlideBase(pres, 33, 'Parameter 6 (3 M)', '9.2 WORK BREAKDOWN STRUCTURE (WBS)', 'Equitable 3-Way Allocation Across Team Members');
 
   const members = [
-    { name: 'MEMBER 1 (AVI DHANDHANIA)', role: 'Semantic Binding & Taint Engine', tasks: '• Formalised HNDL threat model & Mosca inequality.\n• Designed 4-stage pipeline architecture.\n• Implemented Stage 2 Dataflow Engine (dataflow.py).\n• Built declarative retention extraction for S3 & Redis.\n• Next: Inter-procedural cross-module taint & CodeQL.' },
-    { name: 'TEAM MEMBER 2', role: 'Discovery Layer & CBOM Conformance', tasks: '• Curated cryptographic API pattern corpus.\n• Developed Stage 1 AST Discovery Engine (discovery.py).\n• Implemented CycloneDX 1.6 CBOM Serializer (cbom.py).\n• Built constant propagation logic.\n• Next: Java Tree-sitter parsing & 100+ Semgrep rules.' },
-    { name: 'TEAM MEMBER 3', role: 'Scoring, Benchmark & Verification', tasks: '• Formulated mathematical HNDL exposure score.\n• Implemented Stage 3 Scoring Engine (scorer.py).\n• Built context noise suppression filter.\n• Developed automated test suite (test_copilot.py).\n• Next: 15-repo benchmark curation & liboqs harness.' }
+    { name: 'AVI DHANDHANIA (25BCE1207)', role: 'Semantic Binding & Taint Engine', tasks: '• Formalised HNDL threat model & Mosca inequality.\n• Designed 4-stage pipeline architecture.\n• Implemented Stage 2 Dataflow Engine (dataflow.py).\n• Built declarative retention extraction for S3 & Redis.\n• Next: Inter-procedural cross-module taint & CodeQL.' },
+    { name: 'ANMOL SALUJA (25BCE1332)', role: 'Discovery Layer & CBOM Conformance', tasks: '• Curated cryptographic API pattern corpus.\n• Developed Stage 1 AST Discovery Engine (discovery.py).\n• Implemented CycloneDX 1.6 CBOM Serializer (cbom.py).\n• Built constant propagation logic.\n• Next: Java Tree-sitter parsing & 100+ Semgrep rules.' },
+    { name: 'AVIKA TYAGI (25BCE1294)', role: 'Scoring, Benchmark & Verification', tasks: '• Formulated mathematical HNDL exposure score.\n• Implemented Stage 3 Scoring Engine (scorer.py).\n• Built context noise suppression filter.\n• Developed automated test suite (test_copilot.py).\n• Next: 15-repo benchmark curation & liboqs harness.' }
   ];
 
   members.forEach((m, idx) => {

@@ -623,19 +623,19 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 ### 9.2 Equitable 3-Way Work Breakdown Structure (WBS)
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│ WORK BREAKDOWN STRUCTURE (WBS) ACROSS 3 TEAM MEMBERS                                   │
-├─────────────────────────┬───────────────────────────────┬──────────────────────────────┤
-│ Member 1 (Avi D.)       │ Member 2                      │ Member 3                     │
-├─────────────────────────┼───────────────────────────────┼──────────────────────────────┤
-│ • Semantic Binding      │ • AST Discovery Engine        │ • Prioritisation Scorer      │
-│ • Backward/Forward      │ • Tree-sitter & Semgrep       │ • Mosca Inequality Metric    │
-│   Dataflow Analysis     │   Rule Corpus Design          │ • Benchmark Dataset          │
-│ • Declarative Retention │ • CycloneDX 1.6 CBOM          │   Curation (15 repos)        │
-│   Inference Engine      │   Schema Conformance          │ • Patch Synthesis &          │
-│ • System Architecture & │ • Constant Propagation &      │   Differential Testing       │
-│   Module Integration    │   Local Type Inference        │   Verification Harness       │
-└─────────────────────────┴───────────────────────────────┴──────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ WORK BREAKDOWN STRUCTURE (WBS) ACROSS 3 TEAM MEMBERS                                           │
+├────────────────────────────────┬─────────────────────────────────┬─────────────────────────────┤
+│ Avi Dhandhania (25BCE1207)     │ Anmol Saluja (25BCE1332)        │ Avika Tyagi (25BCE1294)     │
+├────────────────────────────────┼─────────────────────────────────┼─────────────────────────────┤
+│ • Semantic Binding             │ • AST Discovery Engine          │ • Prioritisation Scorer     │
+│ • Backward/Forward             │ • Tree-sitter & Semgrep         │ • Mosca Inequality Metric   │
+│   Dataflow Analysis            │   Rule Corpus Design            │ • Benchmark Dataset         │
+│ • Declarative Retention        │ • CycloneDX 1.6 CBOM            │   Curation (15 repos)       │
+│   Inference Engine             │   Schema Conformance            │ • Patch Synthesis &         │
+│ • System Architecture &        │ • Constant Propagation &        │   Differential Testing      │
+│   Module Integration           │   Local Type Inference          │   Verification Harness      │
+└────────────────────────────────┴─────────────────────────────────┴─────────────────────────────┘
 ```
 
 ### 9.3 Comprehensive Risk Register & Checkpoints
@@ -658,9 +658,9 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 
 | Team Member | Completed Responsibilities for Review II | Next Stage Commitments (Reviews III & IV) |
 |---|---|---|
-| **Avi Dhandhania** | • Formalised the HNDL threat model and Mosca's inequality operationalisation.<br>• Designed the 4-stage pipeline architecture and intermediate data models (`models.py`).<br>• Implemented the Stage 2 Semantic Binding Engine (`dataflow.py`), tracing plaintext parameters to sources and ciphertext to sinks.<br>• Developed the declarative retention extractor parsing S3 lifecycle rules and Redis TTLs. | • Scale inter-procedural taint analysis across multi-module call graphs.<br>• Integrate CodeQL queries for enterprise Java repositories.<br>• Build automated ORM and SQL migration parsers for relational databases. |
-| **Team Member 2** | • Curated cryptographic API signatures across Python and Java.<br>• Developed the Stage 1 AST Discovery Engine (`discovery.py`).<br>• Implemented the CycloneDX 1.6 CBOM generator (`cbom.py`), mapping discovered assets to standard schema attributes.<br>• Built constant propagation logic for resolving runtime-computed cipher names. | • Expand the Semgrep rule corpus to cover 100+ cryptographic API variants.<br>• Implement Tree-sitter CST parsing for Java (`java.security`).<br>• Validate 100% schema conformance against CycloneDX 1.6 official JSON validator. |
-| **Team Member 3** | • Formulated the mathematical HNDL Exposure Scoring equation.<br>• Implemented the Stage 3 Prioritisation & Scoring Engine (`scorer.py`).<br>• Implemented the context-based noise suppression filter for non-security hashing (`etags.py`).<br>• Constructed the automated unit testing harness (`tests/test_copilot.py`). | • Curate the 15-repository evaluation benchmark with domain diversity.<br>• Conduct expert-annotated priority ordering and calculate Krippendorff's $\alpha$.<br>• Build the `liboqs` hybrid patch synthesis template engine and differential test runner. |
+| **Avi Dhandhania (25BCE1207)** | • Formalised the HNDL threat model and Mosca's inequality operationalisation.<br>• Designed the 4-stage pipeline architecture and intermediate data models (`models.py`).<br>• Implemented the Stage 2 Semantic Binding Engine (`dataflow.py`), tracing plaintext parameters to sources and ciphertext to sinks.<br>• Developed the declarative retention extractor parsing S3 lifecycle rules and Redis TTLs. | • Scale inter-procedural taint analysis across multi-module call graphs.<br>• Integrate CodeQL queries for enterprise Java repositories.<br>• Build automated ORM and SQL migration parsers for relational databases. |
+| **Anmol Saluja (25BCE1332)** | • Curated cryptographic API signatures across Python and Java.<br>• Developed the Stage 1 AST Discovery Engine (`discovery.py`).<br>• Implemented the CycloneDX 1.6 CBOM generator (`cbom.py`), mapping discovered assets to standard schema attributes.<br>• Built constant propagation logic for resolving runtime-computed cipher names. | • Expand the Semgrep rule corpus to cover 100+ cryptographic API variants.<br>• Implement Tree-sitter CST parsing for Java (`java.security`).<br>• Validate 100% schema conformance against CycloneDX 1.6 official JSON validator. |
+| **Avika Tyagi (25BCE1294)** | • Formulated the mathematical HNDL Exposure Scoring equation.<br>• Implemented the Stage 3 Prioritisation & Scoring Engine (`scorer.py`).<br>• Implemented the context-based noise suppression filter for non-security hashing (`etags.py`).<br>• Constructed the automated unit testing harness (`tests/test_copilot.py`). | • Curate the 15-repository evaluation benchmark with domain diversity.<br>• Conduct expert-annotated priority ordering and calculate Krippendorff's $\alpha$.<br>• Build the `liboqs` hybrid patch synthesis template engine and differential test runner. |
 
 ### 10.2 Panel Defense & Technical Q&A Preparation Guide
 
