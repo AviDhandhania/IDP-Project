@@ -2,9 +2,9 @@
 
 ## Crypto-Agility Copilot: Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration
 
-**Innovative Design Project (BACSE291) — Review 2 (Initial Design and Development — 20 Marks)**  
-**Target Milestone:** ~20% Implementation (Technology Readiness Level 3 — Proof of Concept)  
-**Team Size:** 2 (Avi Dhandhania - 25BCE1207, Anmol Saluja - 25BCE1332) · **Duration:** One Academic Year (2026–2027) · **Track:** Software-Only, No Specialised Hardware  
+**Innovative Design Project (BACSE291)  Review 2 (Initial Design and Development  20 Marks)**  
+**Target Milestone:** ~20% Implementation (Technology Readiness Level 3  Proof of Concept)  
+**Team Size:** 2 (Avi Dhandhania - 25BCE1207, Anmol Saluja - 25BCE1332)  **Duration:** One Academic Year (20262027)  **Track:** Software-Only, No Specialised Hardware  
 
 ---
 
@@ -17,49 +17,49 @@
    - 1.4 Regulatory Justification & Compliance Urgency
 2. [Comprehensive Literature Survey & Critical Gap Analysis](#2-comprehensive-literature-survey--critical-gap-analysis)
    - 2.1 Survey Methodology
-   - 2.2 Summary of Surveyed Work (P1–P16)
+   - 2.2 Summary of Surveyed Work (P1P16)
    - 2.3 Critical Analysis: What Prior Work Gets Wrong & Our Corrections
    - 2.4 Consolidated Research Gap Matrix
 3. [Project Objectives, Scope & Novelty](#3-project-objectives-scope--novelty)
-   - 3.1 Primary & Secondary Objectives (O1–O7)
+   - 3.1 Primary & Secondary Objectives (O1O7)
    - 3.2 In-Scope vs. Explicitly Out-of-Scope Elements
-   - 3.3 The Five Pillars of Novelty (N1–N5)
+   - 3.3 The Five Pillars of Novelty (N1N5)
    - 3.4 Intellectual Property & Patent Positioning (CRI Guidelines 2025)
-4. [Requirement Analysis & Problem Understanding (Rubric Parameter 1 — 3 Marks)](#4-requirement-analysis--problem-understanding)
+4. [Requirement Analysis & Problem Understanding (Rubric Parameter 1  3 Marks)](#4-requirement-analysis--problem-understanding)
    - 4.1 Stakeholder Analysis & Target Ecosystems
    - 4.2 Functional Requirements Specification (FR-1 through FR-8)
    - 4.3 Non-Functional Requirements Specification (NFR-1 through NFR-6)
    - 4.4 Regulatory & Compliance Constraints
-5. [System Design and Architecture (Rubric Parameter 2 — 3 Marks)](#5-system-design-and-architecture)
+5. [System Design and Architecture (Rubric Parameter 2  3 Marks)](#5-system-design-and-architecture)
    - 5.1 End-to-End Architectural Pipeline
    - 5.2 Subsystem 1: Multi-Language Cryptographic Discovery Layer
    - 5.3 Subsystem 2: Inter-Procedural Semantic Dataflow & Retention Engine
    - 5.4 Subsystem 3: HNDL Prioritisation, Scoring & Noise Suppression Engine
    - 5.5 Subsystem 4: Hybrid Patch Synthesis & Differential Verification Harness
    - 5.6 Data Schema & CycloneDX 1.6 CBOM Extension Contracts
-6. [Component & Tool Selection with Technical Justification (Rubric Parameter 3 — 3 Marks)](#6-component--tool-selection-with-technical-justification)
+6. [Component & Tool Selection with Technical Justification (Rubric Parameter 3  3 Marks)](#6-component--tool-selection-with-technical-justification)
    - 6.1 Parsing & AST Infrastructure Evaluation
    - 6.2 Static Analysis & Taint Tracking Evaluation
    - 6.3 Post-Quantum Cryptographic Library Selection
    - 6.4 Cryptography Bill of Materials (CBOM) Schema Selection
    - 6.5 Patch Verification & Correctness Strategy
-7. [Initial Prototype & Module Development (~20% Proof-of-Concept) (Rubric Parameter 4 — 3 Marks)](#7-initial-prototype--module-development)
+7. [Initial Prototype & Module Development (~20% Proof-of-Concept) (Rubric Parameter 4  3 Marks)](#7-initial-prototype--module-development)
    - 7.1 Implemented Package Structure (`src/crypto_agility_copilot/`)
    - 7.2 Core Implemented Modules Walk-through
    - 7.3 Empirical Validation on Benchmark Example
    - 7.4 Automated Unit Test Suite & Execution Results
    - 7.5 Interactive Web Dashboard & REST API
    - 7.6 TRL 3 Milestone Evidence Summary
-8. [Innovation and Feasibility (Rubric Parameter 5 — 3 Marks)](#8-innovation-and-feasibility)
+8. [Innovation and Feasibility (Rubric Parameter 5  3 Marks)](#8-innovation-and-feasibility)
    - 8.1 Mathematical Derivation & Theoretical Soundness of the HNDL Score
    - 8.2 Soundness vs. Completeness Trade-offs
    - 8.3 Computational & Memory Feasibility Analysis
-9. [Project Planning, Teamwork and Presentation (Rubric Parameter 6 — 3 Marks)](#9-project-planning-teamwork-and-presentation)
+9. [Project Planning, Teamwork and Presentation (Rubric Parameter 6  3 Marks)](#9-project-planning-teamwork-and-presentation)
    - 9.1 Academic Year Milestone Schedule (Reviews I through VII)
    - 9.2 Equitable 2-Way Work Breakdown Structure (WBS)
    - 9.3 Comprehensive Risk Register & Checkpoints
 
-10. [Individual Contribution and Technical Response (Rubric Parameter 7 — 2 Marks)](#10-individual-contribution-and-technical-response)
+10. [Individual Contribution and Technical Response (Rubric Parameter 7  2 Marks)](#10-individual-contribution-and-technical-response)
     - 10.1 Individual Responsibility Matrix
     - 10.2 Panel Defense & Technical Q&A Preparation Guide
 11. [References & Regulatory Standards](#11-references--regulatory-standards)
@@ -70,9 +70,9 @@
 
 ### 1.1 The Technical Problem & Threat Model
 
-Every enterprise software system depends on cryptography it cannot reliably enumerate or sequence for migration. A typical mid-sized banking or healthcare application invokes RSA, ECDSA, AES, and SHA-family primitives from a complex mixture of first-party business logic, third-party packages, container base images, TLS terminators, database drivers, and infrastructure-as-code (IaC)—with no single machine-readable artefact recording where those invocations exist or what data assets they protect.
+Every enterprise software system depends on cryptography it cannot reliably enumerate or sequence for migration. A typical mid-sized banking or healthcare application invokes RSA, ECDSA, AES, and SHA-family primitives from a complex mixture of first-party business logic, third-party packages, container base images, TLS terminators, database drivers, and infrastructure-as-code (IaC)with no single machine-readable artefact recording where those invocations exist or what data assets they protect.
 
-Peter Shor’s polynomial-time quantum algorithm proves that integer factorisation and discrete logarithm problems are solvable on a Cryptographically Relevant Quantum Computer (CRQC), rendering classical public-key cryptography (RSA, ECDSA, ECDH, DSA, Ed25519) completely insecure. The National Institute of Standards and Technology (NIST) has standardised post-quantum replacements:
+Peter Shors polynomial-time quantum algorithm proves that integer factorisation and discrete logarithm problems are solvable on a Cryptographically Relevant Quantum Computer (CRQC), rendering classical public-key cryptography (RSA, ECDSA, ECDH, DSA, Ed25519) completely insecure. The National Institute of Standards and Technology (NIST) has standardised post-quantum replacements:
 - **FIPS 203**: Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM, based on CRYSTALS-Kyber)
 - **FIPS 204**: Module-Lattice-Based Digital Signature Algorithm (ML-DSA, based on CRYSTALS-Dilithium)
 - **FIPS 205**: Stateless Hash-Based Digital Signature Algorithm (SLH-DSA, based on SPHINCS+)
@@ -83,15 +83,15 @@ This urgency is dictated by the **Harvest-Now-Decrypt-Later (HNDL)** threat mode
 
 ### 1.2 The Specific Gap in State-of-the-Art Tooling
 
-Cryptographic inventory scanners have recently emerged—including CBOMkit, IBM Quantum Safe Explorer, SandboxAQ AQtive Guard, and the academic scanner Crypsy [P1]—standardising around the **Cryptography Bill of Materials (CBOM)** as an extension to CycloneDX 1.6 [P6]. However, the output of all existing tools is **semantically flat**: a list of the form *"RSA-2048 appears at `payments/crypto.py:214`"*.
+Cryptographic inventory scanners have recently emergedincluding CBOMkit, IBM Quantum Safe Explorer, SandboxAQ AQtive Guard, and the academic scanner Crypsy [P1]standardising around the **Cryptography Bill of Materials (CBOM)** as an extension to CycloneDX 1.6 [P6]. However, the output of all existing tools is **semantically flat**: a list of the form *"RSA-2048 appears at `payments/crypto.py:214`"*.
 
 Two measured operational consequences follow:
-1. **Findings are not actionable (Noise):** Existing scanners fire pattern-matching rules on all matching invocations regardless of usage context. Näther and Hirsch report that on real deployed services, Crypsy exhibits a real-world actionable precision of approximately **0.30** [P1]. Over two-thirds of reported findings are noise—predominantly non-security hashing (cache keys, ETags, checksums) matched by the same heuristic rules as password hashing.
-2. **Findings are not ordered (Flat Scoring):** Where risk scoring exists, it is *algorithm-intrinsic*. Shaw's quantum-aware scorer [P2] derives a 0–10 severity from key size, Shor-path qubit costs, Grover speedup factors, and forward-security exposure. Every RSA-2048 call site in an entire codebase receives an identical score. It provides zero signal for prioritising engineering remediation backlogs.
+1. **Findings are not actionable (Noise):** Existing scanners fire pattern-matching rules on all matching invocations regardless of usage context. Nther and Hirsch report that on real deployed services, Crypsy exhibits a real-world actionable precision of approximately **0.30** [P1]. Over two-thirds of reported findings are noisepredominantly non-security hashing (cache keys, ETags, checksums) matched by the same heuristic rules as password hashing.
+2. **Findings are not ordered (Flat Scoring):** Where risk scoring exists, it is *algorithm-intrinsic*. Shaw's quantum-aware scorer [P2] derives a 010 severity from key size, Shor-path qubit costs, Grover speedup factors, and forward-security exposure. Every RSA-2048 call site in an entire codebase receives an identical score. It provides zero signal for prioritising engineering remediation backlogs.
 
 ### 1.3 Formalization via Mosca's Inequality & Worked Example
 
-The deadline for quantum migration is formalised by **Mosca’s Inequality**:
+The deadline for quantum migration is formalised by **Moscas Inequality**:
 
 $$\text{Let } x = \text{Data Confidentiality Lifetime (years required to keep data secret)}$$
 $$\text{Let } y = \text{Migration Duration (years required to re-engineer the system)}$$
@@ -104,26 +104,26 @@ Critically, $x$ is a property of the **data being protected**, not of the cipher
 #### Worked Example: Two Identical Call Sites in One Repository
 
 ```python
-# Site A — payments/archive.py
+# Site A  payments/archive.py
 record = build_settlement_record(txn)              # source: persistent database read
 blob   = rsa_oaep_encrypt(record, archive_pubkey)  # RSA-2048 OAEP
 s3.put_object(Bucket="settlements-archive",        # sink: cloud object store,
               Key=k, Body=blob)                    # lifecycle: retain 10 years
 
-# Site B — web/session.py
+# Site B  web/session.py
 tok    = make_csrf_token()                         # source: local in-memory RNG
-sealed = rsa_oaep_encrypt(tok, session_pubkey)     # RSA-2048 OAEP — identical primitive
+sealed = rsa_oaep_encrypt(tok, session_pubkey)     # RSA-2048 OAEP  identical primitive
 redis.setex(k, 900, sealed)                        # sink: cache, TTL 900 seconds
 ```
 
-- **Site A** protects a statutory financial settlement record with a 10-year retention rule in multi-tenant cloud storage. With $x = 10$, $y = 2$, and $z = 7$ (aligning with national 2027–2029 / 2033 targets), $10 + 2 > 7$: **Site A is already breached under Mosca's inequality.**
+- **Site A** protects a statutory financial settlement record with a 10-year retention rule in multi-tenant cloud storage. With $x = 10$, $y = 2$, and $z = 7$ (aligning with national 20272029 / 2033 targets), $10 + 2 > 7$: **Site A is already breached under Mosca's inequality.**
 - **Site B** protects an ephemeral CSRF token that expires in 15 minutes ($x \approx 0.00003$ years). Migrating Site B delivers zero risk reduction.
 
-Existing discovery tools and algorithm-intrinsic scorers report both sites identically as `RSA-2048` with identical severity. Yet the correct engineering order is unambiguous, and every piece of evidence required to derive it—`s3.put_object` with 10-year retention versus `redis.setex` with a 900-second TTL—is present directly in the repository source code and configuration.
+Existing discovery tools and algorithm-intrinsic scorers report both sites identically as `RSA-2048` with identical severity. Yet the correct engineering order is unambiguous, and every piece of evidence required to derive it`s3.put_object` with 10-year retention versus `redis.setex` with a 900-second TTLis present directly in the repository source code and configuration.
 
 ### 1.4 Regulatory Justification & Compliance Urgency
 
-1. **India Critical Information Infrastructure (CII) Deadline (2027–2029):** The National Quantum-Safe Task Force has established a mandatory migration timeline for critical national infrastructure.
+1. **India Critical Information Infrastructure (CII) Deadline (20272029):** The National Quantum-Safe Task Force has established a mandatory migration timeline for critical national infrastructure.
 2. **Reserve Bank of India (RBI) Q-SAFE Committee:** Formed under IIT Madras leadership, directing scheduled commercial banks and payment operators to build cryptographic inventories and assess crypto-agility.
 3. **SEBI Cyber Security and Cyber Resilience Framework (CSCRF):** Mandates registered intermediaries to identify and remediate HNDL attack surfaces.
 4. **US Executive Order 14412 (June 2026):** Instructs CISA and NIST to standardise minimum elements of Cryptography Bills of Materials (CBOM) within 270 days.
@@ -137,70 +137,70 @@ Existing discovery tools and algorithm-intrinsic scorers report both sites ident
 
 A comprehensive survey was conducted across ACM Digital Library, IEEE Xplore, IACR Cryptology ePrint, arXiv, and Springer spanning January 2024 through August 2026 using query combinations of:
 $$\{\text{crypto-agility}, \text{cryptographic inventory}, \text{CBOM}, \text{PQC migration}, \text{static analysis}, \text{HNDL}, \text{Mosca inequality}\}$$
-Forward and backward citation chasing from the most recent scanners identified **16 core papers**: eleven published in 2025–2026, three from 2024, and two foundational classical baselines (2017, 2019).
+Forward and backward citation chasing from the most recent scanners identified **16 core papers**: eleven published in 20252026, three from 2024, and two foundational classical baselines (2017, 2019).
 
-### 2.2 Summary of Surveyed Work (P1–P16)
+### 2.2 Summary of Surveyed Work (P1P16)
 
 | Ref | Authors & Venue | Core Contribution | Key Reported Numbers |
 |---|---|---|---|
-| **P1** | Näther & Hirsch (Crypsy / Crypistry)<br>*arXiv:2608.04857 (Aug 2026)* | 214-rule static scanner, rule repository, and CBOM export for Go/Python. | Benchmark $F_1 = 0.75$ ($P=0.87, R=0.66$); Go invocations $F_1 = 0.92$; scanned 57,610 files in $<6$ min; **real-world actionable precision $\approx 0.30$**. |
-| **P2** | Shaw (Quantum-Safe Auditing)<br>*arXiv:2604.00560 (Apr 2026)* | Regex detection of 15 vulnerable cipher classes $\to$ LLM enrichment $\to$ VQE quantum threat score (0–10). | $P=71.98\%$, $R=100\%$, $F_1=83.71\%$ on a **stratified 10.4% sample** (602/5,775 findings); algorithm-only scoring. |
-| **P3** | Pallarés de Bonrostro et al.<br>*arXiv:2606.07341 (Jun 2026)* | Evaluated LLMs on migrating 800 paired synthetic Python fragments across 6 crypto families. | Fine-tuned GPT-4.1-mini achieved **92.5% functional correctness**; zero-shot achieved **15%**; degrades heavily on multi-file repos. |
+| **P1** | Nther & Hirsch (Crypsy / Crypistry)<br>*arXiv:2608.04857 (Aug 2026)* | 214-rule static scanner, rule repository, and CBOM export for Go/Python. | Benchmark $F_1 = 0.75$ ($P=0.87, R=0.66$); Go invocations $F_1 = 0.92$; scanned 57,610 files in $<6$ min; **real-world actionable precision $\approx 0.30$**. |
+| **P2** | Shaw (Quantum-Safe Auditing)<br>*arXiv:2604.00560 (Apr 2026)* | Regex detection of 15 vulnerable cipher classes $\to$ LLM enrichment $\to$ VQE quantum threat score (010). | $P=71.98\%$, $R=100\%$, $F_1=83.71\%$ on a **stratified 10.4% sample** (602/5,775 findings); algorithm-only scoring. |
+| **P3** | Pallars de Bonrostro et al.<br>*arXiv:2606.07341 (Jun 2026)* | Evaluated LLMs on migrating 800 paired synthetic Python fragments across 6 crypto families. | Fine-tuned GPT-4.1-mini achieved **92.5% functional correctness**; zero-shot achieved **15%**; degrades heavily on multi-file repos. |
 | **P4** | Zhang (AQuA Vision)<br>*ICSE 2026, arXiv:2602.05759* | Defined quantum-safe SE agenda across 3 pillars: PQC-aware detection, semantic refactoring, hybrid verification. | Two-page vision; **no implementation or evaluation provided**. |
-| **P5** | Costa (CARS Framework)<br>*IACR ePrint 2026/1467 (Jul 2026)* | Delphi-derived 5-dimension readiness score (inventory, algorithm compliance, decoupling, toolchain, governance). | Evaluated on 43 OSS repos; mean scores 24.9–47.5; admits external validation against outcomes is unperformed. |
+| **P5** | Costa (CARS Framework)<br>*IACR ePrint 2026/1467 (Jul 2026)* | Delphi-derived 5-dimension readiness score (inventory, algorithm compliance, decoupling, toolchain, governance). | Evaluated on 43 OSS repos; mean scores 24.947.5; admits external validation against outcomes is unperformed. |
 | **P6** | IBM Research (CBOM Anatomy)<br>*Eurocrypt 2026* | Object model for cryptographic assets, dependencies, and evidence capture in CycloneDX. | Standardisation reference for the CycloneDX 1.6 CBOM schema. |
 | **P7** | *CBOM Compliance*<br>*Springer LNCS 2026* | Policy-driven engine classifying CBOM assets against machine-readable compliance rules. | Prototype policy layer running above flat CBOMs. |
-| **P8** | *Practical Feasibility of HNDL*<br>*arXiv:2603.01091 (2026)* | Economic and practical feasibility of HNDL; decay of data sensitivity over time. | Proves healthcare retention (25–50 yr) means Mosca deadline has already passed; forward secrecy cannot help retroactively. |
+| **P8** | *Practical Feasibility of HNDL*<br>*arXiv:2603.01091 (2026)* | Economic and practical feasibility of HNDL; decay of data sensitivity over time. | Proves healthcare retention (2550 yr) means Mosca deadline has already passed; forward secrecy cannot help retroactively. |
 | **P9** | *PQC & Quantum-Safe Security*<br>*arXiv:2510.10436 (rev. Jun 2026)* | Consolidated survey post-FIPS 203/204/205; focus on hybrid migration patterns. | Confirms consensus on hybrid deployment (e.g., X25519 + ML-KEM). |
 | **P10** | *Securing Crypto in the Age of Quantum & AI*<br>*arXiv:2603.06969 (Mar 2026)* | Threat landscape and strategic enterprise roadmap synthesis. | High-level roadmap positioning. |
 | **P11** | *Migration of Software Executables*<br>*arXiv:2409.07852 (2024)* | Binary-level disassembly and migration toolchain for compiled binaries. | Pre-standardisation; binary analysis loses variable names, types, and configuration context. |
 | **P12** | *Cost of Waiting: Decision Theory*<br>*Frontiers Quantum Sci. 2026* | Decision-theoretic model for early vs. late PQC migration under CRQC arrival uncertainty. | Provides the mathematical utility model underlying our prioritisation score. |
 | **P13** | Rahaman et al. (CryptoGuard)<br>*ACM CCS 2019* | Backward inter-procedural dataflow analysis detecting 22 classical cryptographic API misuse patterns in Java. | Demonstrated that **inter-procedural cryptographic dataflow at scale is tractable** (scanned millions of LOC). |
-| **P14** | Näther et al. (PQC Migration SLR)<br>*arXiv:2404.12854 (Apr 2024)* | Systematic literature review defining 4 migration phases: inventory, prioritisation, migration, verification. | Highlights lack of formal definitions and that implementations are "mostly experimental," creating an "overall chaotic situation." |
+| **P14** | Nther et al. (PQC Migration SLR)<br>*arXiv:2404.12854 (Apr 2024)* | Systematic literature review defining 4 migration phases: inventory, prioritisation, migration, verification. | Highlights lack of formal definitions and that implementations are "mostly experimental," creating an "overall chaotic situation." |
 | **P15** | *Harvest Now, Decrypt Later: Fed Reserve*<br>*Federal Reserve FEDS 2025* | Financial stability analysis of HNDL risks for regulated banking institutions. | Establishes HNDL as a systemic banking supervisor concern. |
-| **P16** | Krüger et al. (CogniCrypt)<br>*IEEE/ACM ASE 2017* | Developer-facing generation of correct cryptographic code and misuse static analysis. | Rule-based code synthesis; superseded on misuse detection by modern LLMs. |
+| **P16** | Krger et al. (CogniCrypt)<br>*IEEE/ACM ASE 2017* | Developer-facing generation of correct cryptographic code and misuse static analysis. | Rule-based code synthesis; superseded on misuse detection by modern LLMs. |
 
 ### 2.3 Critical Analysis: What Prior Work Gets Wrong & Our Corrections
 
-#### Critique of P1 — Crypsy (Closest State-of-the-Art Baseline)
+#### Critique of P1  Crypsy (Closest State-of-the-Art Baseline)
 - *Flaw 1 (Context-Blindness):* Assessment rules fire indiscriminately across all matching function calls. The authors concede that real-world actionable precision is only $\approx 0.30$. A rule for hashing cannot differentiate password authentication from a web cache key.
 - *Flaw 2 (Absence of Dataflow):* Crypsy has no concept of what data enters or leaves a primitive.
 - *Flaw 3 (No Prioritisation Order):* Reports hundreds of findings as an unordered flat set, leaving engineering teams without a roadmap.
 - *Flaw 4 (Runtime Argument Blindness):* Precision 0.87 vs. recall 0.66; misses one-third of assets because arguments computed at runtime cannot be resolved.
 - **Our Correction:** We adopt Crypsy's rule corpus concept as an input rather than a competitor. We layer **inter-procedural semantic dataflow** over the discovery layer. Dataflow resolves Flaw 1 (distinguishing passwords from cache keys), Flaw 2 by construction, and Flaw 3 by calculating an HNDL Exposure Score. We resolve Flaw 4 via constant propagation and local type inference.
 
-#### Critique of P2 — Quantum-Safe Code Auditing (Shaw)
+#### Critique of P2  Quantum-Safe Code Auditing (Shaw)
 - *Flaw 1 (Score Cannot Discriminate):* The VQE threat score is derived strictly from algorithm parameters (key size, Shor qubit count). Every RSA-2048 site in a project receives an identical score, providing zero prioritisation signal.
 - *Flaw 2 (Decorative Quantum Machinery):* Uses a parameterized 2-qubit Hamiltonian to compute an expensive weighted sum whose coefficients are published constants. The authors admit outputs are not forecasts of actual qubit requirements.
 - *Flaw 3 (Evaluation on Easy Sample):* Evaluated on a 10.4% stratified sample with 100% recall, indicating an artificially simplified detection task.
 - **Our Correction:** Our score is a function of the **protected data path** (retention lifetime $\times$ exposure surface $\times$ algorithm $\times$ key reuse). We evaluate on a fully annotated benchmark using information retrieval ranking metrics ($\text{nDCG@20}$, Kendall-$\tau$), which Shaw never reports.
 
-#### Critique of P3 — LLM Migration of Code Fragments
+#### Critique of P3  LLM Migration of Code Fragments
 - *Flaw 1 (Synthetic Single-Fragment Ceiling):* Evaluated 800 synthetic paired snippets. Performance degraded drastically on multi-file dependencies.
 - *Flaw 2 (Superficial Verification):* Evaluated correctness purely via encrypt/decrypt round-trip testing. A round-trip test passes even if parameters are silently downgraded or interoperability with unmigrated peers is broken.
 - *Flaw 3 (No Discovery Step):* Assumes the vulnerable fragment has already been located and extracted by a human.
 - **Our Correction:** Patch synthesis is the terminal stage of our pipeline, operating on sites located by our own dataflow engine in multi-file repositories. Patches are generated from **verified hybrid templates** and gated by **differential equivalence**, **property-based tests**, and **downgrade-resilience checks**.
 
-#### Critique of P5 — CARS (Crypto-Agility Readiness Score)
+#### Critique of P5  CARS (Crypto-Agility Readiness Score)
 - *Flaw 1 (Wrong Granularity):* Scores an organisation or entire repository on a single composite index (e.g., 34.2). An engineer planning a two-week sprint cannot act on that number.
 - *Flaw 2 (Subjective Weights):* Weights were derived from a 12-expert Delphi survey without empirical validation against real migration outcomes.
 - **Our Correction:** We score **individual data paths**, producing granular, actionable units of remediation work. Validation is conducted against expert-adjudicated priority orderings on held-out repositories.
 
 ### 2.4 Consolidated Research Gap Matrix
 
-| Capability / Dimension | P1 (Crypsy) | P2 (Shaw) | P3 (Pallarés) | P5 (CARS) | P6/P7 (CBOM) | P8/P12 (HNDL) | P13 (CryptoGuard) | **Crypto-Agility Copilot** |
+| Capability / Dimension | P1 (Crypsy) | P2 (Shaw) | P3 (Pallars) | P5 (CARS) | P6/P7 (CBOM) | P8/P12 (HNDL) | P13 (CryptoGuard) | **Crypto-Agility Copilot** |
 |---|---|---|---|---|---|---|---|---|
-| Multi-language Discovery | ✔ | ◐ | ✘ | ◐ | ✘ | ✘ | ◐ | **✔** |
-| CycloneDX 1.6 CBOM Output | ✔ | ✘ | ✘ | ✘ | ✔ | ✘ | ✘ | **✔** |
-| Dataflow Binding to Protected Data | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | ◐ | **✔ (N1)** |
-| Retention Lifetime Inference | ✘ | ✘ | ✘ | ✘ | ✘ | manual | ✘ | **✔ (N1)** |
-| Call-Site-Varying Risk Score | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | **✔ (N2)** |
-| Evaluated on Ranking Metrics (nDCG/$\tau$) | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | **✔ (N2)** |
-| Context-Based Noise Suppression | ✘ | ◐ | ✘ | ✘ | ◐ | ✘ | ✘ | **✔ (N3)** |
-| Differentially Verified Hybrid Patches | ✘ | ✘ | ◐ | ✘ | ✘ | ✘ | ✘ | **✔ (N4)** |
-| Public Annotated Priority Benchmark | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | ✘ | **✔ (N5)** |
+| Multi-language Discovery |  |  |  |  |  |  |  | **** |
+| CycloneDX 1.6 CBOM Output |  |  |  |  |  |  |  | **** |
+| Dataflow Binding to Protected Data |  |  |  |  |  |  |  | ** (N1)** |
+| Retention Lifetime Inference |  |  |  |  |  | manual |  | ** (N1)** |
+| Call-Site-Varying Risk Score |  |  |  |  |  |  |  | ** (N2)** |
+| Evaluated on Ranking Metrics (nDCG/$\tau$) |  |  |  |  |  |  |  | ** (N2)** |
+| Context-Based Noise Suppression |  |  |  |  |  |  |  | ** (N3)** |
+| Differentially Verified Hybrid Patches |  |  |  |  |  |  |  | ** (N4)** |
+| Public Annotated Priority Benchmark |  |  |  |  |  |  |  | ** (N5)** |
 
-*(✔ fully present · ◐ partial / limited · ✘ absent)*
+*( fully present   partial / limited   absent)*
 
 ---
 
@@ -208,13 +208,13 @@ Forward and backward citation chasing from the most recent scanners identified *
 
 ### 3.1 Primary & Secondary Objectives
 
-- **Objective 1 (O1 — Multi-Language Discovery):** Construct an AST-based cryptographic discovery engine emitting standard CycloneDX 1.6 CBOM. *Target: $F_1 \ge 0.85$ (Crypsy: 0.75; CBOMkit: 0.66).*
-- **Objective 2 (O2 — Semantic Dataflow Binding):** Implement inter-procedural dataflow analysis binding each cryptographic call site to its plaintext source, ciphertext sink, and retention evidence. *Target: $\ge 70\%$ call-site binding; $\ge 50\%$ retention extraction.*
-- **Objective 3 (O3 — HNDL Exposure Scoring & Prioritisation):** Formulate and compute a data-path-dependent HNDL score operationalizing Mosca’s inequality. *Target: $\text{nDCG@20} \ge 0.80$, Kendall-$\tau \ge 0.60$ against expert order.*
-- **Objective 4 (O4 — Noise Suppression):** Filter out non-security cryptographic operations using dataflow context. *Target: Actionable precision $\ge 0.70$ (baseline $\approx 0.30$) at $\le 5$ point recall loss.*
-- **Objective 5 (O5 — Verified Hybrid Patch Synthesis):** Generate hybrid post-quantum patches (X25519 + ML-KEM) verified via differential testing before pull request emission. *Target: $\ge 80\%$ pass rate on real multi-file repositories.*
-- **Objective 6 (O6 — Public Benchmark Release):** Curate and release a public retention-annotated cryptographic benchmark of 15–20 real-world repositories with expert priority orders.
-- **Secondary Objective (O7 — Evaluation Methodology):** Standardise the ranking evaluation protocol ($\text{nDCG@20}$, Kendall-$\tau$) for cryptographic migration tooling.
+- **Objective 1 (O1  Multi-Language Discovery):** Construct an AST-based cryptographic discovery engine emitting standard CycloneDX 1.6 CBOM. *Target: $F_1 \ge 0.85$ (Crypsy: 0.75; CBOMkit: 0.66).*
+- **Objective 2 (O2  Semantic Dataflow Binding):** Implement inter-procedural dataflow analysis binding each cryptographic call site to its plaintext source, ciphertext sink, and retention evidence. *Target: $\ge 70\%$ call-site binding; $\ge 50\%$ retention extraction.*
+- **Objective 3 (O3  HNDL Exposure Scoring & Prioritisation):** Formulate and compute a data-path-dependent HNDL score operationalizing Moscas inequality. *Target: $\text{nDCG@20} \ge 0.80$, Kendall-$\tau \ge 0.60$ against expert order.*
+- **Objective 4 (O4  Noise Suppression):** Filter out non-security cryptographic operations using dataflow context. *Target: Actionable precision $\ge 0.70$ (baseline $\approx 0.30$) at $\le 5$ point recall loss.*
+- **Objective 5 (O5  Verified Hybrid Patch Synthesis):** Generate hybrid post-quantum patches (X25519 + ML-KEM) verified via differential testing before pull request emission. *Target: $\ge 80\%$ pass rate on real multi-file repositories.*
+- **Objective 6 (O6  Public Benchmark Release):** Curate and release a public retention-annotated cryptographic benchmark of 1520 real-world repositories with expert priority orders.
+- **Secondary Objective (O7  Evaluation Methodology):** Standardise the ranking evaluation protocol ($\text{nDCG@20}$, Kendall-$\tau$) for cryptographic migration tooling.
 
 ### 3.2 In-Scope vs. Explicitly Out-of-Scope
 
@@ -232,11 +232,11 @@ Forward and backward citation chasing from the most recent scanners identified *
 
 ### 3.3 The Five Pillars of Novelty
 
-1. **N1 — Retention-Aware Cryptographic Dataflow Binding:** First framework to bind cryptographic call sites to data confidentiality lifetimes extracted from declarative configuration.
-2. **N2 — Call-Site-Discriminating Risk Score & Ranking Metric:** Operates over data paths rather than algorithms, evaluated against expert priority order using information retrieval ranking metrics.
-3. **N3 — Dataflow-Conditioned Noise Suppression:** Reclassifies non-security hashes (cache keys, checksums) based on source/sink provenance without manual triage.
-4. **N4 — Differentially Verified Hybrid Patch Synthesis:** Enforces a 3-gate verification harness (differential testing, property tests, downgrade checks) on hybrid PQC replacements.
-5. **N5 — Public Retention-Annotated Benchmark:** First open dataset pairing real-world cryptographic call sites with retention ground truth and expert priority rankings.
+1. **N1  Retention-Aware Cryptographic Dataflow Binding:** First framework to bind cryptographic call sites to data confidentiality lifetimes extracted from declarative configuration.
+2. **N2  Call-Site-Discriminating Risk Score & Ranking Metric:** Operates over data paths rather than algorithms, evaluated against expert priority order using information retrieval ranking metrics.
+3. **N3  Dataflow-Conditioned Noise Suppression:** Reclassifies non-security hashes (cache keys, checksums) based on source/sink provenance without manual triage.
+4. **N4  Differentially Verified Hybrid Patch Synthesis:** Enforces a 3-gate verification harness (differential testing, property tests, downgrade checks) on hybrid PQC replacements.
+5. **N5  Public Retention-Annotated Benchmark:** First open dataset pairing real-world cryptographic call sites with retention ground truth and expert priority rankings.
 
 ### 3.4 Intellectual Property & Patent Positioning
 
@@ -246,28 +246,28 @@ Under the **Indian Patent Office Computer-Related Inventions (CRI) Guidelines (2
 
 ---
 
-## 4. Requirement Analysis & Problem Understanding (Rubric Parameter 1 — 3 Marks)
+## 4. Requirement Analysis & Problem Understanding (Rubric Parameter 1  3 Marks)
 
 ### 4.1 Stakeholder Analysis & Target Ecosystems
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│ STAKEHOLDER MAPPING & OPERATIONAL VALUE PROPOSITION                                    │
-├───────────────────────┬─────────────────────────────────┬──────────────────────────────┤
-│ Stakeholder Class     │ Primary Pain Point              │ Copilot Solution             │
-├───────────────────────┼─────────────────────────────────┼──────────────────────────────┤
-│ Chief Information     │ Looming regulatory deadlines    │ Defensible, auditable CBOM   │
-│ Security Officer      │ (RBI 2027–2029) without an      │ aligned with national CII    │
-│ (CISO / Compliance)   │ actionable transition backlog.  │ transition mandates.         │
-├───────────────────────┼─────────────────────────────────┼──────────────────────────────┤
-│ DevSecOps & Security  │ Overwhelmed by false alerts     │ 70%+ actionable precision;   │
-│ Engineers             │ (67% noise in current tools);   │ suppresses cache keys and    │
-│                       │ no triage order.                │ non-security hashing.        │
-├───────────────────────┼─────────────────────────────────┼──────────────────────────────┤
-│ Software Developers & │ Lacking PQC expertise; fear of   │ Template-constrained hybrid  │
-│ System Architects     │ breaking production handshakes  │ patches with differential    │
-│                       │ during cipher upgrades.         │ equivalence verification.    │
-└───────────────────────┴─────────────────────────────────┴──────────────────────────────┘
+
+ STAKEHOLDER MAPPING & OPERATIONAL VALUE PROPOSITION                                    
+
+ Stakeholder Class      Primary Pain Point               Copilot Solution             
+
+ Chief Information      Looming regulatory deadlines     Defensible, auditable CBOM   
+ Security Officer       (RBI 20272029) without an       aligned with national CII    
+ (CISO / Compliance)    actionable transition backlog.   transition mandates.         
+
+ DevSecOps & Security   Overwhelmed by false alerts      70%+ actionable precision;   
+ Engineers              (67% noise in current tools);    suppresses cache keys and    
+                        no triage order.                 non-security hashing.        
+
+ Software Developers &  Lacking PQC expertise; fear of    Template-constrained hybrid  
+ System Architects      breaking production handshakes   patches with differential    
+                        during cipher upgrades.          equivalence verification.    
+
 ```
 
 ### 4.2 Functional Requirements Specification (FR)
@@ -293,7 +293,7 @@ Under the **Indian Patent Office Computer-Related Inventions (CRI) Guidelines (2
 ### 4.4 Regulatory & Compliance Constraints
 
 The copilot enforces compliance with:
-- **India National CII Directive:** Critical infrastructure quantum-safe transition by 2027–2029.
+- **India National CII Directive:** Critical infrastructure quantum-safe transition by 20272029.
 - **Reserve Bank of India Q-SAFE Mandate:** Cryptographic asset inventorying and crypto-agility measurement.
 - **SEBI Cyber Security Framework:** Protection against Harvest-Now-Decrypt-Later threats.
 - **US Executive Order 14412:** Minimum elements for Cryptography Bills of Materials.
@@ -301,73 +301,73 @@ The copilot enforces compliance with:
 
 ---
 
-## 5. System Design and Architecture (Rubric Parameter 2 — 3 Marks)
+## 5. System Design and Architecture (Rubric Parameter 2  3 Marks)
 
 ### 5.1 End-to-End Architectural Pipeline
 
 ```
-                    ┌────────────────────────────────────────────────────────┐
-                    │               Source Repository & Config               │
-                    │   (Python/Java Source, DDL, ORM, IaC, Cloud Policies)   │
-                    └───────────────────────────┬────────────────────────────┘
-                                                │
-                                                ▼
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ STAGE 1: MULTI-LANGUAGE CRYPTOGRAPHIC DISCOVERY LAYER                                                  │
-│                                                                                                        │
-│   ┌───────────────────────────┐      ┌───────────────────────────┐      ┌───────────────────────────┐  │
-│   │   AST Parsing Engine      │      │    Rule Matching Engine   │      │ Constant Propagation &    │  │
-│   │   (Tree-sitter / Py-AST)  ├─────►│  (Semgrep & Crypistry)    ├─────►│ Local Type Inference      │  │
-│   └───────────────────────────┘      └───────────────────────────┘      └─────────────┬─────────────┘  │
-└───────────────────────────────────────────────────────────────────────────────────────┼────────────────┘
-                                                                                        │ Discovered Assets
-                                                                                        ▼
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ STAGE 2: INTER-PROCEDURAL SEMANTIC BINDING & RETENTION INFERENCE (Core Innovation N1)                   │
-│                                                                                                        │
-│   ┌───────────────────────────┐      ┌───────────────────────────┐      ┌───────────────────────────┐  │
-│   │ Backward Taint Engine     │      │ Forward Taint Engine      │      │ Retention Extractor       │  │
-│   │ Plaintext/Key ➔ Source    │      │ Ciphertext ➔ Sink & Exp.  │      │ DDL / TTL / S3 Policies   │  │
-│   │ (DB, Secret, Form, Token) │      │ (Object, DB, Cache, Net)  │      │ (Observed vs Prior)       │  │
-│   └─────────────┬─────────────┘      └─────────────┬─────────────┘      └─────────────┬─────────────┘  │
-│                 └───────────────────────────┐      │      ┌───────────────────────────┘                │
-│                                             ▼      ▼      ▼                                            │
-│                                  ┌────────────────────────────────────┐                                │
-│                                  │   Enriched Semantic Data Paths     │                                │
-│                                  └─────────────────┬──────────────────┘                                │
-└────────────────────────────────────────────────────┼───────────────────────────────────────────────────┘
-                                                     │ Data Paths (Source, Sink, Retention, Exposure)
-                                                     ▼
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ STAGE 3: PRIORITISATION, SCORING & CONTEXT NOISE SUPPRESSION (Innovations N2, N3)                       │
-│                                                                                                        │
-│   ┌───────────────────────────────────────────────────────┐      ┌─────────────────────────────────┐   │
-│   │            HNDL Exposure Scoring Engine               │      │ Context-Based Noise Suppression │   │
-│   │  Exposure(p) = w_r·R(p) × w_e·E(p) × w_a·A(p) × w_k·K  │      │ Filter non-security hashes      │   │
-│   │  Mosca Breach Evaluation: (x + y > z)                 │      │ (ETags, Cache Keys, Checksums)  │   │
-│   └───────────────────────────┬───────────────────────────┘      └────────────────┬────────────────┘   │
-└───────────────────────────────┼───────────────────────────────────────────────────┼────────────────────┘
-                                │                                                   │
-                                └───────────────────────┬───────────────────────────┘
-                                                        ▼
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ STAGE 4: HYBRID PATCH SYNTHESIS & DIFFERENTIAL VERIFICATION HARNESS (Innovation N4)                    │
-│                                                                                                        │
-│   ┌───────────────────────────┐      ┌─────────────────────────────────────────────────────────────┐   │
-│   │ Template-Constrained PQC  │      │                     3-Gate Verification                     │   │
-│   │ Code Synthesis (liboqs)   ├─────►│  [Gate 1] Differential Equivalence Engine                   │   │
-│   │ (X25519 + ML-KEM Hybrid)  │      │  [Gate 2] Property Tests (Tamper / Wrong-Key / Downgrade)   │   │
-│   └───────────────────────────┘      │  [Gate 3] Interoperability & Downgrade Resilience Check     │   │
-│                                      └──────────────────────────────┬──────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────┼──────────────────────────────────┘
-                                                                      │ Verified Patches
-                                                                      ▼
-                    ┌────────────────────────────────────────────────────────┐
-                    │                      Deliverables                      │
-                    │   1. Enriched CycloneDX 1.6 CBOM (JSON/XML)            │
-                    │   2. Ranked Remediation Backlog (CLI / CI Reports)     │
-                    │   3. Verified Hybrid Post-Quantum Pull Requests        │
-                    └────────────────────────────────────────────────────────┘
+                    
+                                   Source Repository & Config               
+                       (Python/Java Source, DDL, ORM, IaC, Cloud Policies)   
+                    
+                                                
+                                                
+
+ STAGE 1: MULTI-LANGUAGE CRYPTOGRAPHIC DISCOVERY LAYER                                                  
+                                                                                                        
+                 
+      AST Parsing Engine                Rule Matching Engine          Constant Propagation &      
+      (Tree-sitter / Py-AST)    (Semgrep & Crypistry)     Local Type Inference        
+                 
+
+                                                                                         Discovered Assets
+                                                                                        
+
+ STAGE 2: INTER-PROCEDURAL SEMANTIC BINDING & RETENTION INFERENCE (Core Innovation N1)                   
+                                                                                                        
+                 
+    Backward Taint Engine            Forward Taint Engine             Retention Extractor         
+    Plaintext/Key  Source           Ciphertext  Sink & Exp.         DDL / TTL / S3 Policies     
+    (DB, Secret, Form, Token)        (Object, DB, Cache, Net)         (Observed vs Prior)         
+                 
+                                             
+                                                                                                     
+                                                                  
+                                     Enriched Semantic Data Paths                                     
+                                                                  
+
+                                                      Data Paths (Source, Sink, Retention, Exposure)
+                                                     
+
+ STAGE 3: PRIORITISATION, SCORING & CONTEXT NOISE SUPPRESSION (Innovations N2, N3)                       
+                                                                                                        
+            
+               HNDL Exposure Scoring Engine                      Context-Based Noise Suppression    
+     Exposure(p) = w_rR(p)  w_eE(p)  w_aA(p)  w_kK         Filter non-security hashes         
+     Mosca Breach Evaluation: (x + y > z)                        (ETags, Cache Keys, Checksums)     
+            
+
+                                                                                   
+                                
+                                                        
+
+ STAGE 4: HYBRID PATCH SYNTHESIS & DIFFERENTIAL VERIFICATION HARNESS (Innovation N4)                    
+                                                                                                        
+            
+    Template-Constrained PQC                             3-Gate Verification                        
+    Code Synthesis (liboqs)     [Gate 1] Differential Equivalence Engine                      
+    (X25519 + ML-KEM Hybrid)          [Gate 2] Property Tests (Tamper / Wrong-Key / Downgrade)      
+           [Gate 3] Interoperability & Downgrade Resilience Check        
+                                         
+
+                                                                       Verified Patches
+                                                                      
+                    
+                                          Deliverables                      
+                       1. Enriched CycloneDX 1.6 CBOM (JSON/XML)            
+                       2. Ranked Remediation Backlog (CLI / CI Reports)     
+                       3. Verified Hybrid Post-Quantum Pull Requests        
+                    
 ```
 
 ### 5.2 Subsystem 1: Multi-Language Cryptographic Discovery Layer
@@ -419,7 +419,7 @@ The tool emits a standard CycloneDX 1.6 CBOM enriched with custom dataflow prope
 
 ---
 
-## 6. Component & Tool Selection with Technical Justification (Rubric Parameter 3 — 3 Marks)
+## 6. Component & Tool Selection with Technical Justification (Rubric Parameter 3  3 Marks)
 
 ### 6.1 Parsing & AST Infrastructure Evaluation
 
@@ -461,7 +461,7 @@ The tool emits a standard CycloneDX 1.6 CBOM enriched with custom dataflow prope
 
 ---
 
-## 7. Initial Prototype & Module Development (~20% Proof-of-Concept) (Rubric Parameter 4 — 3 Marks)
+## 7. Initial Prototype & Module Development (~20% Proof-of-Concept) (Rubric Parameter 4  3 Marks)
 
 ### 7.1 Implemented Package Structure (`src/crypto_agility_copilot/`)
 
@@ -469,13 +469,13 @@ In strict accordance with the Review II milestone requirements ($\approx 20\%$ i
 
 ```
 src/crypto_agility_copilot/
-├── __init__.py           # Package versioning (0.2.0-review2)
-├── models.py             # Domain data models (CryptoInvocation, DataPath, HNDLScore, CBOM)
-├── discovery.py          # Stage 1: AST Cryptographic Discovery Engine
-├── dataflow.py           # Stage 2: Backward & Forward Taint Analyzer + Retention Extractor
-├── scorer.py             # Stage 3: HNDL Exposure Scoring & Noise Suppression Engine
-├── cbom.py               # CycloneDX 1.6 CBOM Serializer with Dataflow Extensions
-└── cli.py                # Command-line interface and formatted risk reporting
+ __init__.py           # Package versioning (0.2.0-review2)
+ models.py             # Domain data models (CryptoInvocation, DataPath, HNDLScore, CBOM)
+ discovery.py          # Stage 1: AST Cryptographic Discovery Engine
+ dataflow.py           # Stage 2: Backward & Forward Taint Analyzer + Retention Extractor
+ scorer.py             # Stage 3: HNDL Exposure Scoring & Noise Suppression Engine
+ cbom.py               # CycloneDX 1.6 CBOM Serializer with Dataflow Extensions
+ cli.py                # Command-line interface and formatted risk reporting
 ```
 
 ### 7.2 Core Implemented Modules Walk-through
@@ -501,7 +501,7 @@ The prototype was executed against the worked benchmark in `examples/sample_proj
 ```
 $ python3 -m src.crypto_agility_copilot.cli examples/sample_project --output-cbom examples/sample_cbom.json --show-suppressed
 
-🔍 Discovered 3 cryptographic invocation(s).
+ Discovered 3 cryptographic invocation(s).
 
 ===================================================================================================================
 RANK  | ALGORITHM    | LOCATION                     | RETENTION      | EXPOSURE           | SCORE   | URGENCY
@@ -511,13 +511,13 @@ RANK  | ALGORITHM    | LOCATION                     | RETENTION      | EXPOSURE 
 3     | SHA-256      | etags.py:9                   | <1 hour        | INTERNAL_IPC       | 0.0     | SUPPRESSED
 ===================================================================================================================
 
-📊 Summary Metrics:
-  • Total Call Sites Discovered: 3
-  • Actionable Candidates:       2
-  • Context-Suppressed Findings: 1 (Noise Filtered: 33.3%)
-  • Mosca's Inequality Breaches: 1 (Immediate PQC remediation needed)
+[DATA] Summary Metrics:
+   Total Call Sites Discovered: 3
+   Actionable Candidates:       2
+   Context-Suppressed Findings: 1 (Noise Filtered: 33.3%)
+   Mosca's Inequality Breaches: 1 (Immediate PQC remediation needed)
 
-📦 Successfully exported enriched CycloneDX 1.6 CBOM to: examples/sample_cbom.json
+ Successfully exported enriched CycloneDX 1.6 CBOM to: examples/sample_cbom.json
 ```
 
 ### 7.4 Automated Unit Test Suite & Execution Results
@@ -551,6 +551,18 @@ OK (100% Passing)
 
 ### 7.5 Interactive Web Dashboard & Full-Stack REST API
 
+To ensure usability beyond command-line interfaces, we engineered a full-stack dashboard (`src/crypto_agility_copilot/web/`):
+- **Backend:** A Python `http.server` REST API (`server.py`) serving endpoints like `/api/scan` and `/api/simulate-mosca`.
+- **Frontend:** A responsive Single-Page Application using HTML, CSS (vibrant dark mode, glassmorphism), and React/Babel via CDN.
+
+**UI Dashboard Screenshots:**
+
+![Main Dashboard Analysis](assets/dashboard_results.png)
+*Figure 7.5.1: Interactive Dataflow Dashboard showing HNDL scores and exposure paths.*
+
+![Mosca Simulation Sandbox](assets/dashboard.png)
+*Figure 7.5.2: The Mosca Simulator predicting risk tiers based on variable input.*
+
 To enable security analysts and panel evaluators to visually inspect cryptographic inventories, simulate Mosca's Inequality, and trace dataflow paths, a full-stack interactive Web Dashboard and REST API have been developed (`src/crypto_agility_copilot/server.py` and `web/`):
 
 1. **Executive KPI Overview:** Real-time summary tiles displaying total call sites, Shor-broken ciphers, active Mosca breaches, and noise suppression percentages.
@@ -564,13 +576,13 @@ To enable security analysts and panel evaluators to visually inspect cryptograph
 
 | Parameter | Guideline Requirement | Milestone Achievement | Status |
 |---|---|---|---|
-| **Implementation Progress** | ~20% Completion | Functional Stage 1–3 pipeline, AST parser, taint engine, scoring engine, web dashboard, and CBOM generator. | **Verified (TRL 3)** |
+| **Implementation Progress** | ~20% Completion | Functional Stage 13 pipeline, AST parser, taint engine, scoring engine, web dashboard, and CBOM generator. | **Verified (TRL 3)** |
 | **Testing & Proof-of-Concept** | Demonstrable module execution | End-to-end CLI and Web UI execution on benchmark codebase; 8 automated unit tests passing. | **Verified (100% Pass)** |
 | **Standards Conformance** | Machine-readable outputs | Schema-compliant CycloneDX 1.6 CBOM JSON emission with custom dataflow extensions. | **Verified** |
 
 ---
 
-## 8. Innovation and Feasibility (Rubric Parameter 5 — 3 Marks)
+## 8. Innovation and Feasibility (Rubric Parameter 5  3 Marks)
 
 ### 8.1 Mathematical Derivation & Theoretical Soundness of the HNDL Score
 
@@ -610,20 +622,20 @@ In static program analysis, achieving 100% soundness across dynamically typed la
 
 ---
 
-## 9. Project Planning, Teamwork and Presentation (Rubric Parameter 6 — 3 Marks)
+## 9. Project Planning, Teamwork and Presentation (Rubric Parameter 6  3 Marks)
 
 ### 9.1 Academic Year Milestone Schedule (Reviews I through VII)
 
 ```
 Fall Semester 2026-2027                                   Winter Semester 2026-2027
-┌──────────────────────┐  ┌──────────────────────┐        ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
-│ Review I (Aug 2026)  │  │ Review II (Sep 2026) │        │ Review IV (Jan 2027) │  │ Review V (Mar 2027)  │  │ Review VI (Apr 2027) │
-│ Problem & Methodology│  │ Initial Design & PoC │        │ 50% Integration      │  │ 80% Full Prototype   │  │ Open House / External│
-│ Guide (5 Marks)      │  │ Panel (20 Marks)     │        │ Guide (15 Marks)     │  │ Panel (25 Marks)     │  │ Panel (15 Marks)     │
-│ [STATUS: COMPLETED]  │  │ [CURRENT MILESTONE]  │        │                      │  │                      │  │ Final Report (10 M)  │
-└──────────┬───────────┘  └──────────┬───────────┘        └──────────┬───────────┘  └──────────┬───────────┘  └──────────────────────┘
-           │                         │                               │                         │
-           ▼                         ▼                               ▼                         ▼
+              
+ Review I (Aug 2026)     Review II (Sep 2026)          Review IV (Jan 2027)    Review V (Mar 2027)     Review VI (Apr 2027) 
+ Problem & Methodology   Initial Design & PoC          50% Integration         80% Full Prototype      Open House / External
+ Guide (5 Marks)         Panel (20 Marks)              Guide (15 Marks)        Panel (25 Marks)        Panel (15 Marks)     
+ [STATUS: COMPLETED]     [CURRENT MILESTONE]                                                           Final Report (10 M)  
+              
+                                                                                            
+                                                                                            
   Literature Survey &       ~20% Prototype, AST             Full Python/Java Taint,    Benchmarking on 15+    Open House Demo,
   Formal Objectives         Parsing, Taint Binding,         Retention Extractor,       repos, Verified Hybrid  CycloneDX 1.6 Release,
   Locked                    Mosca Scoring & CBOM            Ranking Experiments        Patches & Patents       Journal/Paper Submission
@@ -631,29 +643,29 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 
 | Review Stage | Evaluation Period | Marks | Evaluator | Target Deliverable |
 |---|---|---|---|---|
-| **Review I** | 17–21 Aug 2026 | 5 | Guide | Problem definition, literature review (P1–P16), objectives, methodology. *(Completed)* |
-| **Review II** | **21–25 Sep 2026** | **20** | **School Panel** | **~20% completion: system design, tool justification, working prototype, TRL 3 proof-of-concept. *(Current)* |
-| **Review III** | 12–16 Oct 2026 | 10 | Guide | ~30% completion: follow-up on panel observations, refined Java discovery, initial benchmark repo selection. |
-| **Review IV** | 25–29 Jan 2027 | 15 | Guide | ~50% completion: inter-procedural taint engine integrated across Python & Java, retention extractor. |
-| **Review V** | 8–12 Mar 2027 | 25 | School Panel | ~80% completion: integrated working prototype, benchmark ranking evaluation (nDCG/$\tau$), patch synthesis. |
-| **Review VI** | 29 Mar – 2 Apr 2027 | 15 | External Panel | Full end-to-end prototype demonstration, open-house presentation, public benchmark release. |
+| **Review I** | 1721 Aug 2026 | 5 | Guide | Problem definition, literature review (P1P16), objectives, methodology. *(Completed)* |
+| **Review II** | **2125 Sep 2026** | **20** | **School Panel** | **~20% completion: system design, tool justification, working prototype, TRL 3 proof-of-concept. *(Current)* |
+| **Review III** | 1216 Oct 2026 | 10 | Guide | ~30% completion: follow-up on panel observations, refined Java discovery, initial benchmark repo selection. |
+| **Review IV** | 2529 Jan 2027 | 15 | Guide | ~50% completion: inter-procedural taint engine integrated across Python & Java, retention extractor. |
+| **Review V** | 812 Mar 2027 | 25 | School Panel | ~80% completion: integrated working prototype, benchmark ranking evaluation (nDCG/$\tau$), patch synthesis. |
+| **Review VI** | 29 Mar  2 Apr 2027 | 15 | External Panel | Full end-to-end prototype demonstration, open-house presentation, public benchmark release. |
 | **Report Submission** | 2 Apr 2027 | 10 | Guide | Comprehensive final project documentation and patent filing submission. |
 
 ### 9.2 Equitable 2-Way Work Breakdown Structure (WBS)
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ WORK BREAKDOWN STRUCTURE (WBS) ACROSS 2 TEAM MEMBERS (50/50 EQUITABLE SPLIT)                   │
-├────────────────────────────────────────────────┬───────────────────────────────────────────────┤
-│ Avi Dhandhania (25BCE1207)                     │ Anmol Saluja (25BCE1332)                      │
-├────────────────────────────────────────────────┼───────────────────────────────────────────────┤
-│ • Subsystem 1: AST Discovery & CST Parsing     │ • Subsystem 3: HNDL Exposure Scoring Engine   │
-│ • Subsystem 2: Inter-Procedural Taint Engine   │ • CBOM Serialization (CycloneDX 1.6 Format)   │
-│ • Declarative Lifecycle & Retention Extractor  │ • Automated Unit Test & Benchmark Harness     │
-│ • Front-End Dashboard UI/UX Design             │ • Full-Stack Backend Integration & REST API   │
-│ • Report Sections 4, 5, 6 (System & Tooling)   │ • Report Sections 1, 2, 3, 8, 9, 10           │
-│ • PPTX Generation Architecture & Theme         │ • Threat Model, Literature Gaps & Deck Content │
-└────────────────────────────────────────────────┴───────────────────────────────────────────────┘
+
+ WORK BREAKDOWN STRUCTURE (WBS) ACROSS 2 TEAM MEMBERS (50/50 EQUITABLE SPLIT)                   
+
+ Avi Dhandhania (25BCE1207)                      Anmol Saluja (25BCE1332)                      
+
+  Subsystem 1: AST Discovery & CST Parsing       Subsystem 3: HNDL Exposure Scoring Engine   
+  Subsystem 2: Inter-Procedural Taint Engine     CBOM Serialization (CycloneDX 1.6 Format)   
+  Declarative Lifecycle & Retention Extractor    Automated Unit Test & Benchmark Harness     
+  Front-End Dashboard UI/UX Design               Full-Stack Backend Integration & REST API   
+  Report Sections 4, 5, 6 (System & Tooling)     Report Sections 1, 2, 3, 8, 9, 10           
+  PPTX Generation Architecture & Theme           Threat Model, Literature Gaps & Deck Content 
+
 ```
 
 ### 9.3 Comprehensive Risk Register & Checkpoints
@@ -670,14 +682,14 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 
 ---
 
-## 10. Individual Contribution and Technical Response (Rubric Parameter 7 — 2 Marks)
+## 10. Individual Contribution and Technical Response (Rubric Parameter 7  2 Marks)
 
 ### 10.1 Individual Responsibility Matrix
 
 | Team Member | Completed Responsibilities for Review II | Next Stage Commitments (Reviews III & IV) |
 |---|---|---|
-| **Avi Dhandhania (25BCE1207)** | • Designed the 4-stage pipeline architecture and intermediate data models (`models.py`).<br>• Implemented the Stage 1 AST parsing and constant propagation engine (`discovery.py`).<br>• Developed the Stage 2 Semantic Binding Engine (`dataflow.py`), tracing plaintext parameters to sources and ciphertext to sinks.<br>• Built declarative retention extraction parsing S3 lifecycle rules and Redis TTLs.<br>• Designed the interactive web dashboard UI/UX layout and styling. | • Scale inter-procedural taint analysis across multi-module call graphs.<br>• Integrate CodeQL queries for enterprise Java repositories.<br>• Build automated ORM and SQL migration parsers for relational databases.<br>• Enhance visual taint graphs and component drilldowns in the web dashboard. |
-| **Anmol Saluja (25BCE1332)** | • Formalised the HNDL threat model, Mosca's inequality operationalisation, and 16-paper literature gap matrix.<br>• Formulated the mathematical HNDL Exposure Scoring equation and implemented Stage 3 Scoring Engine (`scorer.py`).<br>• Implemented CycloneDX 1.6 CBOM generator with dataflow extension schemas (`cbom.py`, `cli.py`).<br>• Engineered full-stack backend integration and REST API server (`server.py`).<br>• Constructed automated unit testing harness (`tests/test_copilot.py`) achieving 100% test pass rate.<br>• Authored Report 2 sections (1, 2, 3, 8, 9, 10), document sanitization, and PPTX technical synthesis. | • Expand Semgrep/Tree-sitter rule corpus to cover 100+ cryptographic API variants.<br>• Curate the 15-repository evaluation benchmark with domain diversity and calculate Krippendorff's alpha.<br>• Implement `liboqs` hybrid patch synthesis template engine and 3-gate differential verification harness.<br>• Validate automated CBOM emission against official OWASP CycloneDX 1.6 schema validators. |
+| **Avi Dhandhania (25BCE1207)** |  Designed the 4-stage pipeline architecture and intermediate data models (`models.py`).<br> Implemented the Stage 1 AST parsing and constant propagation engine (`discovery.py`).<br> Developed the Stage 2 Semantic Binding Engine (`dataflow.py`), tracing plaintext parameters to sources and ciphertext to sinks.<br> Built declarative retention extraction parsing S3 lifecycle rules and Redis TTLs.<br> Designed the interactive web dashboard UI/UX layout and styling. |  Scale inter-procedural taint analysis across multi-module call graphs.<br> Integrate CodeQL queries for enterprise Java repositories.<br> Build automated ORM and SQL migration parsers for relational databases.<br> Enhance visual taint graphs and component drilldowns in the web dashboard. |
+| **Anmol Saluja (25BCE1332)** |  Formalised the HNDL threat model, Mosca's inequality operationalisation, and 16-paper literature gap matrix.<br> Formulated the mathematical HNDL Exposure Scoring equation and implemented Stage 3 Scoring Engine (`scorer.py`).<br> Implemented CycloneDX 1.6 CBOM generator with dataflow extension schemas (`cbom.py`, `cli.py`).<br> Engineered full-stack backend integration and REST API server (`server.py`).<br> Constructed automated unit testing harness (`tests/test_copilot.py`) achieving 100% test pass rate.<br> Authored Report 2 sections (1, 2, 3, 8, 9, 10), document sanitization, and PPTX technical synthesis. |  Expand Semgrep/Tree-sitter rule corpus to cover 100+ cryptographic API variants.<br> Curate the 15-repository evaluation benchmark with domain diversity and calculate Krippendorff's alpha.<br> Implement `liboqs` hybrid patch synthesis template engine and 3-gate differential verification harness.<br> Validate automated CBOM emission against official OWASP CycloneDX 1.6 schema validators. |
 
 
 ### 10.2 Panel Defense & Technical Q&A Preparation Guide
@@ -698,9 +710,9 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 
 ## 11. References & Regulatory Standards
 
-1. **[P1]** C. Näther and E. Hirsch. *Hidden Ciphers and Where to Find Them: Static Discovery and Assessment of Cryptographic Assets in Software.* arXiv:2608.04857, August 2026. <https://arxiv.org/abs/2608.04857>
+1. **[P1]** C. Nther and E. Hirsch. *Hidden Ciphers and Where to Find Them: Static Discovery and Assessment of Cryptographic Assets in Software.* arXiv:2608.04857, August 2026. <https://arxiv.org/abs/2608.04857>
 2. **[P2]** A. Shaw. *Quantum-Safe Code Auditing: LLM-Assisted Static Analysis and Quantum-Aware Risk Scoring for Post-Quantum Cryptography Migration.* arXiv:2604.00560, April 2026. <https://arxiv.org/abs/2604.00560>
-3. **[P3]** J. Pallarés de Bonrostro, A. I. González-Tabales and M. I. González Vasco. *Empirical Evaluation of Large Language Models for Migration of Code Fragments to Post-Quantum Cryptography.* arXiv:2606.07341, June 2026. <https://arxiv.org/abs/2606.07341>
+3. **[P3]** J. Pallars de Bonrostro, A. I. Gonzlez-Tabales and M. I. Gonzlez Vasco. *Empirical Evaluation of Large Language Models for Migration of Code Fragments to Post-Quantum Cryptography.* arXiv:2606.07341, June 2026. <https://arxiv.org/abs/2606.07341>
 4. **[P4]** L. Zhang. *Toward Quantum-Safe Software Engineering: A Vision for Post-Quantum Cryptography Migration.* Poster, ICSE 2026; arXiv:2602.05759. <https://arxiv.org/abs/2602.05759>
 5. **[P5]** A. D. B. Costa. *Crypto-Agility Readiness Score (CARS).* IACR ePrint 2026/1467, July 2026. <https://eprint.iacr.org/2026/1467>
 6. **[P6]** IBM Research. *The Anatomy of Cryptography Bills of Materials: Standardization and Practice in CycloneDX.* Eurocrypt 2026.
@@ -711,9 +723,9 @@ Fall Semester 2026-2027                                   Winter Semester 2026-2
 11. **[P11]** *A Toolchain for Assisting Migration of Software Executables Towards Post-Quantum Cryptography.* arXiv:2409.07852, 2024.
 12. **[P12]** *The Cost of Waiting: A Decision-Theoretic Synthesis of Early Versus Late Post-Quantum Migration Under Uncertainty.* Frontiers in Quantum Science and Technology, 2026.
 13. **[P13]** S. Rahaman et al. *CryptoGuard: High Precision Detection of Cryptographic Vulnerabilities in Massive-Sized Java Projects.* ACM CCS 2019.
-14. **[P14]** C. Näther et al. *Migrating Software Systems towards Post-Quantum Cryptography: A Systematic Literature Review.* arXiv:2404.12854, April 2024.
+14. **[P14]** C. Nther et al. *Migrating Software Systems towards Post-Quantum Cryptography: A Systematic Literature Review.* arXiv:2404.12854, April 2024.
 15. **[P15]** *Harvest Now, Decrypt Later: Examining Post-Quantum Risk.* Finance and Economics Discussion Series, Board of Governors of the Federal Reserve System, 2025.
-16. **[P16]** S. Krüger et al. *CogniCrypt: Supporting Developers in Using Cryptography.* IEEE/ACM ASE 2017.
+16. **[P16]** S. Krger et al. *CogniCrypt: Supporting Developers in Using Cryptography.* IEEE/ACM ASE 2017.
 
 **Regulatory & Standards References:**
 - NIST FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard (ML-KEM).

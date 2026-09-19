@@ -2,7 +2,7 @@
 
 ## Overview
 - **Project:** Crypto-Agility Copilot: Dataflow-Aware Cryptographic Inventory and Prioritised Post-Quantum Migration
-- **Target Milestone:** Review II (Initial Design and Development — 20 Marks)
+- **Target Milestone:** Review II (Initial Design and Development  20 Marks)
 - **Team Size:** 2 Members
 - **Objective:** Provide a perfectly equitable (50/50) division of all Review 2 deliverables, covering the prototype implementation, theoretical research, report authoring, and presentation preparation.
 
@@ -28,15 +28,15 @@
 **Focus Area:** Mathematical risk scoring, compliance standards (CBOM), testing, and project novelty/literature gap.
 
 ### Code & Prototype (TRL 3)
-- **Subsystem 3 (HNDL Scoring):** Programmed the scoring engine (`scorer.py`) that mathematically evaluates Mosca’s Inequality and computes the HNDL risk score based on retention and exposure.
+- **Subsystem 3 (HNDL Scoring):** Programmed the scoring engine (`scorer.py`) that mathematically evaluates Moscas Inequality and computes the HNDL risk score based on retention and exposure.
 - **CBOM Serialization:** Developed the standard CycloneDX 1.6 formatting and JSON generation module (`cbom.py`, `cli.py`).
 - **Testing & Benchmark:** Authored the benchmark sample (S3 Archive vs Redis Cache) and the 100% passing automated unit test suite (`test_copilot.py`).
 - **Extensive Frontend (Inventory):** Build the CBOM / Cryptographic Asset Inventory UI (`assets.html`) with advanced sorting, filtering, and data-table pagination.
 - **Extensive Frontend (API Logic):** Implement the client-side JavaScript logic (`app.js`) to dynamically populate all UIs with HNDL scoring data from the backend.
 
 ### Report & Documentation
-- **Sections 1 & 2 (Literature & Threat Model):** Wrote the formalization of Mosca’s Inequality, the Harvest-Now-Decrypt-Later (HNDL) framework, and the exhaustive 16-paper literature gap matrix.
-- **Sections 3 & 8 (Innovation & Feasibility):** Authored the Five Pillars of Novelty (N1–N5) and defended the mathematical viability and patent eligibility (CRI guidelines).
+- **Sections 1 & 2 (Literature & Threat Model):** Wrote the formalization of Moscas Inequality, the Harvest-Now-Decrypt-Later (HNDL) framework, and the exhaustive 16-paper literature gap matrix.
+- **Sections 3 & 8 (Innovation & Feasibility):** Authored the Five Pillars of Novelty (N1N5) and defended the mathematical viability and patent eligibility (CRI guidelines).
 - **Sections 9 & 10 (Planning & Teamwork):** Developed the academic year roadmap, risk register, and finalized the work breakdown structure.
 - **Document Correction & Formatting:** Sanitize Report 2 to fix invalid characters, encoding issues, and ASCII tables that are not rendering properly in the final DOCX.
 - **Asset Generation:** Capture and embed high-quality software screenshots (e.g., UI dashboard, pipeline outputs) into Report 2.
