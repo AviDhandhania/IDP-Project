@@ -10,61 +10,19 @@
 
 ## Table of Contents
 
-1. [Executive Summary & Problem Identification](#1-executive-summary--problem-identification)
-   - 1.1 The Technical Problem & Threat Model
-   - 1.2 The Specific Gap in State-of-the-Art Tooling
-   - 1.3 Formalization via Mosca's Inequality & Worked Example
-   - 1.4 Regulatory Justification & Compliance Urgency
-2. [Comprehensive Literature Survey & Critical Gap Analysis](#2-comprehensive-literature-survey--critical-gap-analysis)
-   - 2.1 Survey Methodology
-   - 2.2 Summary of Surveyed Work (P1P16)
-   - 2.3 Critical Analysis: What Prior Work Gets Wrong & Our Corrections
-   - 2.4 Consolidated Research Gap Matrix
-3. [Project Objectives, Scope & Novelty](#3-project-objectives-scope--novelty)
-   - 3.1 Primary & Secondary Objectives (O1O7)
-   - 3.2 In-Scope vs. Explicitly Out-of-Scope Elements
-   - 3.3 The Five Pillars of Novelty (N1N5)
-   - 3.4 Intellectual Property & Patent Positioning (CRI Guidelines 2025)
-4. [Requirement Analysis & Problem Understanding (Rubric Parameter 1  3 Marks)](#4-requirement-analysis--problem-understanding)
-   - 4.1 Stakeholder Analysis & Target Ecosystems
-   - 4.2 Functional Requirements Specification (FR-1 through FR-8)
-   - 4.3 Non-Functional Requirements Specification (NFR-1 through NFR-6)
-   - 4.4 Regulatory & Compliance Constraints
-5. [System Design and Architecture (Rubric Parameter 2  3 Marks)](#5-system-design-and-architecture)
-   - 5.1 End-to-End Architectural Pipeline
-   - 5.2 Subsystem 1: Multi-Language Cryptographic Discovery Layer
-   - 5.3 Subsystem 2: Inter-Procedural Semantic Dataflow & Retention Engine
-   - 5.4 Subsystem 3: HNDL Prioritisation, Scoring & Noise Suppression Engine
-   - 5.5 Subsystem 4: Hybrid Patch Synthesis & Differential Verification Harness
-   - 5.6 Data Schema & CycloneDX 1.6 CBOM Extension Contracts
-6. [Component & Tool Selection with Technical Justification (Rubric Parameter 3  3 Marks)](#6-component--tool-selection-with-technical-justification)
-   - 6.1 Parsing & AST Infrastructure Evaluation
-   - 6.2 Static Analysis & Taint Tracking Evaluation
-   - 6.3 Post-Quantum Cryptographic Library Selection
-   - 6.4 Cryptography Bill of Materials (CBOM) Schema Selection
-   - 6.5 Patch Verification & Correctness Strategy
-7. [Initial Prototype & Module Development (~20% Proof-of-Concept) (Rubric Parameter 4  3 Marks)](#7-initial-prototype--module-development)
-   - 7.1 Implemented Package Structure (`src/crypto_agility_copilot/`)
-   - 7.2 Core Implemented Modules Walk-through
-   - 7.3 Empirical Validation on Benchmark Example
-   - 7.4 Automated Unit Test Suite & Execution Results
-   - 7.5 Interactive Web Dashboard & REST API
-   - 7.6 TRL 3 Milestone Evidence Summary
-8. [Innovation and Feasibility (Rubric Parameter 5  3 Marks)](#8-innovation-and-feasibility)
-   - 8.1 Mathematical Derivation & Theoretical Soundness of the HNDL Score
-   - 8.2 Soundness vs. Completeness Trade-offs
-   - 8.3 Computational & Memory Feasibility Analysis
-9. [Project Planning, Teamwork and Presentation (Rubric Parameter 6  3 Marks)](#9-project-planning-teamwork-and-presentation)
-   - 9.1 Academic Year Milestone Schedule (Reviews I through VII)
-   - 9.2 Equitable 2-Way Work Breakdown Structure (WBS)
-   - 9.3 Comprehensive Risk Register & Checkpoints
-
-10. [Individual Contribution and Technical Response (Rubric Parameter 7  2 Marks)](#10-individual-contribution-and-technical-response)
-    - 10.1 Individual Responsibility Matrix
-    - 10.2 Panel Defense & Technical Q&A Preparation Guide
-11. [References & Regulatory Standards](#11-references--regulatory-standards)
-
----
+| Section No. | Section Title | Description / Subsections |
+| :--- | :--- | :--- |
+| **1** | [Executive Summary & Problem Identification](#1-executive-summary--problem-identification) | Technical Problem, Gap in State-of-the-Art, Mosca's Inequality, Regulatory Compliance |
+| **2** | [Comprehensive Literature Survey](#2-comprehensive-literature-survey--critical-gap-analysis) | Survey Methodology, Summary of Prior Work, Critical Analysis, Gap Matrix |
+| **3** | [Project Objectives, Scope & Novelty](#3-project-objectives-scope--novelty) | Primary Objectives, In/Out-of-Scope Elements, Five Pillars of Novelty, IP Positioning |
+| **4** | [Requirement Analysis (Parameter 1)](#4-requirement-analysis--problem-understanding) | Stakeholders, Functional & Non-Functional Requirements, Regulatory Constraints |
+| **5** | [System Design and Architecture (Parameter 2)](#5-system-design-and-architecture) | Pipeline Architecture, Subsystems (Discovery, Dataflow, Prioritisation, Synthesis), CBOM Schema |
+| **6** | [Component & Tool Selection (Parameter 3)](#6-component--tool-selection-with-technical-justification) | Parsing Infrastructure, Static Analysis, PQC Library, CBOM Standard, Verification Strategy |
+| **7** | [Initial Prototype & Development (Parameter 4)](#7-initial-prototype--module-development) | Implemented Package Structure, Core Modules, Empirical Benchmark, Testing, Web Dashboard |
+| **8** | [Innovation and Feasibility (Parameter 5)](#8-innovation-and-feasibility) | Mathematical Derivation, Soundness vs Completeness, Computational Feasibility |
+| **9** | [Project Planning & Teamwork (Parameter 6)](#9-project-planning-teamwork-and-presentation) | Milestone Schedule, Work Breakdown Structure (WBS), Risk Register |
+| **10** | [Individual Contribution & Defense (Parameter 7)](#10-individual-contribution-and-technical-response-rubric-parameter-7--2-marks) | Responsibility Matrix, Panel Defense & Q&A Preparation |
+| **11** | [References & Regulatory Standards](#11-references--regulatory-standards) | Academic literature (P1-P16) and Compliance Frameworks |
 
 ## 1. Executive Summary & Problem Identification
 
