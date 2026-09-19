@@ -203,7 +203,8 @@ def generate_docx(input_md: str, template_docx: str, output_docx: str):
                     zout.writestr(item, zin.read(item.filename))
 
     file_size = os.path.getsize(output_docx)
-    print(f"✅ Successfully created {output_docx} ({file_size:,} bytes).")
+    print(f"[+] Successfully created {output_docx} ({file_size:,} bytes).")
+
 
 
 if __name__ == "__main__":

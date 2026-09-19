@@ -5,9 +5,10 @@
  */
 
 const path = require('path');
-const pptxgen = require(path.join('/home/avi/.gemini/antigravity-cli/brain/6c3c2a19-5fae-4baa-8167-51f2faf8c663/scratch/ppt_gen/node_modules/pptxgenjs'));
+const pptxgen = require('pptxgenjs');
 
 const pres = new pptxgen();
+
 pres.layout = 'LAYOUT_16x9'; // 10 x 5.625 inches
 
 // Color Palette matching Review 1
@@ -956,20 +957,27 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 33: Section 08 - Work Breakdown Structure
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 33, 'Parameter 6 (3 M)', '9.2 WORK BREAKDOWN STRUCTURE (WBS)', 'Equitable 3-Way Allocation Across Team Members');
+  const s = addSlideBase(pres, 33, 'Parameter 6 (3 M)', '9.2 WORK BREAKDOWN STRUCTURE (WBS)', 'Equitable 2-Way Allocation Across Team Members (50/50)');
 
   const members = [
-    { name: 'AVI DHANDHANIA (25BCE1207)', role: 'Semantic Binding & Taint Engine', tasks: '• Formalised HNDL threat model & Mosca inequality.\n• Designed 4-stage pipeline architecture.\n• Implemented Stage 2 Dataflow Engine (dataflow.py).\n• Built declarative retention extraction for S3 & Redis.\n• Next: Inter-procedural cross-module taint & CodeQL.' },
-    { name: 'ANMOL SALUJA (25BCE1332)', role: 'Discovery Layer & CBOM Conformance', tasks: '• Curated cryptographic API pattern corpus.\n• Developed Stage 1 AST Discovery Engine (discovery.py).\n• Implemented CycloneDX 1.6 CBOM Serializer (cbom.py).\n• Built constant propagation logic.\n• Next: Java Tree-sitter parsing & 100+ Semgrep rules.' },
-    { name: 'AVIKA TYAGI (25BCE1294)', role: 'Scoring, Benchmark & Verification', tasks: '• Formulated mathematical HNDL exposure score.\n• Implemented Stage 3 Scoring Engine (scorer.py).\n• Built context noise suppression filter.\n• Developed automated test suite (test_copilot.py).\n• Next: 15-repo benchmark curation & liboqs harness.' }
+    {
+      name: 'AVI DHANDHANIA (25BCE1207)',
+      role: 'Core Architecture, Dataflow Engine & UI Design',
+      tasks: '• Stage 1 AST Discovery & constant propagation engine (discovery.py).\n• Stage 2 Inter-procedural Semantic Dataflow Engine (dataflow.py).\n• Built declarative retention extraction parsing S3 lifecycle & Redis TTLs.\n• Designed interactive Web Dashboard UI/UX and presentation deck architecture.\n• Authored Report Sections 4 (Requirements), 5 (Architecture), 6 (Tool Justification).\n• Next: Inter-procedural cross-module call graphs & CodeQL Java queries.'
+    },
+    {
+      name: 'ANMOL SALUJA (25BCE1332)',
+      role: 'Threat Modeling, HNDL Scoring & Verification Harness',
+      tasks: '• Formalised Mosca inequality operationalisation & 16-paper literature gaps.\n• Formulated HNDL Exposure Scoring equation & Stage 3 Scoring Engine (scorer.py).\n• Implemented CycloneDX 1.6 CBOM Serializer (cbom.py, cli.py).\n• Full-Stack Backend Integration & REST API server (server.py).\n• Authored 100% passing automated unit test suite (tests/test_copilot.py).\n• Authored Report Sections 1, 2, 3, 8, 9, 10 & document sanitization.\n• Next: 15-repo benchmark curation & liboqs 3-gate patch verification harness.'
+    }
   ];
 
   members.forEach((m, idx) => {
-    const x = 0.5 + idx * 3.05;
-    s.addShape(pres.ShapeType.rect, { x: x, y: 1.8, w: 2.95, h: 3.0, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
-    s.addText(m.name, { x: x + 0.15, y: 2.0, w: 2.65, h: 0.25, fontSize: 9.5, fontFace: 'Arial', color: ACCENT_BLUE, bold: true });
-    s.addText(m.role, { x: x + 0.15, y: 2.25, w: 2.65, h: 0.25, fontSize: 8.5, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
-    s.addText(m.tasks, { x: x + 0.15, y: 2.6, w: 2.65, h: 2.1, fontSize: 7.8, fontFace: 'Arial', color: TEXT_BODY, lineSpacing: 11 });
+    const x = 0.5 + idx * 4.6;
+    s.addShape(pres.ShapeType.rect, { x: x, y: 1.8, w: 4.4, h: 3.0, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
+    s.addText(m.name, { x: x + 0.2, y: 2.0, w: 4.0, h: 0.25, fontSize: 10, fontFace: 'Arial', color: ACCENT_BLUE, bold: true });
+    s.addText(m.role, { x: x + 0.2, y: 2.25, w: 4.0, h: 0.25, fontSize: 8.5, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
+    s.addText(m.tasks, { x: x + 0.2, y: 2.55, w: 4.0, h: 2.15, fontSize: 7.8, fontFace: 'Arial', color: TEXT_BODY, lineSpacing: 11 });
   });
 }
 
@@ -1006,18 +1014,17 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
   s.addText([
-    { text: 'INDIVIDUAL EVIDENCE OF COMPLETED WORK (REVIEW II):\n\n', options: { bold: true, color: TEXT_WHITE, fontSize: 10 } },
-    { text: '• Avi Dhandhania (Lead Architect & Dataflow Engineer):\n', options: { bold: true, color: ACCENT_BLUE, fontSize: 9 } },
-    { text: '  - Formalized the HNDL threat model and operationalized Mosca\'s inequality in code.\n', options: { color: TEXT_BODY } },
-    { text: '  - Designed the end-to-end 4-stage pipeline architecture and intermediate data structures (models.py).\n', options: { color: TEXT_BODY } },
-    { text: '  - Implemented the Stage 2 Dataflow Binding Engine (dataflow.py), tracing plaintext parameters to sources and ciphertext to sinks.\n', options: { color: TEXT_BODY } },
-    { text: '  - Authored the retention extraction logic for S3 lifecycle policies and Redis TTL parsing.\n\n', options: { color: TEXT_BODY } },
-    { text: '• Team Member 2 (Discovery & CBOM Specialist):\n', options: { bold: true, color: ACCENT_GREEN, fontSize: 9 } },
-    { text: '  - Built the AST cryptographic discovery engine (discovery.py) and constant propagation pass.\n', options: { color: TEXT_BODY } },
-    { text: '  - Implemented the CycloneDX 1.6 CBOM serialization engine (cbom.py) matching Eurocrypt 2026 standards.\n\n', options: { color: TEXT_BODY } },
-    { text: '• Team Member 3 (Scoring, Benchmark & Verification Specialist):\n', options: { bold: true, color: ACCENT_BLUE, fontSize: 9 } },
-    { text: '  - Formulated the mathematical HNDL scoring function (scorer.py) and context noise suppression filter.\n', options: { color: TEXT_BODY } },
-    { text: '  - Constructed the automated unit testing harness (tests/test_copilot.py) and sample benchmark repo.', options: { color: TEXT_BODY } }
+    { text: 'INDIVIDUAL EVIDENCE OF COMPLETED WORK (REVIEW II — 50/50 EQUITABLE SPLIT):\n\n', options: { bold: true, color: TEXT_WHITE, fontSize: 10 } },
+    { text: '• Avi Dhandhania (25BCE1207 — Lead Architect, Dataflow & UI):\n', options: { bold: true, color: ACCENT_BLUE, fontSize: 9.5 } },
+    { text: '  - Designed the end-to-end 4-stage pipeline architecture and intermediate data contracts (models.py).\n', options: { color: TEXT_BODY } },
+    { text: '  - Implemented the Stage 1 AST Discovery Engine (discovery.py) and constant propagation logic.\n', options: { color: TEXT_BODY } },
+    { text: '  - Developed the Stage 2 Dataflow Binding Engine (dataflow.py), tracing plaintext sources and ciphertext sinks.\n', options: { color: TEXT_BODY } },
+    { text: '  - Designed the interactive Web Dashboard UI/UX layout and visual component design.\n\n', options: { color: TEXT_BODY } },
+    { text: '• Anmol Saluja (25BCE1332 — Threat Modeling, Scoring Engine, Testing & Backend Integration):\n', options: { bold: true, color: ACCENT_GREEN, fontSize: 9.5 } },
+    { text: '  - Formalized the HNDL threat model, Mosca\'s inequality derivation, and 16-paper literature gap matrix.\n', options: { color: TEXT_BODY } },
+    { text: '  - Implemented the Stage 3 HNDL Exposure Scoring Engine (scorer.py) and noise suppression filter.\n', options: { color: TEXT_BODY } },
+    { text: '  - Developed the CycloneDX 1.6 CBOM Serializer (cbom.py, cli.py) with custom dataflow properties.\n', options: { color: TEXT_BODY } },
+    { text: '  - Built full-stack REST API server (server.py) and 100% passing unit test suite (tests/test_copilot.py).', options: { color: TEXT_BODY } }
   ], { x: 0.8, y: 1.85, w: 8.4, h: 2.8, fontSize: 8, fontFace: 'Arial', lineSpacing: 11 });
 }
 
@@ -1044,14 +1051,15 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // -------------------------------------------------------------
 // Generate and Save Presentation
 // -------------------------------------------------------------
-const outputFile = path.join('/home/avi/GitHub/IDP-Project', 'Crypto-Agility_Navigator_Review2.pptx');
+const outputFile = path.join(__dirname, '..', 'Crypto-Agility_Navigator_Review2.pptx');
 console.log(`Writing Review 2 presentation to ${outputFile}...`);
 
 pres.writeFile({ fileName: outputFile })
   .then(fileName => {
-    console.log(`✅ Successfully generated Review 2 presentation: ${fileName}`);
+    console.log(`[+] Successfully generated Review 2 presentation: ${fileName}`);
   })
   .catch(err => {
-    console.error('❌ Error generating presentation:', err);
+    console.error('Error generating presentation:', err);
     process.exit(1);
   });
+

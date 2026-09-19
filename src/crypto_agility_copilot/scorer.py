@@ -16,7 +16,7 @@ class HNDLScoringEngine:
         weight_retention: float = 1.0,
         weight_exposure: float = 1.0,
         weight_algorithm: float = 1.0,
-        weight_key_reuse: float = 0.5,
+        weight_key_reuse: float = 1.0,
         migration_years: float = 2.0,
         crqc_horizon_years: float = 7.0   # Conservative target: 2026 + 7 = 2033 (or 2027-2029 CII deadline)
     ):
@@ -75,12 +75,13 @@ class HNDLScoringEngine:
         mosca_violated = (x + y) > z
 
         # Urgency classification
-        if mosca_violated and normalized_score >= 20.0:
+        if mosca_violated and (normalized_score >= 15.0 or path.invocation.quantum_vulnerability == QuantumVulnerability.SHOR_BROKEN):
             urgency_tier = "CRITICAL_IMMEDIATE"
             recommendation = (
                 f"Mosca's inequality violated (Retention {x:.1f}y + Migration {y:.1f}y > Horizon {z:.1f}y). "
                 f"Immediate migration to hybrid FIPS 203 (ML-KEM) required to mitigate HNDL."
             )
+
         elif normalized_score >= 10.0:
             urgency_tier = "HIGH"
             recommendation = "High HNDL exposure. Schedule hybrid migration in next engineering sprint."

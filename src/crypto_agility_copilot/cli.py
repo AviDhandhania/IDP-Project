@@ -34,7 +34,7 @@ def run_pipeline(
         print(f"Error: Target path {target_path} does not exist.")
         sys.exit(1)
 
-    print(f"🔍 Discovered {len(invocations)} cryptographic invocation(s).")
+    print(f"[*] Discovered {len(invocations)} cryptographic invocation(s).")
 
     # Stage 2: Bind dataflow
     data_paths: List[DataPath] = []
@@ -77,17 +77,18 @@ def run_pipeline(
     actionable_count = total_findings - suppressed_count
     mosca_breaches = sum(1 for _, s in ranked if s.mosca_violated)
 
-    print(f"\n📊 Summary Metrics:")
-    print(f"  • Total Call Sites Discovered: {total_findings}")
-    print(f"  • Actionable Candidates:       {actionable_count}")
-    print(f"  • Context-Suppressed Findings: {suppressed_count} (Noise Filtered: {suppressed_count/total_findings*100:.1f}%)" if total_findings else "  • Context-Suppressed Findings: 0")
-    print(f"  • Mosca's Inequality Breaches: {mosca_breaches} (Immediate PQC remediation needed)")
+    print(f"\n[+] Summary Metrics:")
+    print(f"  * Total Call Sites Discovered: {total_findings}")
+    print(f"  * Actionable Candidates:       {actionable_count}")
+    print(f"  * Context-Suppressed Findings: {suppressed_count} (Noise Filtered: {suppressed_count/total_findings*100:.1f}%)" if total_findings else "  * Context-Suppressed Findings: 0")
+    print(f"  * Mosca's Inequality Breaches: {mosca_breaches} (Immediate PQC remediation needed)")
 
     # Stage 4: Export CycloneDX 1.6 CBOM
     if output_cbom_path:
         cbom_doc = cbom_generator.generate_cbom(ranked, target_component_name=target.name)
         cbom_generator.export_json(cbom_doc, output_cbom_path)
-        print(f"\n📦 Successfully exported enriched CycloneDX 1.6 CBOM to: {output_cbom_path}")
+        print(f"\n[+] Successfully exported enriched CycloneDX 1.6 CBOM to: {output_cbom_path}")
+
 
     return ranked
 
@@ -96,13 +97,20 @@ def main():
     parser = argparse.ArgumentParser(
         description="Crypto-Agility Copilot: Dataflow-Aware Cryptographic Inventory and Prioritization"
     )
-    parser.add_argument("target", help="Path to Python file or directory to scan")
+    parser.add_argument("target", nargs="?", default="examples/sample_project", help="Path to Python file or directory to scan")
     parser.add_argument("--output-cbom", "-o", help="Path to write CycloneDX 1.6 CBOM JSON", default=None)
     parser.add_argument("--show-suppressed", action="store_true", help="Include suppressed non-security findings in table")
+    parser.add_argument("--serve", action="store_true", help="Launch the interactive Web Dashboard and API server")
+    parser.add_argument("--port", type=int, default=8000, help="Port to bind the web server to (default: 8000)")
     args = parser.parse_args()
 
-    run_pipeline(args.target, args.output_cbom, args.show_suppressed)
+    if args.serve:
+        from .server import run_server
+        run_server(port=args.port)
+    else:
+        run_pipeline(args.target, args.output_cbom, args.show_suppressed)
 
 
 if __name__ == "__main__":
     main()
+

@@ -99,6 +99,55 @@ class TestCryptoAgilityCopilot(unittest.TestCase):
         self.assertIn("dataflowProperties", comp)
         self.assertEqual(comp["dataflowProperties"]["retentionEvidence"]["retentionYears"], 10.0)
 
+    def test_full_pipeline_ranking(self):
+        from src.crypto_agility_copilot.server import scan_target
+        results = scan_target("examples/sample_project")
+        self.assertEqual(results["status"], "success")
+        self.assertEqual(results["metrics"]["totalFindings"], 3)
+        self.assertEqual(results["metrics"]["actionableCount"], 2)
+        self.assertEqual(results["metrics"]["suppressedCount"], 1)
+        self.assertEqual(results["metrics"]["moscaBreaches"], 1)
+        self.assertEqual(results["metrics"]["shorBrokenCount"], 2)
+
+        # Rank #1 must be the S3 archive (Mosca breach)
+        rank1 = results["findings"][0]
+        self.assertEqual(rank1["fileName"], "archive.py")
+        self.assertTrue(rank1["moscaViolated"])
+        self.assertEqual(rank1["urgencyTier"], "CRITICAL_IMMEDIATE")
+
+    def test_custom_code_snippet_analysis(self):
+        from src.crypto_agility_copilot.server import analyze_custom_code
+        snippet = '''
+import boto3
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import hashes
+
+def store_secret(data, rsa_key):
+    s3 = boto3.client('s3')
+    enc = rsa_key.encrypt(data, padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None))
+    s3.put_object(Bucket='compliance-vault-10yr', Key='audit.enc', Body=enc)
+'''
+        result = analyze_custom_code(snippet)
+        self.assertGreaterEqual(len(result["findings"]), 1)
+        # Top-ranked finding must be the RSA encryption
+        f = result["findings"][0]
+        self.assertEqual(f["algorithm"], "RSA-OAEP")
+        self.assertEqual(f["retentionYears"], 10.0)
+        self.assertTrue(f["moscaViolated"])
+        self.assertEqual(f["urgencyTier"], "CRITICAL_IMMEDIATE")
+
+
+    def test_quantum_safe_scoring(self):
+        # A standardized PQC primitive (ML-KEM) should score very low and not be flagged as Shor-broken
+        inv_archive = self.discovery.scan_file(self.archive_file)[0]
+        path_archive = self.dataflow.bind_invocation(inv_archive)
+        
+        # Override to Quantum-Safe
+        path_archive.invocation.quantum_vulnerability = QuantumVulnerability.QUANTUM_SAFE
+        score = self.scorer.score_data_path(path_archive)
+        self.assertLess(score.normalized_score, 5.0)
+
 
 if __name__ == "__main__":
     unittest.main()
+
