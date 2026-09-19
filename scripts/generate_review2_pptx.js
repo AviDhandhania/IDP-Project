@@ -758,10 +758,36 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 }
 
 // -------------------------------------------------------------
-// SLIDE 25: Section 06 - Benchmark Demonstration
+// SLIDE 25: Section 06 - Dashboard Screenshots
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 25, 'Parameter 4 (3 M)', '7.2 BENCHMARK DEMONSTRATION', 'Discriminating Call Sites on examples/sample_project');
+  const s = addSlideBase(pres, 25, 'Parameter 4 (3 M)', '7.5 INTERACTIVE WEB DASHBOARD', 'Full-Stack React Dashboard & REST API');
+
+  s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
+  
+  s.addText('WEB DASHBOARD (TRL 3 PROTOTYPE UI)', { x: 0.8, y: 1.8, w: 8.4, h: 0.3, fontSize: 11, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
+  s.addText([
+    { text: '• Backend: ', options: { bold: true, color: ACCENT_BLUE } },
+    { text: 'Python HTTP server providing /api/scan and /api/simulate-mosca endpoints.\n', options: { color: TEXT_BODY } },
+    { text: '• Frontend: ', options: { bold: true, color: ACCENT_BLUE } },
+    { text: 'Responsive HTML/React dashboard with vibrant dark mode aesthetics.\n', options: { color: TEXT_BODY } },
+    { text: '• Capabilities: ', options: { bold: true, color: ACCENT_GREEN } },
+    { text: 'Live dataflow visualization, Mosca risk scoring simulator, and CycloneDX export.', options: { color: TEXT_BODY } }
+  ], { x: 0.8, y: 2.15, w: 8.4, h: 0.6, fontSize: 9.5, fontFace: 'Arial', lineSpacing: 14 });
+
+  try {
+    s.addImage({ path: 'assets/dashboard.png', x: 0.8, y: 2.8, w: 4.0, h: 1.8, sizing: { type: 'contain' } });
+    s.addImage({ path: 'assets/dashboard_results.png', x: 5.2, y: 2.8, w: 4.0, h: 1.8, sizing: { type: 'contain' } });
+  } catch (e) {
+    s.addText('[Screenshots will appear here during generation if assets/ is populated]', { x: 0.8, y: 3.5, w: 8.4, h: 0.3, fontSize: 9, color: TEXT_MUTED, align: 'center' });
+  }
+}
+
+// -------------------------------------------------------------
+// SLIDE 26: Section 06 - Benchmark Demonstration
+// -------------------------------------------------------------
+{
+  const s = addSlideBase(pres, 26, 'Parameter 4 (3 M)', '7.2 BENCHMARK DEMONSTRATION', 'Discriminating Call Sites on examples/sample_project');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
