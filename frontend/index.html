@@ -3,124 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto-Agility Copilot Dashboard</title>
+    <title>Crypto-Agility Copilot | Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+    <!-- Custom Theme Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#3b82f6',
+                        accent: '#10b981',
+                        surface: 'rgba(255, 255, 255, 0.7)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .glow {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+    </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-800">
-    <div class="flex h-screen overflow-hidden">
+<body class="bg-gradient-to-br from-gray-50 to-gray-200 font-sans text-gray-800 antialiased h-screen overflow-hidden">
+    
+    <div class="flex h-full w-full" x-data="{ sidebarOpen: true }">
         
-        <!-- Sidebar -->
-        <aside class="w-64 bg-white shadow-lg flex flex-col">
-            <div class="p-4 border-b">
-                <h1 class="text-xl font-bold text-blue-700">Crypto-Agility Copilot</h1>
-                <p class="text-xs text-gray-500 mt-1">Review II Prototype</p>
+        <!-- Glassmorphism Sidebar -->
+        <aside class="glass w-72 flex flex-col transition-all duration-300 z-10 border-r border-white/50" :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full absolute'">
+            <div class="p-6 border-b border-white/40 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600">Copilot AI</h1>
+                    <p class="text-xs font-semibold tracking-wider text-blue-500 uppercase mt-1">Review II Prototype</p>
+                </div>
             </div>
-            <nav class="flex-1 p-4 space-y-2">
-                <a href="#" class="block p-2 bg-blue-50 text-blue-700 rounded-md font-medium">Dashboard</a>
-                <a href="#" class="block p-2 text-gray-600 hover:bg-gray-100 rounded-md">Cryptographic Assets</a>
-                <a href="#" class="block p-2 text-gray-600 hover:bg-gray-100 rounded-md">Dataflow Mapping</a>
-                <a href="#" class="block p-2 text-gray-600 hover:bg-gray-100 rounded-md">PQC Patches</a>
-                <a href="#" class="block p-2 text-gray-600 hover:bg-gray-100 rounded-md">Settings</a>
+            
+            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+                <a href="index.html" class="flex items-center px-4 py-3 bg-white/60 text-blue-800 rounded-xl font-bold shadow-sm border border-white glow">
+                    <svg class="w-5 h-5 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    Dashboard Overview
+                </a>
+                <a href="assets.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-white/40 hover:text-blue-700 rounded-xl font-medium transition-all">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    CBOM Inventory
+                </a>
+                <a href="dataflow.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-white/40 hover:text-blue-700 rounded-xl font-medium transition-all">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Dataflow Taint Map
+                </a>
             </nav>
-            <div class="p-4 border-t text-sm text-gray-500">
-                Team Member 1<br>Avi Dhandhania (25BCE1207)
+            
+            <!-- User Profile -->
+            <div class="p-6 border-t border-white/40 bg-white/20">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-md">AD</div>
+                    <div class="ml-3">
+                        <p class="text-sm font-bold text-gray-800">Avi Dhandhania</p>
+                        <p class="text-xs text-blue-600">System Architect (M1)</p>
+                    </div>
+                </div>
             </div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto p-8">
-            <header class="mb-8">
-                <h2 class="text-2xl font-semibold">Risk & Migration Dashboard</h2>
-                <p class="text-gray-500">Overview of cryptographic vulnerabilities and HNDL scoring.</p>
+        <!-- Main Workspace -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+            
+            <!-- Header -->
+            <header class="glass px-8 py-5 flex justify-between items-center z-10">
+                <div class="flex items-center">
+                    <button @click="sidebarOpen = !sidebarOpen" class="p-2 rounded-lg bg-white/50 hover:bg-white text-gray-600 shadow-sm mr-4 transition-colors border border-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Executive Dashboard</h2>
+                        <p class="text-sm text-gray-500">Repository: <span class="font-mono text-indigo-600 font-semibold">enterprise-payments-api</span></p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="px-4 py-2 bg-white/60 hover:bg-white text-gray-700 rounded-lg shadow-sm border border-white font-medium flex items-center transition-all glow">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        Rescan Codebase
+                    </button>
+                    <button class="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg shadow-lg font-bold flex items-center transition-all transform hover:scale-105">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Export CBOM
+                    </button>
+                </div>
             </header>
 
-            <!-- Stats -->
-            <div class="grid grid-cols-4 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-medium text-gray-500">Discovered Primitives</h3>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">1,204</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-medium text-gray-500">Mosca Breaches (Critical)</h3>
-                    <p class="text-3xl font-bold text-red-600 mt-2">142</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-medium text-gray-500">Quantum-Safe Handshakes</h3>
-                    <p class="text-3xl font-bold text-green-600 mt-2">18%</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-medium text-gray-500">Noise Suppressed</h3>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">812</p>
-                </div>
-            </div>
-
-            <!-- Charts & Lists -->
-            <div class="grid grid-cols-3 gap-6">
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-8 z-0">
                 
-                <!-- Chart -->
-                <div class="col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <h3 class="text-lg font-medium mb-4">Algorithm Distribution</h3>
-                    <canvas id="algoChart" width="400" height="400"></canvas>
+                <!-- KPI Glass Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="glass p-6 rounded-2xl relative overflow-hidden group hover:glow transition-all">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-blue-100 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
+                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">Total Primitives</h3>
+                        <div class="flex items-end mt-2">
+                            <p class="text-4xl font-extrabold text-gray-800">1,204</p>
+                            <span class="ml-2 mb-1 text-sm font-bold text-green-500 bg-green-100 px-2 py-0.5 rounded-full">+12 new</span>
+                        </div>
+                    </div>
+                    
+                    <div class="glass p-6 rounded-2xl relative overflow-hidden group hover:glow transition-all border-l-4 border-red-500">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-red-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
+                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">Critical Mosca Breaches</h3>
+                        <div class="flex items-end mt-2">
+                            <p class="text-4xl font-extrabold text-red-600">142</p>
+                            <span class="ml-2 mb-1 text-sm font-bold text-red-500 bg-red-100 px-2 py-0.5 rounded-full">HNDL Risk > 8</span>
+                        </div>
+                    </div>
+
+                    <div class="glass p-6 rounded-2xl relative overflow-hidden group hover:glow transition-all border-l-4 border-green-500">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
+                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">PQC Migrated (ML-KEM)</h3>
+                        <div class="flex items-end mt-2">
+                            <p class="text-4xl font-extrabold text-green-600">18%</p>
+                            <span class="ml-2 mb-1 text-sm font-bold text-gray-500">216 assets</span>
+                        </div>
+                    </div>
+
+                    <div class="glass p-6 rounded-2xl relative overflow-hidden group hover:glow transition-all">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
+                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">False Positives Suppressed</h3>
+                        <div class="flex items-end mt-2">
+                            <p class="text-4xl font-extrabold text-gray-800">812</p>
+                            <span class="ml-2 mb-1 text-sm font-bold text-indigo-500 bg-indigo-100 px-2 py-0.5 rounded-full">via Dataflow</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Vulnerable Paths -->
-                <div class="col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                    <h3 class="text-lg font-medium mb-4">Top Vulnerable Data Paths (HNDL Sorted)</h3>
-                    <table class="min-w-full text-left text-sm">
-                        <thead>
-                            <tr class="border-b">
-                                <th class="pb-2 text-gray-600 font-semibold">Location</th>
-                                <th class="pb-2 text-gray-600 font-semibold">Primitive</th>
-                                <th class="pb-2 text-gray-600 font-semibold">Retention Evidence</th>
-                                <th class="pb-2 text-gray-600 font-semibold">HNDL Score</th>
-                                <th class="pb-2 text-gray-600 font-semibold">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b">
-                                <td class="py-3 font-mono text-gray-700">payments/archive.py:108</td>
-                                <td class="py-3"><span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs font-bold">RSA-2048</span></td>
-                                <td class="py-3 text-gray-600">S3 Lifecycle (10 Years)</td>
-                                <td class="py-3 font-bold text-red-600">8.42</td>
-                                <td class="py-3"><button class="px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700">Patch (X25519+ML-KEM)</button></td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="py-3 font-mono text-gray-700">auth/tokens.py:42</td>
-                                <td class="py-3"><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs font-bold">ECDSA-P256</span></td>
-                                <td class="py-3 text-gray-600">DB Schema (1 Year)</td>
-                                <td class="py-3 font-bold text-yellow-600">5.10</td>
-                                <td class="py-3"><button class="px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700">Patch (ML-DSA)</button></td>
-                            </tr>
-                            <tr>
-                                <td class="py-3 font-mono text-gray-700">web/session.py:12</td>
-                                <td class="py-3"><span class="px-2 py-1 bg-gray-100 text-gray-800 rounded text-xs font-bold">RSA-2048</span></td>
-                                <td class="py-3 text-gray-600">Redis TTL (900s)</td>
-                                <td class="py-3 font-bold text-gray-500">0.02 (Deferred)</td>
-                                <td class="py-3"><button class="px-3 py-1 bg-gray-300 text-gray-700 rounded text-xs" disabled>Low Priority</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Main Grid Layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Advanced Chart -->
+                    <div class="lg:col-span-1 glass p-6 rounded-2xl flex flex-col">
+                        <h3 class="text-lg font-bold text-gray-800 mb-6 flex justify-between items-center">
+                            Inventory by Family
+                            <button class="text-gray-400 hover:text-blue-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg></button>
+                        </h3>
+                        <div class="flex-1 relative min-h-[300px]">
+                            <canvas id="inventoryChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Priority Action List -->
+                    <div class="lg:col-span-2 glass p-6 rounded-2xl">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-bold text-gray-800">High-Priority HNDL Data Paths</h3>
+                            <a href="dataflow.html" class="text-sm font-semibold text-blue-600 hover:text-blue-800 flex items-center">View Taint Maps <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">File & Line</th>
+                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Algorithm</th>
+                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Data Lifetime</th>
+                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">HNDL Score</th>
+                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr class="hover:bg-white/40 transition-colors">
+                                        <td class="py-4 px-4 font-mono text-sm text-gray-700">payments/archive.py:108</td>
+                                        <td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-200">RSA-2048</span></td>
+                                        <td class="py-4 px-4 text-sm text-gray-600"><span class="font-semibold">10 Years</span> (S3 Bucket)</td>
+                                        <td class="py-4 px-4 font-bold text-red-600">8.42 <span class="text-xs text-red-400">Critical</span></td>
+                                        <td class="py-4 px-4 text-right"><button class="px-3 py-1.5 bg-gray-900 text-white rounded-lg text-xs font-bold hover:bg-blue-600 transition-colors shadow-md">Synthesize Patch</button></td>
+                                    </tr>
+                                    <tr class="hover:bg-white/40 transition-colors">
+                                        <td class="py-4 px-4 font-mono text-sm text-gray-700">auth/tokens.py:42</td>
+                                        <td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-100 text-orange-800 border border-orange-200">ECDSA-P256</span></td>
+                                        <td class="py-4 px-4 text-sm text-gray-600"><span class="font-semibold">1 Year</span> (RDS DB)</td>
+                                        <td class="py-4 px-4 font-bold text-orange-600">5.10 <span class="text-xs text-orange-400">High</span></td>
+                                        <td class="py-4 px-4 text-right"><button class="px-3 py-1.5 bg-gray-900 text-white rounded-lg text-xs font-bold hover:bg-blue-600 transition-colors shadow-md">Synthesize Patch</button></td>
+                                    </tr>
+                                    <tr class="hover:bg-white/40 transition-colors opacity-60">
+                                        <td class="py-4 px-4 font-mono text-sm text-gray-700">web/session.py:12</td>
+                                        <td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200">RSA-2048</span></td>
+                                        <td class="py-4 px-4 text-sm text-gray-600"><span class="font-semibold">15 mins</span> (Redis)</td>
+                                        <td class="py-4 px-4 font-bold text-gray-500">0.02 <span class="text-xs text-gray-400">Deferred</span></td>
+                                        <td class="py-4 px-4 text-right"><button class="px-3 py-1.5 bg-gray-200 text-gray-400 rounded-lg text-xs font-bold cursor-not-allowed">Low Priority</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </main>
     </div>
 
+    <!-- Chart Logic -->
     <script>
-        const ctx = document.getElementById('algoChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['RSA-2048', 'ECDSA', 'AES-256', 'ML-KEM', 'SHA-256 (Non-Sec)'],
-                datasets: [{
-                    data: [142, 210, 305, 95, 452],
-                    backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#9ca3af']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('inventoryChart').getContext('2d');
+            
+            // Advanced gradient
+            const gradientRed = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientRed.addColorStop(0, 'rgba(239, 68, 68, 0.9)');
+            gradientRed.addColorStop(1, 'rgba(185, 28, 28, 0.7)');
+
+            const gradientBlue = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientBlue.addColorStop(0, 'rgba(59, 130, 246, 0.9)');
+            gradientBlue.addColorStop(1, 'rgba(29, 78, 216, 0.7)');
+
+            const gradientGreen = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientGreen.addColorStop(0, 'rgba(16, 185, 129, 0.9)');
+            gradientGreen.addColorStop(1, 'rgba(4, 120, 87, 0.7)');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Vulnerable (Shor)', 'Quantum-Safe', 'Non-Security'],
+                    datasets: [{
+                        data: [352, 216, 636],
+                        backgroundColor: [gradientRed, gradientGreen, '#9ca3af'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: "'Inter', sans-serif", weight: 'bold' }, padding: 20 } },
+                        tooltip: { backgroundColor: 'rgba(255, 255, 255, 0.9)', titleColor: '#111827', bodyColor: '#4b5563', borderColor: '#e5e7eb', borderWidth: 1, padding: 12, cornerRadius: 8 }
+                    }
+                }
+            });
         });
     </script>
 </body>

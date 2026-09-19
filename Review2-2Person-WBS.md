@@ -13,7 +13,6 @@
 **Focus Area:** Static analysis infrastructure, system architecture, and core data flow tracking.
 
 ### Code & Prototype (TRL 3)
-- **Extensive Frontend (Dashboard):** Architect the Core Dashboard UI (`index.html`) with advanced Tailwind styling, glassmorphism, and responsive Chart.js integration.
 - **Extensive Frontend (Dataflow):** Build the Dataflow Vulnerability Visualizer UI (`dataflow.html`) to map inter-procedural taint traces.
 
 ### Report & Documentation
