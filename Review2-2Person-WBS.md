@@ -16,9 +16,7 @@
 *(All tasks completed)*
 
 ### Report & Documentation
-- **Section 4 (Requirements):** Formulated the Functional and Non-Functional Requirements (FR/NFR) and stakeholder mapping.
-- **Section 5 (System Architecture):** Architected the 4-stage pipeline and drafted the dataflow component schema.
-- **Section 6 (Tool Justification):** Conducted and documented the comparative trade-off matrices for parsing frameworks (Tree-sitter vs. ANTLR) and static analysis tools.
+*(All tasks completed)*
 
 ### Presentation & Defense
 - **Deck Design:** Created the base presentation layout, styling, and Slide generation script (`generate_review2_pptx.js`).
