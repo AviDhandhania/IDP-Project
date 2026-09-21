@@ -8,15 +8,15 @@ pres.layout = 'LAYOUT_16x9';
 // -------------------------------------------------------------
 // Core Theme & Formatting Constants
 // -------------------------------------------------------------
-const BG_DARK = '0B0F19';
-const CARD_BG = '131B2B';
-const BORDER_COLOR = '2A3B5C';
-const TEXT_WHITE = 'F8FAFC';
-const TEXT_BODY = '94A3B8';
+const BG_DARK = 'F8FAFC';
+const CARD_BG = 'FFFFFF';
+const BORDER_COLOR = 'E2E8F0';
+const TEXT_WHITE = '0F172A';
+const TEXT_BODY = '334155';
 const TEXT_MUTED = '64748B';
-const ACCENT_BLUE = '3B82F6';
-const ACCENT_GREEN = '10B981';
-const ACCENT_RED = 'EF4444';
+const ACCENT_BLUE = '2563EB';
+const ACCENT_GREEN = '059669';
+const ACCENT_RED = 'DC2626';
 
 const TOTAL_SLIDES = 25;
 
