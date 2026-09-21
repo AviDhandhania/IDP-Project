@@ -103,11 +103,11 @@ class TestCryptoAgilityNavigator(unittest.TestCase):
         from src.crypto_agility_navigator.server import scan_target
         results = scan_target("examples/sample_project")
         self.assertEqual(results["status"], "success")
-        self.assertEqual(results["metrics"]["totalFindings"], 3)
-        self.assertEqual(results["metrics"]["actionableCount"], 2)
+        self.assertEqual(results["metrics"]["totalFindings"], 4)
+        self.assertEqual(results["metrics"]["actionableCount"], 3)
         self.assertEqual(results["metrics"]["suppressedCount"], 1)
-        self.assertEqual(results["metrics"]["moscaBreaches"], 1)
-        self.assertEqual(results["metrics"]["shorBrokenCount"], 2)
+        self.assertEqual(results["metrics"]["moscaBreaches"], 2)
+        self.assertEqual(results["metrics"]["shorBrokenCount"], 3)
 
         # Rank #1 must be the S3 archive (Mosca breach)
         rank1 = results["findings"][0]
