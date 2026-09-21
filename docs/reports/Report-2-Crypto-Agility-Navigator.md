@@ -457,25 +457,26 @@ The prototype was executed against the worked benchmark in `examples/sample_proj
 #### Execution Output:
 
 ```
-$ python3 -m src.crypto_agility_navigator.cli examples/sample_project --output-cbom examples/sample_cbom.json --show-suppressed
+$ python3 -m src.crypto_agility_navigator.cli examples/sample_project \
+      --output-cbom examples/sample_cbom.json --show-suppressed
 
- Discovered 3 cryptographic invocation(s).
+[*] Discovered 3 cryptographic invocation(s).
 
 ===================================================================================================================
 RANK  | ALGORITHM    | LOCATION                     | RETENTION      | EXPOSURE           | SCORE   | URGENCY
 ===================================================================================================================
-1     | RSA-OAEP     | archive.py:11                | 10.0y          | EXTERNAL_PUBLIC    | 16.7    | HIGH (MOSCA BREACH)
+1     | RSA-OAEP     | archive.py:11                | 10.0y          | EXTERNAL_PUBLIC    | 33.3    | CRITICAL_IMMEDIATE (MOSCA BREACH)
 2     | RSA-OAEP     | session.py:11                | <1 hour        | INTERNAL_IPC       | 0.0     | LOW
 3     | SHA-256      | etags.py:9                   | <1 hour        | INTERNAL_IPC       | 0.0     | SUPPRESSED
 ===================================================================================================================
 
-[DATA] Summary Metrics:
-   Total Call Sites Discovered: 3
-   Actionable Candidates:       2
-   Context-Suppressed Findings: 1 (Noise Filtered: 33.3%)
-   Mosca's Inequality Breaches: 1 (Immediate PQC remediation needed)
+[+] Summary Metrics:
+  * Total Call Sites Discovered: 3
+  * Actionable Candidates:       2
+  * Context-Suppressed Findings: 1 (Noise Filtered: 33.3%)
+  * Mosca's Inequality Breaches: 1 (Immediate PQC remediation needed)
 
- Successfully exported enriched CycloneDX 1.6 CBOM to: examples/sample_cbom.json
+[+] Successfully exported enriched CycloneDX 1.6 CBOM to: examples/sample_cbom.json
 ```
 
 ### 7.4 Automated Unit Test Suite & Execution Results
