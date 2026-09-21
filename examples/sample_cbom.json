@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:e9b07cf7-a736-4260-b1b3-40c6d62d005b",
+  "serialNumber": "urn:uuid:07093249-4422-4c22-8430-f2b6f803d8fd",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-19T17:13:44.508968+00:00",
+    "timestamp": "2026-09-21T05:53:51.173702+00:00",
     "tools": [
       {
         "vendor": "Crypto-Agility Navigator",
@@ -62,10 +62,10 @@
         },
         "exposureSurface": "EXTERNAL_PUBLIC",
         "hndlRiskAssessment": {
-          "normalizedScore": 16.67,
-          "urgencyTier": "HIGH",
+          "normalizedScore": 33.33,
+          "urgencyTier": "CRITICAL_IMMEDIATE",
           "moscaViolated": true,
-          "recommendation": "High HNDL exposure. Schedule hybrid migration in next engineering sprint."
+          "recommendation": "Mosca's inequality violated (Retention 10.0y + Migration 2.0y > Horizon 7.0y). Immediate migration to hybrid FIPS 203 (ML-KEM) required to mitigate HNDL."
         },
         "securityRelevance": {
           "isSecurityRelevant": true,
