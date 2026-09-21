@@ -4,12 +4,14 @@ Parses Abstract Syntax Trees (AST) of source code to detect cryptographic materi
 artefacts, and invocations, identifying algorithms, key parameters, and call sites.
 """
 
-import ast
-import re
+import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional
-from .models import CryptoInvocation, CryptoPrimitiveType, QuantumVulnerability
+import tree_sitter
+import tree_sitter_python as tspython
+import tree_sitter_java as tsjava
 
+from .models import CryptoInvocation, CryptoPrimitiveType, QuantumVulnerability
 
 # Known cryptographic signatures and library identifiers
 KNOWN_CRYPTO_PATTERNS = {
@@ -75,58 +77,137 @@ KNOWN_CRYPTO_PATTERNS = {
     }
 }
 
+class DiscoveryEngine:
+    """Stage 1 Engine: Discovers cryptographic invocations across repository files."""
 
-class CryptoASTVisitor(ast.NodeVisitor):
-    """AST Visitor scanning Python files for cryptographic API invocations."""
+    def __init__(self):
+        self.parsers = {
+            ".py": tree_sitter.Parser(tree_sitter.Language(tspython.language())),
+            ".java": tree_sitter.Parser(tree_sitter.Language(tsjava.language()))
+        }
 
-    def __init__(self, file_path: str, source_code: str):
-        self.file_path = file_path
-        self.source_code = source_code
-        self.source_lines = source_code.splitlines()
-        self.invocations: List[CryptoInvocation] = []
+    def scan_file(self, file_path: str) -> List[CryptoInvocation]:
+        path = Path(file_path)
+        if not path.exists() or path.suffix not in self.parsers:
+            return []
+        try:
+            with open(path, "rb") as f:
+                code_bytes = f.read()
+            
+            source_lines = code_bytes.decode('utf-8').splitlines()
+            parser = self.parsers[path.suffix]
+            tree = parser.parse(code_bytes)
+            
+            invocations = []
+            env = {} # Environment for constant propagation
+            self._walk_tree(tree.root_node, code_bytes, source_lines, path.suffix, file_path, invocations, env)
+            
+            # Dedup by line number
+            dedup = {}
+            for inv in invocations:
+                key = (inv.line_number, inv.algorithm_name)
+                if key not in dedup:
+                    dedup[key] = inv
+            return list(dedup.values())
+        except Exception as e:
+            return []
 
-    def visit_Call(self, node: ast.Call) -> None:
-        call_name = self._get_call_name(node.func)
-        if call_name:
-            matched_info = self._match_crypto_api(call_name, node)
-            if matched_info:
-                snippet = self._get_code_snippet(node.lineno)
-                params = self._extract_call_parameters(node)
-                invocation = CryptoInvocation(
-                    file_path=self.file_path,
-                    line_number=node.lineno,
-                    function_name=call_name,
-                    primitive_type=matched_info["primitive"],
-                    algorithm_name=matched_info["algo"],
-                    key_size=matched_info["key_size"],
-                    quantum_vulnerability=matched_info["vulnerability"],
-                    raw_code_snippet=snippet,
-                    parameters=params
-                )
-                self.invocations.append(invocation)
-        self.generic_visit(node)
+    def scan_directory(self, dir_path: str) -> List[CryptoInvocation]:
+        results: List[CryptoInvocation] = []
+        path = Path(dir_path)
+        for ext in self.parsers.keys():
+            for f in path.rglob(f"*{ext}"):
+                results.extend(self.scan_file(str(f)))
+        return results
 
-    def _get_call_name(self, func_node: ast.AST) -> Optional[str]:
-        if isinstance(func_node, ast.Name):
-            return func_node.id
-        elif isinstance(func_node, ast.Attribute):
-            base = self._get_call_name(func_node.value)
-            if base:
-                return f"{base}.{func_node.attr}"
-            return func_node.attr
+    def _walk_tree(self, node, code_bytes, source_lines, ext, file_path, invocations, env):
+        # 1. Constant propagation update
+        if ext == ".py" and node.type == "assignment":
+            # Very basic string assignment tracking (e.g. cipher_algo = "RSA-OAEP")
+            left = node.child_by_field_name("left")
+            right = node.child_by_field_name("right")
+            if left and right and left.type == "identifier" and right.type == "string":
+                var_name = code_bytes[left.start_byte:left.end_byte].decode('utf-8')
+                val = code_bytes[right.start_byte:right.end_byte].decode('utf-8').strip("'\"")
+                env[var_name] = val
+        
+        elif ext == ".java" and node.type == "local_variable_declaration":
+            # Basic java string assignment tracking
+            declarator = None
+            for child in node.children:
+                if child.type == "variable_declarator":
+                    declarator = child
+                    break
+            if declarator:
+                left = declarator.child_by_field_name("name")
+                right = declarator.child_by_field_name("value")
+                if left and right and right.type == "string_literal":
+                    var_name = code_bytes[left.start_byte:left.end_byte].decode('utf-8')
+                    val = code_bytes[right.start_byte:right.end_byte].decode('utf-8').strip("'\"")
+                    env[var_name] = val
+
+        # 2. Call detection
+        if (ext == ".py" and node.type == "call") or (ext == ".java" and node.type == "method_invocation"):
+            call_name = self._get_call_name(node, code_bytes, ext)
+            if call_name:
+                matched_info = self._match_crypto_api(call_name, node, code_bytes, ext, env)
+                if matched_info:
+                    line_number = node.start_point[0] + 1
+                    snippet = source_lines[node.start_point[0]].strip() if node.start_point[0] < len(source_lines) else ""
+                    params = self._extract_call_parameters(node, code_bytes, ext, env)
+                    
+                    invocation = CryptoInvocation(
+                        file_path=file_path,
+                        line_number=line_number,
+                        function_name=call_name,
+                        primitive_type=matched_info["primitive"],
+                        algorithm_name=matched_info["algo"],
+                        key_size=matched_info["key_size"],
+                        quantum_vulnerability=matched_info["vulnerability"],
+                        raw_code_snippet=snippet,
+                        parameters=params
+                    )
+                    invocations.append(invocation)
+
+        # Traverse children
+        for child in node.children:
+            self._walk_tree(child, code_bytes, source_lines, ext, file_path, invocations, env)
+
+    def _get_call_name(self, node, code_bytes, ext) -> Optional[str]:
+        if ext == ".py":
+            func = node.child_by_field_name("function")
+            if func:
+                return code_bytes[func.start_byte:func.end_byte].decode('utf-8')
+        elif ext == ".java":
+            obj_node = node.child_by_field_name("object")
+            name_node = node.child_by_field_name("name")
+            if obj_node and name_node:
+                obj = code_bytes[obj_node.start_byte:obj_node.end_byte].decode('utf-8')
+                name = code_bytes[name_node.start_byte:name_node.end_byte].decode('utf-8')
+                return f"{obj}.{name}"
+            elif name_node:
+                return code_bytes[name_node.start_byte:name_node.end_byte].decode('utf-8')
         return None
 
-    def _match_crypto_api(self, call_name: str, node: ast.Call) -> Optional[Dict[str, Any]]:
-        # Direct pattern match
+    def _match_crypto_api(self, call_name: str, node, code_bytes, ext, env) -> Optional[Dict[str, Any]]:
         lower_name = call_name.lower()
+        
+        # Direct pattern match
         for pattern, info in KNOWN_CRYPTO_PATTERNS.items():
             if pattern in lower_name:
                 return info
-
-        # Check standard libraries like hashlib or cryptography.hazmat
-        if "hashlib" in lower_name:
+                
+        # Heuristics based on name/args
+        if "hashlib" in lower_name or ("MessageDigest.getInstance" in code_bytes[node.start_byte:node.end_byte].decode('utf-8')):
             algo = call_name.split(".")[-1].upper()
-            vuln = QuantumVulnerability.GROVER_WEAKENED if algo in ["MD5", "SHA1"] else QuantumVulnerability.QUANTUM_SAFE
+            
+            # If java getInstance
+            if "getInstance" in call_name:
+                args = self._extract_call_parameters(node, code_bytes, ext, env)
+                if "arg_0" in args:
+                    algo = args["arg_0"].upper()
+
+            vuln = QuantumVulnerability.GROVER_WEAKENED if algo in ["MD5", "SHA1", "SHA-1"] else QuantumVulnerability.QUANTUM_SAFE
             return {
                 "primitive": CryptoPrimitiveType.HASH,
                 "algo": algo,
@@ -135,14 +216,13 @@ class CryptoASTVisitor(ast.NodeVisitor):
             }
 
         if "rsa" in lower_name and ("encrypt" in lower_name or "cipher" in lower_name):
-            # Inspect node args/keywords to detect OAEP vs PKCS1v15 vs PSS
-            node_str = (ast.unparse(node) if hasattr(ast, 'unparse') else "").lower()
+            node_str = code_bytes[node.start_byte:node.end_byte].decode('utf-8').lower()
             algo = "RSA-2048"
-            if "oaep" in node_str or "oaep" in lower_name:
+            if "oaep" in node_str:
                 algo = "RSA-OAEP"
-            elif "pkcs1" in node_str or "pkcs1" in lower_name:
+            elif "pkcs1" in node_str:
                 algo = "RSA-PKCS1v15"
-            elif "pss" in node_str or "pss" in lower_name:
+            elif "pss" in node_str:
                 algo = "RSA-PSS"
 
             return {
@@ -151,50 +231,74 @@ class CryptoASTVisitor(ast.NodeVisitor):
                 "key_size": 2048,
                 "vulnerability": QuantumVulnerability.SHOR_BROKEN
             }
+            
+        if "cipher.getinstance" in lower_name:
+            args = self._extract_call_parameters(node, code_bytes, ext, env)
+            if "arg_0" in args:
+                algo_str = args["arg_0"].upper()
+                if "RSA" in algo_str:
+                    algo = "RSA-OAEP" if "OAEP" in algo_str else "RSA-PKCS1v15"
+                    return {
+                        "primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION,
+                        "algo": algo,
+                        "key_size": 2048,
+                        "vulnerability": QuantumVulnerability.SHOR_BROKEN
+                    }
+                if "AES" in algo_str:
+                    algo = "AES-256-GCM" if "GCM" in algo_str else "AES-128-CBC"
+                    return {
+                        "primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION,
+                        "algo": algo,
+                        "key_size": 256 if "GCM" in algo_str else 128,
+                        "vulnerability": QuantumVulnerability.QUANTUM_SAFE if "GCM" in algo_str else QuantumVulnerability.GROVER_WEAKENED
+                    }
 
         return None
 
-
-    def _get_code_snippet(self, lineno: int) -> str:
-        if 1 <= lineno <= len(self.source_lines):
-            return self.source_lines[lineno - 1].strip()
-        return ""
-
-    def _extract_call_parameters(self, node: ast.Call) -> Dict[str, str]:
+    def _extract_call_parameters(self, node, code_bytes, ext, env) -> Dict[str, str]:
         params = {}
-        for idx, arg in enumerate(node.args):
-            arg_str = ast.unparse(arg) if hasattr(ast, 'unparse') else str(arg)
-            params[f"arg_{idx}"] = arg_str
-        for kw in node.keywords:
-            val_str = ast.unparse(kw.value) if hasattr(ast, 'unparse') else str(kw.value)
-            params[kw.arg or "kwarg"] = val_str
+        if ext == ".py":
+            args_node = node.child_by_field_name("arguments")
+            if args_node:
+                idx = 0
+                for child in args_node.children:
+                    if child.type not in ["(", ")", ","]:
+                        val_str = code_bytes[child.start_byte:child.end_byte].decode('utf-8')
+                        
+                        # Apply constant propagation
+                        if child.type == "identifier" and val_str in env:
+                            val_str = env[val_str]
+                        elif child.type == "string":
+                            val_str = val_str.strip("'\"")
+                            
+                        # Handle kwargs
+                        if child.type == "keyword_argument":
+                            k = child.child_by_field_name("name")
+                            v = child.child_by_field_name("value")
+                            if k and v:
+                                k_str = code_bytes[k.start_byte:k.end_byte].decode('utf-8')
+                                v_str = code_bytes[v.start_byte:v.end_byte].decode('utf-8')
+                                if v.type == "identifier" and v_str in env:
+                                    v_str = env[v_str]
+                                elif v.type == "string":
+                                    v_str = v_str.strip("'\"")
+                                params[k_str] = v_str
+                        else:
+                            params[f"arg_{idx}"] = val_str
+                            idx += 1
+                            
+        elif ext == ".java":
+            args_node = node.child_by_field_name("arguments")
+            if args_node:
+                idx = 0
+                for child in args_node.children:
+                    if child.type not in ["(", ")", ","]:
+                        val_str = code_bytes[child.start_byte:child.end_byte].decode('utf-8')
+                        if child.type == "identifier" and val_str in env:
+                            val_str = env[val_str]
+                        elif child.type == "string_literal":
+                            val_str = val_str.strip("'\"")
+                        params[f"arg_{idx}"] = val_str
+                        idx += 1
+                        
         return params
-
-
-class DiscoveryEngine:
-    """Stage 1 Engine: Discovers cryptographic invocations across repository files."""
-
-    def __init__(self):
-        pass
-
-    def scan_file(self, file_path: str) -> List[CryptoInvocation]:
-        path = Path(file_path)
-        if not path.exists() or path.suffix != ".py":
-            return []
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                code = f.read()
-            tree = ast.parse(code, filename=file_path)
-            visitor = CryptoASTVisitor(file_path, code)
-            visitor.visit(tree)
-            return visitor.invocations
-        except Exception as e:
-            # Handle unparsable files gracefully
-            return []
-
-    def scan_directory(self, dir_path: str) -> List[CryptoInvocation]:
-        results: List[CryptoInvocation] = []
-        path = Path(dir_path)
-        for py_file in path.rglob("*.py"):
-            results.extend(self.scan_file(str(py_file)))
-        return results
