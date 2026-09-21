@@ -810,7 +810,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
     { text: 'TERMINAL OUTPUT TABLE:\n', options: { bold: true, color: TEXT_MUTED } },
     { text: 'RANK | ALGORITHM    | LOCATION        | RETENTION | EXPOSURE        | SCORE | URGENCY\n', options: { fontFace: 'Courier New', color: TEXT_WHITE, bold: true, fontSize: 7.8 } },
     { text: '---------------------------------------------------------------------------------------------\n', options: { fontFace: 'Courier New', color: BORDER_COLOR, fontSize: 7.8 } },
-    { text: '1    | RSA-OAEP     | archive.py:11   | 10.0y     | EXTERNAL_PUBLIC | 33.3  | CRITICAL_IMMEDIATE (MOSCA BREACH)\n', options: { fontFace: 'Courier New', color: ACCENT_RED, bold: true, fontSize: 7.8 } },
+    { text: '1    | RSA-OAEP     | archive.py:11   | 10.0y     | EXTERNAL_PUBLIC | 16.7  | HIGH (MOSCA BREACH)\n', options: { fontFace: 'Courier New', color: ACCENT_RED, bold: true, fontSize: 7.8 } },
     { text: '2    | RSA-OAEP     | session.py:11   | <1 hour   | INTERNAL_IPC    | 0.0   | LOW\n', options: { fontFace: 'Courier New', color: TEXT_BODY, fontSize: 7.8 } },
     { text: '3    | SHA-256      | etags.py:9      | <1 hour   | INTERNAL_IPC    | 0.0   | SUPPRESSED\n\n', options: { fontFace: 'Courier New', color: TEXT_MUTED, fontSize: 7.8 } },
     { text: 'SUMMARY: 3 discovered · 2 actionable · 1 context-suppressed (33% noise filtered) · 1 Mosca breach.', options: { bold: true, color: ACCENT_GREEN, fontSize: 8.5 } }
