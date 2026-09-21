@@ -22,7 +22,7 @@ const ACCENT_RED = 'D32F2F';
 const ACCENT_GREEN = '2E7D32';
 const ACCENT_BLUE = '1976D2';
 
-const TOTAL_SLIDES = 36;
+const TOTAL_SLIDES = 37;
 
 function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
   const slide = pres.addSlide();
@@ -332,10 +332,47 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 }
 
 // -------------------------------------------------------------
+// SLIDE 9: Section 03 - Primary and Secondary Objectives
+// -------------------------------------------------------------
+{
+  const s = addSlideBase(pres, 9, 'Parameter 1 (3 M)', '3.1 PRIMARY AND SECONDARY OBJECTIVES', 'Consolidated Project Goals');
+
+  s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
+  
+  s.addText([
+    { text: 'O1: Multi-language discovery\n', options: { bold: true, color: TEXT_WHITE, fontSize: 10 } },
+    { text: 'O2: Semantic dataflow binding\n', options: { bold: true, color: TEXT_WHITE, fontSize: 10 } },
+    { text: 'O3: HNDL exposure scoring\n', options: { bold: true, color: TEXT_WHITE, fontSize: 10 } },
+    { text: 'O4: Noise suppression\n', options: { bold: true, color: TEXT_WHITE, fontSize: 10 } },
+    { text: 'O5: Verified patch synthesis\n', options: { bold: true, color: TEXT_WHITE, fontSize: 10 } },
+    { text: 'O6: Public benchmark release\n', options: { bold: true, color: TEXT_WHITE, fontSize: 10 } }
+  ], { x: 0.8, y: 1.85, w: 8.4, h: 2.8, fontSize: 10, fontFace: 'Arial', lineSpacing: 16 });
+}
+// -------------------------------------------------------------
+{
+  const s = addSlideBase(pres, 10, 'Parameter 1 (3 M)', '3.2 THE 5 PILLARS OF NOVELTY', 'Core Intellectual Innovations (N1–N5)');
+
+  const novs = [
+    { id: 'N1', title: 'RETENTION-AWARE DATAFLOW', desc: 'Binds cryptographic primitives to data lifetime extracted from declarative code & IaC.' },
+    { id: 'N2', title: 'CALL-SITE RISK METRIC', desc: 'First score varying across identical algorithms; evaluated via ranking metrics (nDCG/τ).' },
+    { id: 'N3', title: 'CONTEXT NOISE SUPPRESSION', desc: 'Filters non-security hashes; raises actionable precision from ~0.30 to ≥0.70.' },
+    { id: 'N4', title: 'VERIFIED HYBRID PATCHES', desc: 'liboqs hybrid synthesis gated by differential testing, property tests, & downgrade checks.' },
+    { id: 'N5', title: 'ANNOTATED BENCHMARK', desc: '15–20 open-source repositories annotated with retention ground truth & priority rankings.' }
+  ];
+
+  novs.forEach((n, idx) => {
+    const x = 0.5 + idx * 1.8;
+    s.addShape(pres.ShapeType.rect, { x: x, y: 1.8, w: 1.7, h: 3.0, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
+    s.addText(n.id, { x: x + 0.1, y: 2.0, w: 1.5, h: 0.35, fontSize: 16, fontFace: 'Arial', color: ACCENT_BLUE, bold: true });
+    s.addText(n.title, { x: x + 0.1, y: 2.4, w: 1.5, h: 0.45, fontSize: 8.5, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
+    s.addText(n.desc, { x: x + 0.1, y: 2.9, w: 1.5, h: 1.8, fontSize: 7.8, fontFace: 'Arial', color: TEXT_BODY, lineSpacing: 11 });
+  });
+}
+// -------------------------------------------------------------
 // SLIDE 9: Section 03 - Requirements Analysis: Stakeholders
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 9, 'Parameter 1 (3 M)', '4.1 REQUIREMENT ANALYSIS: STAKEHOLDERS', 'Mapping Operational Value to Regulated Roles');
+  const s = addSlideBase(pres, 11, 'Parameter 1 (3 M)', '4.1 REQUIREMENT ANALYSIS: STAKEHOLDERS', 'Mapping Operational Value to Regulated Roles');
 
   const roles = [
     { title: 'CISO / COMPLIANCE', pain: 'Regulatory transition deadlines (RBI 2027–2029) without an auditable roadmap.', solution: 'Enriched CycloneDX 1.6 CBOM with legally defensible Mosca risk scoring.' },
@@ -358,7 +395,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 10: Section 03 - Functional Requirements (FR-1 to FR-4)
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 10, 'Parameter 1 (3 M)', '4.2 FUNCTIONAL REQUIREMENTS (PART 1)', 'Discovery, Standards Conformance & Taint Tracing');
+  const s = addSlideBase(pres, 12, 'Parameter 1 (3 M)', '4.2 FUNCTIONAL REQUIREMENTS (PART 1)', 'Discovery, Standards Conformance & Taint Tracing');
 
   const frs = [
     { id: 'FR-1', name: 'Multi-Language AST Discovery', spec: 'Parse Python/Java source trees to discover cryptographic primitives, extracting call sites, algorithms, and key sizes.', target: 'F1 ≥ 0.85 on benchmark' },
@@ -381,7 +418,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 11: Section 03 - Functional Requirements (FR-5 to FR-8)
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 11, 'Parameter 1 (3 M)', '4.2 FUNCTIONAL REQUIREMENTS (PART 2)', 'Retention Inference, Scoring, Suppression & Patches');
+  const s = addSlideBase(pres, 13, 'Parameter 1 (3 M)', '4.2 FUNCTIONAL REQUIREMENTS (PART 2)', 'Retention Inference, Scoring, Suppression & Patches');
 
   const frs = [
     { id: 'FR-5', name: 'Declarative Retention Extractor', spec: 'Extract data confidentiality lifetimes from adjacent configs: S3 lifecycle rules, Redis TTLs, ORM column types.', target: '≥ 50% automated recovery' },
@@ -404,7 +441,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 12: Section 03 - Non-Functional Requirements
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 12, 'Parameter 1 (3 M)', '4.3 NON-FUNCTIONAL REQUIREMENTS', 'Performance, Scalability, Soundness & Compliance');
+  const s = addSlideBase(pres, 14, 'Parameter 1 (3 M)', '4.3 NON-FUNCTIONAL REQUIREMENTS', 'Performance, Scalability, Soundness & Compliance');
 
   const nfrs = [
     { title: 'NFR-1: HIGH THROUGHPUT', desc: 'Scan large multi-file repositories (~50,000 files) in under 10 minutes on commodity 8-core laptops.' },
@@ -430,7 +467,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 13: Section 04 - System Architecture Pipeline
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 13, 'Parameter 2 (3 M)', '5.1 SYSTEM ARCHITECTURE', 'End-to-End 4-Stage Analysis & Remediation Pipeline');
+  const s = addSlideBase(pres, 15, 'Parameter 2 (3 M)', '5.1 SYSTEM ARCHITECTURE', 'End-to-End 4-Stage Analysis & Remediation Pipeline');
 
   const stages = [
     { num: '01', title: 'DISCOVERY', desc: 'Tree-sitter parse & Semgrep rules.\nConstant propagation resolves runtime cipher names.', out: 'CBOM Candidates' },
@@ -454,7 +491,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 14: Section 04 - Subsystem 1: AST Discovery
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 14, 'Parameter 2 (3 M)', '5.2 SUBSYSTEM 1: DISCOVERY LAYER', 'AST Parsing, Pattern Matching & Constant Propagation');
+  const s = addSlideBase(pres, 16, 'Parameter 2 (3 M)', '5.2 SUBSYSTEM 1: DISCOVERY LAYER', 'AST Parsing, Pattern Matching & Constant Propagation');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -486,7 +523,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 15: Section 04 - Subsystem 2: Inter-Procedural Taint
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 15, 'Parameter 2 (3 M)', '5.3 SUBSYSTEM 2: SEMANTIC BINDING (N1)', 'Inter-Procedural Backward & Forward Taint Analysis');
+  const s = addSlideBase(pres, 17, 'Parameter 2 (3 M)', '5.3 SUBSYSTEM 2: SEMANTIC BINDING (N1)', 'Inter-Procedural Backward & Forward Taint Analysis');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -518,7 +555,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 16: Section 04 - Subsystem 2: Retention Extractor
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 16, 'Parameter 2 (3 M)', '5.3 RETENTION INFERENCE ENGINE', 'Recovering Confidentiality Lifetime from Declarative Code');
+  const s = addSlideBase(pres, 18, 'Parameter 2 (3 M)', '5.3 RETENTION INFERENCE ENGINE', 'Recovering Confidentiality Lifetime from Declarative Code');
 
   const configs = [
     { title: 'CLOUD STORAGE (S3/GCS)', src: 'Lifecycle policies & IaC', detail: 'Parses Expiration InDays or retain 10 years comments in bucket deployment configs.', example: 'Retain 10 years  ⟹  R = 10.0' },
@@ -542,7 +579,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 17: Section 04 - Subsystem 3: Scoring & Suppression
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 17, 'Parameter 2 (3 M)', '5.4 HNDL SCORING & NOISE SUPPRESSION', 'Mosca-Grounded Prioritisation (N2) & Noise Filtering (N3)');
+  const s = addSlideBase(pres, 19, 'Parameter 2 (3 M)', '5.4 HNDL SCORING & NOISE SUPPRESSION', 'Mosca-Grounded Prioritisation (N2) & Noise Filtering (N3)');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -577,7 +614,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 18: Section 04 - Subsystem 4 & Schema
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 18, 'Parameter 2 (3 M)', '5.5 PATCH SYNTHESIS & CBOM CONTRACTS', 'liboqs Hybrid Templates, 3-Gate Testing & CycloneDX 1.6');
+  const s = addSlideBase(pres, 20, 'Parameter 2 (3 M)', '5.5 PATCH SYNTHESIS & CBOM CONTRACTS', 'liboqs Hybrid Templates, 3-Gate Testing & CycloneDX 1.6');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -606,7 +643,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 19: Section 05 - Tool Selection 1: Parsing
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 19, 'Parameter 3 (3 M)', '6.1 TOOL JUSTIFICATION: PARSING & AST', 'Comparative Evaluation Matrix: Parsing Infrastructure');
+  const s = addSlideBase(pres, 21, 'Parameter 3 (3 M)', '6.1 TOOL JUSTIFICATION: PARSING & AST', 'Comparative Evaluation Matrix: Parsing Infrastructure');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addText([
@@ -626,7 +663,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 20: Section 05 - Tool Selection 2: Taint Engine
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 20, 'Parameter 3 (3 M)', '6.2 TOOL JUSTIFICATION: TAINT ANALYSIS', 'Comparative Evaluation Matrix: Static Analysis & Taint Engines');
+  const s = addSlideBase(pres, 22, 'Parameter 3 (3 M)', '6.2 TOOL JUSTIFICATION: TAINT ANALYSIS', 'Comparative Evaluation Matrix: Static Analysis & Taint Engines');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addText([
@@ -646,7 +683,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 21: Section 05 - Tool Selection 3: PQC Library
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 21, 'Parameter 3 (3 M)', '6.3 TOOL JUSTIFICATION: PQC LIBRARY', 'Open Quantum Safe (liboqs) as Reference Standard');
+  const s = addSlideBase(pres, 23, 'Parameter 3 (3 M)', '6.3 TOOL JUSTIFICATION: PQC LIBRARY', 'Open Quantum Safe (liboqs) as Reference Standard');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addText([
@@ -667,7 +704,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 22: Section 05 - Tool Selection 4: CBOM Schema
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 22, 'Parameter 3 (3 M)', '6.4 TOOL JUSTIFICATION: CBOM STANDARD', 'OWASP CycloneDX 1.6 CBOM vs SPDX 3.0');
+  const s = addSlideBase(pres, 24, 'Parameter 3 (3 M)', '6.4 TOOL JUSTIFICATION: CBOM STANDARD', 'OWASP CycloneDX 1.6 CBOM vs SPDX 3.0');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -697,7 +734,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 23: Section 05 - Tool Selection 5: Verification
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 23, 'Parameter 3 (3 M)', '6.5 TOOL JUSTIFICATION: VERIFICATION', 'Differential & Property Testing vs Formal Methods');
+  const s = addSlideBase(pres, 25, 'Parameter 3 (3 M)', '6.5 TOOL JUSTIFICATION: VERIFICATION', 'Differential & Property Testing vs Formal Methods');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -727,7 +764,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 24: Section 06 - Prototype: ~20% Milestone
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 24, 'Parameter 4 (3 M)', '7.1 INITIAL PROTOTYPE (~20% COMPLETION)', 'TRL 3 Working Proof-of-Concept in Repository');
+  const s = addSlideBase(pres, 26, 'Parameter 4 (3 M)', '7.1 INITIAL PROTOTYPE (~20% COMPLETION)', 'TRL 3 Working Proof-of-Concept in Repository');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -760,34 +797,10 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // -------------------------------------------------------------
 // SLIDE 25: Section 06 - Dashboard Screenshots
 // -------------------------------------------------------------
-{
-  const s = addSlideBase(pres, 25, 'Parameter 4 (3 M)', '7.5 INTERACTIVE WEB DASHBOARD', 'Full-Stack React Dashboard & REST API');
-
-  s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
-  
-  s.addText('WEB DASHBOARD (TRL 3 PROTOTYPE UI)', { x: 0.8, y: 1.8, w: 8.4, h: 0.3, fontSize: 11, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
-  s.addText([
-    { text: '• Backend: ', options: { bold: true, color: ACCENT_BLUE } },
-    { text: 'Python HTTP server providing /api/scan and /api/simulate-mosca endpoints.\n', options: { color: TEXT_BODY } },
-    { text: '• Frontend: ', options: { bold: true, color: ACCENT_BLUE } },
-    { text: 'Responsive HTML/React dashboard with vibrant dark mode aesthetics.\n', options: { color: TEXT_BODY } },
-    { text: '• Capabilities: ', options: { bold: true, color: ACCENT_GREEN } },
-    { text: 'Live dataflow visualization, Mosca risk scoring simulator, and CycloneDX export.', options: { color: TEXT_BODY } }
-  ], { x: 0.8, y: 2.15, w: 8.4, h: 0.6, fontSize: 9.5, fontFace: 'Arial', lineSpacing: 14 });
-
-  try {
-    s.addImage({ path: 'assets/dashboard.png', x: 0.8, y: 2.8, w: 4.0, h: 1.8, sizing: { type: 'contain' } });
-    s.addImage({ path: 'assets/dashboard_results.png', x: 5.2, y: 2.8, w: 4.0, h: 1.8, sizing: { type: 'contain' } });
-  } catch (e) {
-    s.addText('[Screenshots will appear here during generation if assets/ is populated]', { x: 0.8, y: 3.5, w: 8.4, h: 0.3, fontSize: 9, color: TEXT_MUTED, align: 'center' });
-  }
-}
-
-// -------------------------------------------------------------
 // SLIDE 26: Section 06 - Benchmark Demonstration
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 26, 'Parameter 4 (3 M)', '7.2 BENCHMARK DEMONSTRATION', 'Discriminating Call Sites on examples/sample_project');
+  const s = addSlideBase(pres, 27, 'Parameter 4 (3 M)', '7.2 BENCHMARK DEMONSTRATION', 'Discriminating Call Sites on examples/sample_project');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
@@ -797,7 +810,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
     { text: 'TERMINAL OUTPUT TABLE:\n', options: { bold: true, color: TEXT_MUTED } },
     { text: 'RANK | ALGORITHM    | LOCATION        | RETENTION | EXPOSURE        | SCORE | URGENCY\n', options: { fontFace: 'Courier New', color: TEXT_WHITE, bold: true, fontSize: 7.8 } },
     { text: '---------------------------------------------------------------------------------------------\n', options: { fontFace: 'Courier New', color: BORDER_COLOR, fontSize: 7.8 } },
-    { text: '1    | RSA-OAEP     | archive.py:11   | 10.0y     | EXTERNAL_PUBLIC | 16.7  | HIGH (MOSCA BREACH)\n', options: { fontFace: 'Courier New', color: ACCENT_RED, bold: true, fontSize: 7.8 } },
+    { text: '1    | RSA-OAEP     | archive.py:11   | 10.0y     | EXTERNAL_PUBLIC | 33.3  | CRITICAL_IMMEDIATE (MOSCA BREACH)\n', options: { fontFace: 'Courier New', color: ACCENT_RED, bold: true, fontSize: 7.8 } },
     { text: '2    | RSA-OAEP     | session.py:11   | <1 hour   | INTERNAL_IPC    | 0.0   | LOW\n', options: { fontFace: 'Courier New', color: TEXT_BODY, fontSize: 7.8 } },
     { text: '3    | SHA-256      | etags.py:9      | <1 hour   | INTERNAL_IPC    | 0.0   | SUPPRESSED\n\n', options: { fontFace: 'Courier New', color: TEXT_MUTED, fontSize: 7.8 } },
     { text: 'SUMMARY: 3 discovered · 2 actionable · 1 context-suppressed (33% noise filtered) · 1 Mosca breach.', options: { bold: true, color: ACCENT_GREEN, fontSize: 8.5 } }
@@ -808,7 +821,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 26: Section 06 - Discrimination Findings
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 26, 'Parameter 4 (3 M)', '7.3 ANALYSIS OF RESULTS', 'Empirical Proof of Discrimination & Noise Filtering');
+  const s = addSlideBase(pres, 28, 'Parameter 4 (3 M)', '7.3 ANALYSIS OF RESULTS', 'Empirical Proof of Discrimination & Noise Filtering');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -837,7 +850,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 27: Section 06 - CBOM JSON Schema Output
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 27, 'Parameter 4 (3 M)', '7.4 CYCLONEDX 1.6 CBOM EXPORT', 'Machine-Readable Bill of Materials with Dataflow Extensions');
+  const s = addSlideBase(pres, 29, 'Parameter 4 (3 M)', '7.4 CYCLONEDX 1.6 CBOM EXPORT', 'Machine-Readable Bill of Materials with Dataflow Extensions');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
@@ -857,7 +870,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 28: Section 06 - Unit Test Suite Evidence
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 28, 'Parameter 4 (3 M)', '7.5 AUTOMATED TEST HARNESS', '100% Pass Rate on Unit Testing (tests/test_navigator.py)');
+  const s = addSlideBase(pres, 30, 'Parameter 4 (3 M)', '7.5 AUTOMATED TEST HARNESS', '100% Pass Rate on Unit Testing (tests/test_navigator.py)');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
@@ -876,33 +889,35 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 }
 
 // -------------------------------------------------------------
-// SLIDE 29: Section 07 - Innovation & Novelty Pillars
-// -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 29, 'Parameter 5 (3 M)', '8.1 THE 5 PILLARS OF NOVELTY', 'Core Intellectual Innovations (N1–N5)');
+  const s = addSlideBase(pres, 31, 'Parameter 4 (3 M)', '7.5 INTERACTIVE WEB DASHBOARD', 'Full-Stack React Dashboard & REST API');
 
-  const novs = [
-    { id: 'N1', title: 'RETENTION-AWARE DATAFLOW', desc: 'Binds cryptographic primitives to data lifetime extracted from declarative code & IaC.' },
-    { id: 'N2', title: 'CALL-SITE RISK METRIC', desc: 'First score varying across identical algorithms; evaluated via ranking metrics (nDCG/τ).' },
-    { id: 'N3', title: 'CONTEXT NOISE SUPPRESSION', desc: 'Filters non-security hashes; raises actionable precision from ~0.30 to ≥0.70.' },
-    { id: 'N4', title: 'VERIFIED HYBRID PATCHES', desc: 'liboqs hybrid synthesis gated by differential testing, property tests, & downgrade checks.' },
-    { id: 'N5', title: 'ANNOTATED BENCHMARK', desc: '15–20 open-source repositories annotated with retention ground truth & priority rankings.' }
-  ];
+  s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
+  
+  s.addText('WEB DASHBOARD (TRL 3 PROTOTYPE UI)', { x: 0.8, y: 1.8, w: 8.4, h: 0.3, fontSize: 11, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
+  s.addText([
+    { text: '• Backend: ', options: { bold: true, color: ACCENT_BLUE } },
+    { text: 'Python HTTP server providing /api/scan and /api/simulate-mosca endpoints.\n', options: { color: TEXT_BODY } },
+    { text: '• Frontend: ', options: { bold: true, color: ACCENT_BLUE } },
+    { text: 'Responsive HTML/React dashboard with vibrant dark mode aesthetics.\n', options: { color: TEXT_BODY } },
+    { text: '• Capabilities: ', options: { bold: true, color: ACCENT_GREEN } },
+    { text: 'Live dataflow visualization, Mosca risk scoring simulator, and CycloneDX export.', options: { color: TEXT_BODY } }
+  ], { x: 0.8, y: 2.15, w: 8.4, h: 0.6, fontSize: 9.5, fontFace: 'Arial', lineSpacing: 14 });
 
-  novs.forEach((n, idx) => {
-    const x = 0.5 + idx * 1.8;
-    s.addShape(pres.ShapeType.rect, { x: x, y: 1.8, w: 1.7, h: 3.0, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
-    s.addText(n.id, { x: x + 0.1, y: 2.0, w: 1.5, h: 0.35, fontSize: 16, fontFace: 'Arial', color: ACCENT_BLUE, bold: true });
-    s.addText(n.title, { x: x + 0.1, y: 2.4, w: 1.5, h: 0.45, fontSize: 8.5, fontFace: 'Arial', color: TEXT_WHITE, bold: true });
-    s.addText(n.desc, { x: x + 0.1, y: 2.9, w: 1.5, h: 1.8, fontSize: 7.8, fontFace: 'Arial', color: TEXT_BODY, lineSpacing: 11 });
-  });
+  try {
+    s.addImage({ path: 'assets/dashboard.png', x: 0.8, y: 2.8, w: 4.0, h: 1.8, sizing: { type: 'contain' } });
+    s.addImage({ path: 'assets/dashboard_results.png', x: 5.2, y: 2.8, w: 4.0, h: 1.8, sizing: { type: 'contain' } });
+  } catch (e) {
+    s.addText('[Screenshots will appear here during generation if assets/ is populated]', { x: 0.8, y: 3.5, w: 8.4, h: 0.3, fontSize: 9, color: TEXT_MUTED, align: 'center' });
+  }
 }
-
+// -------------------------------------------------------------
+// SLIDE 29: Section 07 - Innovation & Novelty Pillars
 // -------------------------------------------------------------
 // SLIDE 30: Section 07 - Mathematical Soundness & Feasibility
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 30, 'Parameter 5 (3 M)', '8.2 MATHEMATICAL DERIVATION & FEASIBILITY', 'Theoretical Soundness, Complexity Bounds & Fallbacks');
+  const s = addSlideBase(pres, 32, 'Parameter 5 (3 M)', '8.2 MATHEMATICAL DERIVATION & FEASIBILITY', 'Theoretical Soundness, Complexity Bounds & Fallbacks');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
   s.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.7, w: 4.3, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
@@ -933,7 +948,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 31: Section 07 - Patent Positioning
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 31, 'Parameter 5 (3 M)', '8.3 PATENT POSITIONING', 'Indian Patent Office CRI Guidelines (2025)');
+  const s = addSlideBase(pres, 33, 'Parameter 5 (3 M)', '8.3 PATENT POSITIONING', 'Indian Patent Office CRI Guidelines (2025)');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
@@ -952,7 +967,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 32: Section 08 - Project Roadmap
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 32, 'Parameter 6 (3 M)', '9.1 ACADEMIC YEAR MILESTONE ROADMAP', 'Seven-Review Milestone Progression (Fall & Winter Semesters)');
+  const s = addSlideBase(pres, 34, 'Parameter 6 (3 M)', '9.1 ACADEMIC YEAR MILESTONE ROADMAP', 'Seven-Review Milestone Progression (Fall & Winter Semesters)');
 
   const reviews = [
     { name: 'REVIEW I', date: 'Aug 2026', marks: '5 M', status: 'DONE', desc: 'Problem definition, literature review (P1–P16), formal objectives.' },
@@ -983,7 +998,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 33: Section 08 - Work Breakdown Structure
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 33, 'Parameter 6 (3 M)', '9.2 WORK BREAKDOWN STRUCTURE (WBS)', 'Equitable 3-Way Allocation Across Team Members');
+  const s = addSlideBase(pres, 35, 'Parameter 6 (3 M)', '9.2 WORK BREAKDOWN STRUCTURE (WBS)', 'Equitable 3-Way Allocation Across Team Members');
 
   const members = [
     {
@@ -1011,7 +1026,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 34: Section 08 - Risk Register & Checkpoints
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 34, 'Parameter 6 (3 M)', '9.3 RISK MANAGEMENT REGISTER', 'Proactive Trigger Checkpoints & Mitigation Strategies');
+  const s = addSlideBase(pres, 36, 'Parameter 6 (3 M)', '9.3 RISK MANAGEMENT REGISTER', 'Proactive Trigger Checkpoints & Mitigation Strategies');
 
   const risks = [
     { id: 'RR1', title: 'Dataflow Coverage Low', trig: '<40% bound on first 3 repos', resp: 'Fall back to analyst-supplied retention per data class; propagate through dataflow.', gate: 'Month 5' },
@@ -1035,7 +1050,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 35: Section 09 - Individual Contribution Matrix
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 35, 'Parameter 7 (2 M)', '10.1 INDIVIDUAL RESPONSIBILITIES', 'Individual Ownership & Technical Accountability');
+  const s = addSlideBase(pres, 37, 'Parameter 7 (2 M)', '10.1 INDIVIDUAL RESPONSIBILITIES', 'Individual Ownership & Technical Accountability');
 
   s.addShape(pres.ShapeType.rect, { x: 0.5, y: 1.7, w: 9.0, h: 3.1, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
 
@@ -1059,7 +1074,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 // SLIDE 36: Section 09 - Panel Defense Q&A Guide
 // -------------------------------------------------------------
 {
-  const s = addSlideBase(pres, 36, 'Parameter 7 (2 M)', '10.2 PANEL DEFENSE & TECHNICAL Q&A', 'Anticipating Technical Inquiries from the School Panel');
+  const s = addSlideBase(pres, 38, 'Parameter 7 (2 M)', '10.2 PANEL DEFENSE & TECHNICAL Q&A', 'Anticipating Technical Inquiries from the School Panel');
 
   const qas = [
     { q: 'Q1: How do you handle dynamic typing in Python?', a: 'We target 70% dataflow coverage rather than claiming full mathematical soundness. We use constant propagation and typeshed stubs; unresolvable sites are placed in an explicit audit bucket rather than guessed.' },
