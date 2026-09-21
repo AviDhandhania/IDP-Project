@@ -22,7 +22,7 @@ const ACCENT_RED = 'D32F2F';
 const ACCENT_GREEN = '2E7D32';
 const ACCENT_BLUE = '1976D2';
 
-const TOTAL_SLIDES = 36;
+const TOTAL_SLIDES = 37;
 
 function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
   const slide = pres.addSlide();
@@ -810,7 +810,7 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
     { text: 'TERMINAL OUTPUT TABLE:\n', options: { bold: true, color: TEXT_MUTED } },
     { text: 'RANK | ALGORITHM    | LOCATION        | RETENTION | EXPOSURE        | SCORE | URGENCY\n', options: { fontFace: 'Courier New', color: TEXT_WHITE, bold: true, fontSize: 7.8 } },
     { text: '---------------------------------------------------------------------------------------------\n', options: { fontFace: 'Courier New', color: BORDER_COLOR, fontSize: 7.8 } },
-    { text: '1    | RSA-OAEP     | archive.py:11   | 10.0y     | EXTERNAL_PUBLIC | 16.7  | HIGH (MOSCA BREACH)\n', options: { fontFace: 'Courier New', color: ACCENT_RED, bold: true, fontSize: 7.8 } },
+    { text: '1    | RSA-OAEP     | archive.py:11   | 10.0y     | EXTERNAL_PUBLIC | 33.3  | CRITICAL_IMMEDIATE (MOSCA BREACH)\n', options: { fontFace: 'Courier New', color: ACCENT_RED, bold: true, fontSize: 7.8 } },
     { text: '2    | RSA-OAEP     | session.py:11   | <1 hour   | INTERNAL_IPC    | 0.0   | LOW\n', options: { fontFace: 'Courier New', color: TEXT_BODY, fontSize: 7.8 } },
     { text: '3    | SHA-256      | etags.py:9      | <1 hour   | INTERNAL_IPC    | 0.0   | SUPPRESSED\n\n', options: { fontFace: 'Courier New', color: TEXT_MUTED, fontSize: 7.8 } },
     { text: 'SUMMARY: 3 discovered · 2 actionable · 1 context-suppressed (33% noise filtered) · 1 Mosca breach.', options: { bold: true, color: ACCENT_GREEN, fontSize: 8.5 } }
@@ -1072,6 +1072,24 @@ function addSlideBase(pres, slideNum, sectionName, title, subtitle) {
 
 // -------------------------------------------------------------
 // SLIDE 36: Section 09 - Panel Defense Q&A Guide
+// -------------------------------------------------------------
+{
+  const s = addSlideBase(pres, 38, 'Parameter 7 (2 M)', '10.2 PANEL DEFENSE & TECHNICAL Q&A', 'Anticipating Technical Inquiries from the School Panel');
+
+  const qas = [
+    { q: 'Q1: How do you handle dynamic typing in Python?', a: 'We target 70% dataflow coverage rather than claiming full mathematical soundness. We use constant propagation and typeshed stubs; unresolvable sites are placed in an explicit audit bucket rather than guessed.' },
+    { q: 'Q2: Why not use algorithm-severity scores like Shaw [P2]?', a: 'Shaw\'s score is algorithm-intrinsic; all RSA-2048 sites receive identical scores. Only dataflow-derived retention distinguishes 10-year S3 archives (breached) from 15-minute tokens (low risk).' },
+    { q: 'Q3: How do you guarantee PQC patches don\'t break code?', a: 'We use verified hybrid templates (X25519+ML-KEM) via liboqs, gated by differential equivalence testing on identical inputs, property tests for wrong-key failure, and downgrade resilience checks.' }
+  ];
+
+  qas.forEach((qa, idx) => {
+    const y = 1.8 + idx * 1.05;
+    s.addShape(pres.ShapeType.rect, { x: 0.5, y: y, w: 9.0, h: 0.95, fill: { color: CARD_BG }, line: { color: BORDER_COLOR, width: 1 } });
+    s.addText(qa.q, { x: 0.7, y: y + 0.1, w: 8.6, h: 0.25, fontSize: 9, fontFace: 'Arial', color: ACCENT_BLUE, bold: true });
+    s.addText(qa.a, { x: 0.7, y: y + 0.35, w: 8.6, h: 0.55, fontSize: 7.8, fontFace: 'Arial', color: TEXT_BODY, lineSpacing: 11 });
+  });
+}
+
 // -------------------------------------------------------------
 // Generate and Save Presentation
 // -------------------------------------------------------------
