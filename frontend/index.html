@@ -1,251 +1,357 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto-Agility Navigator | Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
-    <!-- Custom Theme Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1e3a8a',
-                        secondary: '#3b82f6',
-                        accent: '#10b981',
-                        surface: 'rgba(255, 255, 255, 0.7)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .glass {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        .glow {
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto-Agility Navigator — PQC Inventory & HNDL Prioritization Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-200 font-sans text-gray-800 antialiased h-screen overflow-hidden">
-    
-    <div class="flex h-full w-full" x-data="{ sidebarOpen: true }">
-        
-        <!-- Glassmorphism Sidebar -->
-        <aside class="glass w-72 flex flex-col transition-all duration-300 z-10 border-r border-white/50" :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full absolute'">
-            <div class="p-6 border-b border-white/40 flex justify-between items-center">
-                <div>
-                    <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600">Navigator AI</h1>
-                    <p class="text-xs font-semibold tracking-wider text-blue-500 uppercase mt-1">Review II Prototype</p>
-                </div>
+<body>
+  <div class="app-container">
+    <!-- Top Navbar -->
+    <header class="top-nav">
+      <div class="brand-group">
+        <div class="logo-shield">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Crypto-Agility Navigator <span class="badge-trl">TRL 3 PoC</span></h1>
+          <p class="subtitle">Dataflow-Aware Cryptographic Inventory & Prioritised Post-Quantum Migration · Review II</p>
+        </div>
+      </div>
+      
+      <div class="nav-actions">
+        <div class="team-credits"><span class="member-tag">Crypto-Agility Navigator Team</span></div>
+        <button id="theme-toggle" class="btn-icon" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <span class="theme-icon sun-icon">☀️</span>
+          <span class="theme-icon moon-icon">🌙</span>
+        </button>
+        <button id="btn-refresh" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6M1 20v-6h6"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          Re-scan Codebase
+        </button>
+      </div>
+    </header>
+
+    <!-- Executive Metrics Grid -->
+    <section class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-label">Discovered Call Sites</span>
+          <span class="metric-icon">🔍</span>
+        </div>
+        <div class="metric-value" id="metric-total-findings">--</div>
+        <div class="metric-subtext" id="metric-target-name">Target: examples/sample_project</div>
+      </div>
+
+      <div class="metric-card danger-card">
+        <div class="metric-header">
+          <span class="metric-label">Shor-Broken Primitives</span>
+          <span class="metric-icon">⚠️</span>
+        </div>
+        <div class="metric-value text-danger" id="metric-shor-broken">--</div>
+        <div class="metric-subtext">Classical Public-Key (RSA/ECC)</div>
+      </div>
+
+      <div class="metric-card breach-card">
+        <div class="metric-header">
+          <span class="metric-label">Mosca Inequality Breaches</span>
+          <span class="metric-icon pulse-dot">🚨</span>
+        </div>
+        <div class="metric-value text-breach" id="metric-mosca-breaches">--</div>
+        <div class="metric-subtext">Immediate HNDL Remediation ($x+y > z$)</div>
+      </div>
+
+      <div class="metric-card success-card">
+        <div class="metric-header">
+          <span class="metric-label">Context Noise Filtered</span>
+          <span class="metric-icon">🎯</span>
+        </div>
+        <div class="metric-value text-success" id="metric-noise-filtered">--</div>
+        <div class="metric-subtext" id="metric-noise-detail">ETags & non-security hashes suppressed</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-header">
+          <span class="metric-label">Avg Actionable HNDL Score</span>
+          <span class="metric-icon">📈</span>
+        </div>
+        <div class="metric-value" id="metric-avg-score">--</div>
+        <div class="metric-subtext">Normalized Exposure (0 - 100)</div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="view-tabs">
+      <button class="tab-btn active" data-tab="tab-inventory">
+        <span class="tab-icon">📋</span> Cryptographic Inventory & HNDL Rankings
+      </button>
+      <button class="tab-btn" data-tab="tab-dataflow">
+        <span class="tab-icon">🔀</span> Dataflow Taint Graph
+      </button>
+      <button class="tab-btn" data-tab="tab-mosca">
+        <span class="tab-icon">📐</span> Mosca's Inequality Simulator
+      </button>
+      <button class="tab-btn" data-tab="tab-codescan">
+        <span class="tab-icon">💻</span> Live Code Scanner
+      </button>
+      <button class="tab-btn" data-tab="tab-cbom">
+        <span class="tab-icon">📦</span> CycloneDX 1.6 CBOM
+      </button>
+    </nav>
+
+    <!-- Tab 1: Inventory & Ranking -->
+    <main id="tab-inventory" class="tab-pane active">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="filter-controls">
+            <div class="search-box">
+              <span class="search-icon">🔎</span>
+              <input type="text" id="inventory-search" placeholder="Search by algorithm, file, sink, source...">
             </div>
-            
-            <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-                <a href="index.html" class="flex items-center px-4 py-3 bg-white/60 text-blue-800 rounded-xl font-bold shadow-sm border border-white glow">
-                    <svg class="w-5 h-5 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                    Dashboard Overview
-                </a>
-                <a href="assets.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-white/40 hover:text-blue-700 rounded-xl font-medium transition-all">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    CBOM Inventory
-                </a>
-                <a href="dataflow.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-white/40 hover:text-blue-700 rounded-xl font-medium transition-all">
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    Dataflow Taint Map
-                </a>
-            </nav>
-            
-            <!-- User Profile -->
-            <div class="p-6 border-t border-white/40 bg-white/20">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-md">CT</div>
-                    <div class="ml-3">
-                        <p class="text-sm font-bold text-gray-800">Navigator Team</p>
-                        <p class="text-xs text-blue-600">IDP Project</p>
-                    </div>
-                </div>
+            <div class="filter-chips">
+              <button class="chip active" data-filter="all">All (<span id="count-all">0</span>)</button>
+              <button class="chip chip-danger" data-filter="mosca">Mosca Breaches (<span id="count-mosca">0</span>)</button>
+              <button class="chip chip-warning" data-filter="actionable">Actionable (<span id="count-actionable">0</span>)</button>
+              <button class="chip chip-muted" data-filter="suppressed">Suppressed Noise (<span id="count-suppressed">0</span>)</button>
             </div>
-        </aside>
+          </div>
+          <div class="panel-actions">
+            <button id="btn-export-cbom-quick" class="btn btn-secondary">
+              📥 Export CBOM JSON
+            </button>
+          </div>
+        </div>
 
-        <!-- Main Workspace -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
-            
-            <!-- Header -->
-            <header class="glass px-8 py-5 flex justify-between items-center z-10">
-                <div class="flex items-center">
-                    <button @click="sidebarOpen = !sidebarOpen" class="p-2 rounded-lg bg-white/50 hover:bg-white text-gray-600 shadow-sm mr-4 transition-colors border border-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    </button>
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-800">Executive Dashboard</h2>
-                        <p class="text-sm text-gray-500">Repository: <span class="font-mono text-indigo-600 font-semibold">enterprise-payments-api</span></p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <button class="px-4 py-2 bg-white/60 hover:bg-white text-gray-700 rounded-lg shadow-sm border border-white font-medium flex items-center transition-all glow">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        Rescan Codebase
-                    </button>
-                    <button class="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg shadow-lg font-bold flex items-center transition-all transform hover:scale-105">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        Export CBOM
-                    </button>
-                </div>
-            </header>
+        <div class="table-responsive">
+          <table class="data-table" id="inventory-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Algorithm</th>
+                <th>Call Site Location</th>
+                <th>Plaintext Source</th>
+                <th>Ciphertext Sink</th>
+                <th>Retention ($x$)</th>
+                <th>Exposure ($E$)</th>
+                <th>HNDL Score</th>
+                <th>Urgency Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
 
-            <!-- Scrollable Content -->
-            <div class="flex-1 overflow-y-auto p-8 z-0">
-                
-                <!-- KPI Glass Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="glass p-6 rounded-2xl relative overflow-hidden group hover:glow transition-all">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-blue-100 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
-                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">Total Primitives</h3>
-                        <div class="flex items-end mt-2">
-                            <p class="text-4xl font-extrabold text-gray-800">1,204</p>
-                            <span class="ml-2 mb-1 text-sm font-bold text-green-500 bg-green-100 px-2 py-0.5 rounded-full">+12 new</span>
-                        </div>
-                    </div>
-                    
-                    <div class="glass p-6 rounded-2xl relative overflow-hidden group hover:glow transition-all border-l-4 border-red-500">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-red-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
-                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">Critical Mosca Breaches</h3>
-                        <div class="flex items-end mt-2">
-                            <p class="text-4xl font-extrabold text-red-600">142</p>
-                            <span class="ml-2 mb-1 text-sm font-bold text-red-500 bg-red-100 px-2 py-0.5 rounded-full">HNDL Risk > 8</span>
-                        </div>
-                    </div>
+    <!-- Tab 2: Dataflow Taint Graph -->
+    <main id="tab-dataflow" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Inter-Procedural Semantic Dataflow Bindings</h2>
+          <p class="panel-desc">Visualizing plaintext sources, cryptographic transformations, persistence sinks, and lifecycle retentions.</p>
+        </div>
+        <div class="dataflow-cards-container" id="dataflow-visual-container">
+          <!-- Dynamically populated dataflow pipeline flows -->
+        </div>
+      </div>
+    </main>
 
-                    <div class="glass p-6 rounded-2xl relative overflow-hidden group hover:glow transition-all border-l-4 border-green-500">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
-                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">PQC Migrated (ML-KEM)</h3>
-                        <div class="flex items-end mt-2">
-                            <p class="text-4xl font-extrabold text-green-600">18%</p>
-                            <span class="ml-2 mb-1 text-sm font-bold text-gray-500">216 assets</span>
-                        </div>
-                    </div>
+    <!-- Tab 3: Mosca's Inequality & HNDL Calculator -->
+    <main id="tab-mosca" class="tab-pane">
+      <div class="panel grid-2col">
+        <div class="calculator-controls">
+          <h2>Mosca's Inequality Simulation Engine</h2>
+          <p class="panel-desc">Mathematically evaluate Harvest-Now-Decrypt-Later (HNDL) risk: $x + y > z$.</p>
 
-                    <div class="glass p-6 rounded-2xl relative overflow-hidden group hover:glow transition-all">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
-                        <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">False Positives Suppressed</h3>
-                        <div class="flex items-end mt-2">
-                            <p class="text-4xl font-extrabold text-gray-800">812</p>
-                            <span class="ml-2 mb-1 text-sm font-bold text-indigo-500 bg-indigo-100 px-2 py-0.5 rounded-full">via Dataflow</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Main Grid Layout -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                    <!-- Advanced Chart -->
-                    <div class="lg:col-span-1 glass p-6 rounded-2xl flex flex-col">
-                        <h3 class="text-lg font-bold text-gray-800 mb-6 flex justify-between items-center">
-                            Inventory by Family
-                            <button class="text-gray-400 hover:text-blue-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg></button>
-                        </h3>
-                        <div class="flex-1 relative min-h-[300px]">
-                            <canvas id="inventoryChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Priority Action List -->
-                    <div class="lg:col-span-2 glass p-6 rounded-2xl">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-lg font-bold text-gray-800">High-Priority HNDL Data Paths</h3>
-                            <a href="dataflow.html" class="text-sm font-semibold text-blue-600 hover:text-blue-800 flex items-center">View Taint Maps <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></a>
-                        </div>
-                        
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
-                                <thead>
-                                    <tr class="border-b border-gray-200">
-                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">File & Line</th>
-                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Algorithm</th>
-                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Data Lifetime</th>
-                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider">HNDL Score</th>
-                                        <th class="py-3 px-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-100">
-                                    <tr class="hover:bg-white/40 transition-colors">
-                                        <td class="py-4 px-4 font-mono text-sm text-gray-700">payments/archive.py:108</td>
-                                        <td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-200">RSA-2048</span></td>
-                                        <td class="py-4 px-4 text-sm text-gray-600"><span class="font-semibold">10 Years</span> (S3 Bucket)</td>
-                                        <td class="py-4 px-4 font-bold text-red-600">8.42 <span class="text-xs text-red-400">Critical</span></td>
-                                        <td class="py-4 px-4 text-right"><button class="px-3 py-1.5 bg-gray-900 text-white rounded-lg text-xs font-bold hover:bg-blue-600 transition-colors shadow-md">Synthesize Patch</button></td>
-                                    </tr>
-                                    <tr class="hover:bg-white/40 transition-colors">
-                                        <td class="py-4 px-4 font-mono text-sm text-gray-700">auth/tokens.py:42</td>
-                                        <td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-100 text-orange-800 border border-orange-200">ECDSA-P256</span></td>
-                                        <td class="py-4 px-4 text-sm text-gray-600"><span class="font-semibold">1 Year</span> (RDS DB)</td>
-                                        <td class="py-4 px-4 font-bold text-orange-600">5.10 <span class="text-xs text-orange-400">High</span></td>
-                                        <td class="py-4 px-4 text-right"><button class="px-3 py-1.5 bg-gray-900 text-white rounded-lg text-xs font-bold hover:bg-blue-600 transition-colors shadow-md">Synthesize Patch</button></td>
-                                    </tr>
-                                    <tr class="hover:bg-white/40 transition-colors opacity-60">
-                                        <td class="py-4 px-4 font-mono text-sm text-gray-700">web/session.py:12</td>
-                                        <td class="py-4 px-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200">RSA-2048</span></td>
-                                        <td class="py-4 px-4 text-sm text-gray-600"><span class="font-semibold">15 mins</span> (Redis)</td>
-                                        <td class="py-4 px-4 font-bold text-gray-500">0.02 <span class="text-xs text-gray-400">Deferred</span></td>
-                                        <td class="py-4 px-4 text-right"><button class="px-3 py-1.5 bg-gray-200 text-gray-400 rounded-lg text-xs font-bold cursor-not-allowed">Low Priority</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
+          <div class="control-group">
+            <div class="control-label-row">
+              <label for="slider-x">Data Confidentiality Retention ($x$)</label>
+              <span class="slider-value" id="val-x">10.0 years</span>
             </div>
-        </main>
+            <input type="range" id="slider-x" min="0.1" max="30" step="0.5" value="10">
+            <span class="control-hint">Extracted via S3 lifecycle policies, database TTLs, or regulatory mandates.</span>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <label for="slider-y">System Migration Duration ($y$)</label>
+              <span class="slider-value" id="val-y">2.0 years</span>
+            </div>
+            <input type="range" id="slider-y" min="0.5" max="8" step="0.5" value="2">
+            <span class="control-hint">Engineering time required to audit, test, and deploy PQC primitives.</span>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <label for="slider-z">CRQC Arrival Horizon ($z$)</label>
+              <span class="slider-value" id="val-z">7.0 years</span>
+            </div>
+            <input type="range" id="slider-z" min="1" max="15" step="0.5" value="7">
+            <span class="control-hint">Estimated years until a Cryptographically Relevant Quantum Computer breaks classical asymmetric ciphers.</span>
+          </div>
+
+          <div class="control-group">
+            <label for="select-exposure">Exposure Surface ($E$)</label>
+            <select id="select-exposure" class="form-select">
+              <option value="EXTERNAL_PUBLIC">EXTERNAL_PUBLIC (Egress to public cloud/internet · Weight 1.0)</option>
+              <option value="EXTERNAL_PARTNER">EXTERNAL_PARTNER (Cross-org interconnect · Weight 0.75)</option>
+              <option value="INTERNAL_CROSS_HOST">INTERNAL_CROSS_HOST (Internal VPC/RPC · Weight 0.50)</option>
+              <option value="INTERNAL_IPC">INTERNAL_IPC (Process boundary · Weight 0.25)</option>
+              <option value="IN_PROCESS">IN_PROCESS (In-memory only · Weight 0.10)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="select-vuln">Primitive Quantum Vulnerability ($A$)</label>
+            <select id="select-vuln" class="form-select">
+              <option value="SHOR_BROKEN">SHOR_BROKEN (RSA / ECDSA / ECDH · Weight 1.0)</option>
+              <option value="GROVER_WEAKENED">GROVER_WEAKENED (AES-128 / SHA-256 · Weight 0.30)</option>
+              <option value="QUANTUM_SAFE">QUANTUM_SAFE (ML-KEM / ML-DSA / AES-256 · Weight 0.05)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="calculator-results">
+          <div class="result-gauge-card" id="mosca-result-card">
+            <div class="result-header">
+              <span class="result-title">Mosca Status & HNDL Risk</span>
+              <span class="badge-status" id="sim-status-badge">CALCULATING</span>
+            </div>
+
+            <div class="equation-box">
+              <div class="eq-line">
+                <span class="eq-term">x (<span id="eq-x">10.0</span>y)</span> + 
+                <span class="eq-term">y (<span id="eq-y">2.0</span>y)</span> = 
+                <span class="eq-sum" id="eq-sum">12.0y</span>
+              </div>
+              <div class="eq-vs">vs. Quantum Horizon $z$ = <span id="eq-z">7.0y</span></div>
+            </div>
+
+            <div class="hndl-score-display">
+              <div class="score-circle">
+                <span class="score-number" id="sim-score-num">--</span>
+                <span class="score-unit">/ 100</span>
+              </div>
+              <div class="score-meta">
+                <div class="score-tier" id="sim-urgency-tier">CRITICAL_IMMEDIATE</div>
+                <div class="score-rec" id="sim-rec-text">--</div>
+              </div>
+            </div>
+
+            <div class="factor-breakdown">
+              <h4>Factor Multipliers</h4>
+              <div class="factor-row">
+                <span>Retention Factor $R(p)$:</span>
+                <span class="factor-val" id="factor-r">--</span>
+              </div>
+              <div class="factor-row">
+                <span>Exposure Factor $E(p)$:</span>
+                <span class="factor-val" id="factor-e">--</span>
+              </div>
+              <div class="factor-row">
+                <span>Algorithm Vulnerability $A(p)$:</span>
+                <span class="factor-val" id="factor-a">--</span>
+              </div>
+              <div class="factor-row">
+                <span>Key Reuse Factor $K(p)$:</span>
+                <span class="factor-val" id="factor-k">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Tab 4: Live Code Scanner -->
+    <main id="tab-codescan" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Live AST & Dataflow Code Scanner</h2>
+            <p class="panel-desc">Paste arbitrary Python code or choose a curated Review II benchmark snippet to run real-time static analysis.</p>
+          </div>
+          <div class="snippet-presets">
+            <button class="btn btn-sm btn-outline preset-btn" data-preset="archive">S3 Settlement Archive (RSA-2048, 10y)</button>
+            <button class="btn btn-sm btn-outline preset-btn" data-preset="session">Redis Session Token (RSA-2048, 15m)</button>
+            <button class="btn btn-sm btn-outline preset-btn" data-preset="etag">Cache ETag Digest (SHA-256 Non-Security)</button>
+          </div>
+        </div>
+
+        <div class="code-editor-layout">
+          <div class="editor-side">
+            <div class="editor-header">
+              <span class="file-name-tag">custom_snippet.py</span>
+              <button id="btn-run-code-scan" class="btn btn-primary btn-sm">
+                ▶ Analyze Code
+              </button>
+            </div>
+            <textarea id="code-input" class="code-textarea" spellcheck="false"></textarea>
+          </div>
+
+          <div class="results-side">
+            <div class="results-header">
+              <span>Real-Time Scan Output</span>
+              <span id="scan-status-tag" class="badge-status badge-info">Ready</span>
+            </div>
+            <div id="code-scan-results" class="scan-output-content">
+              <div class="empty-state">Click "Analyze Code" or select a preset to view dynamic AST extraction & HNDL scoring.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Tab 5: CycloneDX 1.6 CBOM -->
+    <main id="tab-cbom" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>CycloneDX 1.6 Cryptography Bill of Materials (CBOM)</h2>
+            <p class="panel-desc">Standardized machine-readable CBOM schema with dataflow retention and HNDL prioritization extension properties.</p>
+          </div>
+          <div class="cbom-actions">
+            <button id="btn-copy-cbom" class="btn btn-secondary">
+              📋 Copy JSON
+            </button>
+            <button id="btn-download-cbom" class="btn btn-primary">
+              💾 Download CBOM (.json)
+            </button>
+          </div>
+        </div>
+
+        <div class="cbom-viewer-container">
+          <pre><code id="cbom-json-content">Loading CycloneDX 1.6 CBOM...</code></pre>
+        </div>
+      </div>
+    </main>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="modal-title">Finding Details</h3>
+          <button id="modal-close" class="modal-close-btn">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <!-- Dynamic details -->
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Chart Logic -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('inventoryChart').getContext('2d');
-            
-            // Advanced gradient
-            const gradientRed = ctx.createLinearGradient(0, 0, 0, 400);
-            gradientRed.addColorStop(0, 'rgba(239, 68, 68, 0.9)');
-            gradientRed.addColorStop(1, 'rgba(185, 28, 28, 0.7)');
-
-            const gradientBlue = ctx.createLinearGradient(0, 0, 0, 400);
-            gradientBlue.addColorStop(0, 'rgba(59, 130, 246, 0.9)');
-            gradientBlue.addColorStop(1, 'rgba(29, 78, 216, 0.7)');
-
-            const gradientGreen = ctx.createLinearGradient(0, 0, 0, 400);
-            gradientGreen.addColorStop(0, 'rgba(16, 185, 129, 0.9)');
-            gradientGreen.addColorStop(1, 'rgba(4, 120, 87, 0.7)');
-
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Vulnerable (Shor)', 'Quantum-Safe', 'Non-Security'],
-                    datasets: [{
-                        data: [352, 216, 636],
-                        backgroundColor: [gradientRed, gradientGreen, '#9ca3af'],
-                        borderWidth: 0,
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '75%',
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { family: "'Inter', sans-serif", weight: 'bold' }, padding: 20 } },
-                        tooltip: { backgroundColor: 'rgba(255, 255, 255, 0.9)', titleColor: '#111827', bodyColor: '#4b5563', borderColor: '#e5e7eb', borderWidth: 1, padding: 12, cornerRadius: 8 }
-                    }
-                }
-            });
-        });
-    </script>
+  <script src="app.js"></script>
 </body>
 </html>

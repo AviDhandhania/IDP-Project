@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:07093249-4422-4c22-8430-f2b6f803d8fd",
+  "serialNumber": "urn:uuid:4fdbfbc6-1737-4714-a3fd-b4c7a02862dd",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-21T05:53:51.173702+00:00",
+    "timestamp": "2026-09-23T06:14:43.265438+00:00",
     "tools": [
       {
         "vendor": "Crypto-Agility Navigator",
