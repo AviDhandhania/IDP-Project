@@ -100,7 +100,7 @@ class CBOMGenerator:
                     {
                         "vendor": "Crypto-Agility Navigator",
                         "name": "crypto-agility-navigator-engine",
-                        "version": "0.2.0-review2"
+                        "version": "1.0.0-review3-final"
                     }
                 ],
                 "component": {

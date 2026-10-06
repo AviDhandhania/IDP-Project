@@ -157,30 +157,74 @@ KNOWN_CRYPTO_PATTERNS = {
     "hkdf_sha256": {"primitive": CryptoPrimitiveType.KDF, "algo": "HKDF_SHA256", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
     "bcrypt": {"primitive": CryptoPrimitiveType.KDF, "algo": "BCRYPT", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
     "rsa_oaep_encrypt": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA-OAEP", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
-    "rsa_pkcs1v15_encrypt": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA-PKCS1v15", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN}
+    "rsa_pkcs1v15_encrypt": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA-PKCS1v15", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "urlsafetimedserializer": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "HMAC", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "itsdangerous": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "HMAC", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE}
 }
 
 
 class CryptoASTVisitor(ast.NodeVisitor):
-    """AST Visitor scanning Python files for cryptographic API invocations."""
+    """AST Visitor scanning Python files for cryptographic API invocations, with DFA-lite aliasing."""
 
     def __init__(self, file_path: str, source_code: str):
         self.file_path = file_path
         self.source_code = source_code
         self.source_lines = source_code.splitlines()
         self.invocations: List[CryptoInvocation] = []
+        self.import_aliases: Dict[str, str] = {}
+        self.assignments: Dict[str, str] = {}
+
+    def visit_Import(self, node: ast.Import) -> None:
+        for alias in node.names:
+            name = alias.name
+            asname = alias.asname or name.split('.')[-1]
+            self.import_aliases[asname] = name
+        self.generic_visit(node)
+
+    def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
+        module = node.module or ''
+        for alias in node.names:
+            name = alias.name
+            asname = alias.asname or name
+            self.import_aliases[asname] = f"{module}.{name}"
+        self.generic_visit(node)
+
+    def visit_Assign(self, node: ast.Assign) -> None:
+        # Very simple constant propagation for strings
+        if isinstance(node.value, ast.Constant) and isinstance(node.value.value, str):
+            for target in node.targets:
+                if isinstance(target, ast.Name):
+                    self.assignments[target.id] = node.value.value
+        self.generic_visit(node)
+
+    def _resolve_name(self, name: str) -> str:
+        parts = name.split('.')
+        if parts[0] in self.import_aliases:
+            parts[0] = self.import_aliases[parts[0]]
+        return '.'.join(parts)
 
     def visit_Call(self, node: ast.Call) -> None:
-        call_name = self._get_call_name(node.func)
-        if call_name:
-            matched_info = self._match_crypto_api(call_name, node)
+        raw_call_name = self._get_call_name(node.func)
+        if raw_call_name:
+            full_call_name = self._resolve_name(raw_call_name)
+            matched_info = self._match_crypto_api(full_call_name, node)
             if matched_info:
                 snippet = self._get_code_snippet(node.lineno)
                 params = self._extract_call_parameters(node)
+                
+                # Check if any params are resolved by DFA
+                for k, v in params.items():
+                    if v in self.assignments:
+                        params[k] = self.assignments[v]
+                        # Overwrite UNKNOWN algo if resolved
+                        if matched_info["algo"] == "UNKNOWN":
+                            resolved_algo = self.assignments[v].upper()
+                            matched_info["algo"] = resolved_algo
+
                 invocation = CryptoInvocation(
                     file_path=self.file_path,
                     line_number=node.lineno,
-                    function_name=call_name,
+                    function_name=full_call_name,
                     primitive_type=matched_info["primitive"],
                     algorithm_name=matched_info["algo"],
                     key_size=matched_info["key_size"],
@@ -233,10 +277,37 @@ class CryptoASTVisitor(ast.NodeVisitor):
                 "vulnerability": QuantumVulnerability.SHOR_BROKEN
             }
 
+        # Fix False Negatives for cryptography library (Python Import Aliasing problem)
+        if "generate_private_key" in lower_name:
+            node_str = (ast.unparse(node) if hasattr(ast, 'unparse') else "").lower()
+            algo = "UNKNOWN"
+            if "rsa" in node_str or "rsa" in lower_name:
+                algo = "RSA"
+            elif "ec" in node_str or "ellipticcurve" in node_str or "ec." in node_str:
+                algo = "ECDSA"
+            elif "ed25519" in node_str:
+                algo = "ED25519"
+            elif "x25519" in node_str:
+                algo = "X25519"
+            
+            return {
+                "primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION,
+                "algo": algo,
+                "key_size": 2048,
+                "vulnerability": QuantumVulnerability.SHOR_BROKEN
+            }
+
         # Direct pattern match
         # Match longest pattern first to avoid generic names swallowing specific ones
         for pattern in sorted(KNOWN_CRYPTO_PATTERNS.keys(), key=len, reverse=True):
-            if pattern in lower_name:
+            # Use regex to ensure word boundaries (e.g., to prevent "dh" matching "addhandler" or "des" matching "description")
+            # We replace '_' in pattern with `[_.:]` to allow separators, but for simple matching, 
+            # we can just use `\b` around the pattern where the pattern's non-word characters are escaped.
+            escaped_pattern = re.escape(pattern)
+            # Since pattern might have underscores which are word characters, we can just check if it's isolated 
+            # or part of a snake_case/camelCase/dot separated string.
+            # A simple way: check if the pattern is surrounded by non-alphanumeric characters, or start/end of string.
+            if re.search(r'(?:^|[^a-z0-9])' + escaped_pattern + r'(?:[^a-z0-9]|$)', lower_name):
                 return KNOWN_CRYPTO_PATTERNS[pattern]
 
         return None
@@ -266,8 +337,7 @@ class DiscoveryEngine:
         try:
             import tree_sitter
             import tree_sitter_java
-            self.java_parser = tree_sitter.Parser()
-            self.java_parser.set_language(tree_sitter.Language(tree_sitter_java.language(), 'java'))
+            self.java_parser = tree_sitter.Parser(tree_sitter.Language(tree_sitter_java.language()))
         except ImportError:
             pass
 
@@ -286,7 +356,7 @@ class DiscoveryEngine:
                 return visitor.invocations
             except Exception:
                 return []
-        elif path.suffix == ".java" and self.java_parser:
+        elif path.suffix in [".java", ".groovy"] and self.java_parser:
             try:
                 with open(path, "r", encoding="utf-8") as f:
                     code = f.read()
@@ -297,35 +367,72 @@ class DiscoveryEngine:
         return []
 
     def _parse_java_tree(self, tree, file_path: str, code: str) -> List[CryptoInvocation]:
-        # Basic tree-sitter based discovery for Java JCA and BouncyCastle
         invocations = []
+        constants = {}
         
+        # Pass 1: Constant Propagation (Find String Literals assigned to variables)
+        def find_constants(node):
+            if node.type == 'variable_declarator':
+                name_node = None
+                value_node = None
+                for child in node.children:
+                    if child.type == 'identifier':
+                        name_node = child
+                    elif child.type == 'string_literal':
+                        value_node = child
+                if name_node and value_node:
+                    name = code[name_node.start_byte:name_node.end_byte]
+                    val = code[value_node.start_byte:value_node.end_byte].strip('"')
+                    constants[name] = val
+            for child in node.children:
+                find_constants(child)
+        find_constants(tree.root_node)
+        
+        # Pass 2: Discovery
         def walk(node):
             if node.type == 'method_invocation':
                 call_text = code[node.start_byte:node.end_byte]
                 lower_call = call_text.lower()
                 
-                # Check for JCA (Cipher.getInstance, Signature.getInstance, MessageDigest.getInstance)
-                # or Bouncy Castle (new BouncyCastleProvider())
-                if "getinstance" in lower_call and ("cipher" in lower_call or "signature" in lower_call or "messagedigest" in lower_call or "keyagreement" in lower_call or "mac" in lower_call):
+                if "getinstance" in lower_call and ("cipher" in lower_call or "signature" in lower_call or "messagedigest" in lower_call or "keyagreement" in lower_call or "mac" in lower_call or "keygenerator" in lower_call or "keypairgenerator" in lower_call or "secretkeyfactory" in lower_call):
                     algo = "UNKNOWN"
                     primitive = CryptoPrimitiveType.SYMMETRIC_ENCRYPTION
                     vuln = QuantumVulnerability.SHOR_BROKEN
                     
-                    if "rsa" in lower_call:
-                        algo = "RSA"
-                        primitive = CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION
-                    elif "aes" in lower_call:
-                        algo = "AES"
-                        vuln = QuantumVulnerability.QUANTUM_SAFE
-                    elif "sha-256" in lower_call:
-                        algo = "SHA-256"
-                        primitive = CryptoPrimitiveType.HASH
-                        vuln = QuantumVulnerability.QUANTUM_SAFE
-                    elif "ecdsa" in lower_call:
-                        algo = "ECDSA"
-                        primitive = CryptoPrimitiveType.SIGNATURE
-                        
+                    # Extract arguments to check constants
+                    arg_list = [c for c in node.children if c.type == 'argument_list']
+                    if arg_list:
+                        for arg in arg_list[0].children:
+                            if arg.type == 'identifier':
+                                arg_name = code[arg.start_byte:arg.end_byte]
+                                if arg_name in constants:
+                                    algo = constants[arg_name].upper()
+                            elif arg.type == 'string_literal':
+                                algo = code[arg.start_byte:arg.end_byte].strip('"').upper()
+                    
+                    if algo == "UNKNOWN":
+                        if "rsa" in lower_call:
+                            algo = "RSA"
+                            primitive = CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION
+                        elif "aes" in lower_call:
+                            algo = "AES"
+                            vuln = QuantumVulnerability.QUANTUM_SAFE
+                        elif "sha-256" in lower_call:
+                            algo = "SHA-256"
+                            primitive = CryptoPrimitiveType.HASH
+                            vuln = QuantumVulnerability.QUANTUM_SAFE
+                        elif "ecdsa" in lower_call:
+                            algo = "ECDSA"
+                            primitive = CryptoPrimitiveType.SIGNATURE
+                    else:
+                        if "RSA" in algo:
+                            primitive = CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION
+                        elif "AES" in algo:
+                            vuln = QuantumVulnerability.QUANTUM_SAFE
+                        elif "SHA" in algo:
+                            primitive = CryptoPrimitiveType.HASH
+                            vuln = QuantumVulnerability.QUANTUM_SAFE
+                            
                     invocations.append(CryptoInvocation(
                         file_path=file_path,
                         line_number=node.start_point[0] + 1,
@@ -337,7 +444,6 @@ class DiscoveryEngine:
                         raw_code_snippet=call_text.splitlines()[0],
                         parameters={}
                     ))
-                # Bouncy Castle explicit initialization
                 elif "bouncycastleprovider" in lower_call:
                     invocations.append(CryptoInvocation(
                         file_path=file_path,
@@ -356,11 +462,10 @@ class DiscoveryEngine:
                 
         walk(tree.root_node)
         return invocations
-
     def scan_directory(self, dir_path: str) -> List[CryptoInvocation]:
         results: List[CryptoInvocation] = []
         path = Path(dir_path)
         for src_file in path.rglob("*.*"):
-            if src_file.suffix in [".py", ".java"]:
+            if src_file.suffix in [".py", ".java", ".groovy"]:
                 results.extend(self.scan_file(str(src_file)))
         return results
