@@ -145,6 +145,12 @@ class DataflowBindingEngine:
             re.search(r"(\d+)[ -]years?\s+(?:retention|statutory|lifecycle|policy|archive)", window, re.IGNORECASE) or
             re.search(r"(\d+)yr", window, re.IGNORECASE)
         )
+        # Check for explicit boto3/GCS days in lifecycle rules
+        m_days = (
+            re.search(r"['\"]?Days['\"]?\s*:\s*(\d+)", window, re.IGNORECASE) or
+            re.search(r"['\"]?age['\"]?\s*[:=]\s*(\d+)", window, re.IGNORECASE)
+        )
+
         if m_years:
             years = float(m_years.group(1))
             return RetentionEvidence(
@@ -152,6 +158,15 @@ class DataflowBindingEngine:
                 evidence_type="s3_lifecycle_policy",
                 observed=True,
                 description=f"Explicit cloud storage lifecycle: retain {years} years"
+            )
+        elif m_days:
+            days = float(m_days.group(1))
+            years = days / 365.25
+            return RetentionEvidence(
+                retention_years=years,
+                evidence_type="s3_lifecycle_policy",
+                observed=True,
+                description=f"Explicit cloud storage lifecycle: retain {days} days (~{years:.2f} years)"
             )
 
 

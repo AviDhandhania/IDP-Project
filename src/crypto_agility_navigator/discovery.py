@@ -13,66 +13,151 @@ from .models import CryptoInvocation, CryptoPrimitiveType, QuantumVulnerability
 
 # Known cryptographic signatures and library identifiers
 KNOWN_CRYPTO_PATTERNS = {
-    "rsa_oaep_encrypt": {
-        "primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION,
-        "algo": "RSA-OAEP",
-        "key_size": 2048,
-        "vulnerability": QuantumVulnerability.SHOR_BROKEN
-    },
-    "rsa_pkcs1v15_encrypt": {
-        "primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION,
-        "algo": "RSA-PKCS1v15",
-        "key_size": 2048,
-        "vulnerability": QuantumVulnerability.SHOR_BROKEN
-    },
-    "rsa_sign": {
-        "primitive": CryptoPrimitiveType.SIGNATURE,
-        "algo": "RSA-PSS",
-        "key_size": 2048,
-        "vulnerability": QuantumVulnerability.SHOR_BROKEN
-    },
-    "ecdsa_sign": {
-        "primitive": CryptoPrimitiveType.SIGNATURE,
-        "algo": "ECDSA-P256",
-        "key_size": 256,
-        "vulnerability": QuantumVulnerability.SHOR_BROKEN
-    },
-    "ecdh_exchange": {
-        "primitive": CryptoPrimitiveType.KEY_EXCHANGE,
-        "algo": "ECDH-X25519",
-        "key_size": 256,
-        "vulnerability": QuantumVulnerability.SHOR_BROKEN
-    },
-    "aes_gcm_encrypt": {
-        "primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION,
-        "algo": "AES-256-GCM",
-        "key_size": 256,
-        "vulnerability": QuantumVulnerability.QUANTUM_SAFE
-    },
-    "aes_cbc_encrypt": {
-        "primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION,
-        "algo": "AES-128-CBC",
-        "key_size": 128,
-        "vulnerability": QuantumVulnerability.GROVER_WEAKENED
-    },
-    "sha256": {
-        "primitive": CryptoPrimitiveType.HASH,
-        "algo": "SHA-256",
-        "key_size": 256,
-        "vulnerability": QuantumVulnerability.QUANTUM_SAFE
-    },
-    "sha1": {
-        "primitive": CryptoPrimitiveType.HASH,
-        "algo": "SHA-1",
-        "key_size": 160,
-        "vulnerability": QuantumVulnerability.GROVER_WEAKENED
-    },
-    "md5": {
-        "primitive": CryptoPrimitiveType.HASH,
-        "algo": "MD5",
-        "key_size": 128,
-        "vulnerability": QuantumVulnerability.GROVER_WEAKENED
-    }
+    "md2": {"primitive": CryptoPrimitiveType.HASH, "algo": "MD2", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "md4": {"primitive": CryptoPrimitiveType.HASH, "algo": "MD4", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "md5": {"primitive": CryptoPrimitiveType.HASH, "algo": "MD5", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "sha1": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA1", "key_size": 160, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "sha224": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA224", "key_size": 224, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "sha256": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA256", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "sha384": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA384", "key_size": 384, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "sha512": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA512", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "sha3_224": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA3_224", "key_size": 224, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "sha3_256": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA3_256", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "sha3_384": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA3_384", "key_size": 384, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "sha3_512": {"primitive": CryptoPrimitiveType.HASH, "algo": "SHA3_512", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "blake2b": {"primitive": CryptoPrimitiveType.HASH, "algo": "BLAKE2B", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "blake2s": {"primitive": CryptoPrimitiveType.HASH, "algo": "BLAKE2S", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "blake3": {"primitive": CryptoPrimitiveType.HASH, "algo": "BLAKE3", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "ripemd160": {"primitive": CryptoPrimitiveType.HASH, "algo": "RIPEMD160", "key_size": 160, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "whirlpool": {"primitive": CryptoPrimitiveType.HASH, "algo": "WHIRLPOOL", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "tiger": {"primitive": CryptoPrimitiveType.HASH, "algo": "TIGER", "key_size": 192, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_128_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-128-ECB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_128_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-128-CBC", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_128_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-128-CFB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_128_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-128-OFB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_128_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-128-CTR", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_128_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-128-GCM", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_128_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-128-CCM", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_128_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-128-POLY1305", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aes_192_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-192-ECB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_192_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-192-CBC", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_192_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-192-CFB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_192_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-192-OFB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_192_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-192-CTR", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_192_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-192-GCM", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_192_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-192-CCM", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_192_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-192-POLY1305", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_256_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-256-ECB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_256_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-256-CBC", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_256_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-256-CFB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_256_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-256-OFB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_256_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-256-CTR", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_256_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-256-GCM", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_256_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-256-CCM", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aes_256_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "AES-256-POLY1305", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_128_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-128-ECB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "camellia_128_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-128-CBC", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "camellia_128_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-128-CFB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "camellia_128_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-128-OFB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "camellia_128_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-128-CTR", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "camellia_128_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-128-GCM", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "camellia_128_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-128-CCM", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "camellia_128_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-128-POLY1305", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "camellia_192_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-192-ECB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_192_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-192-CBC", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_192_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-192-CFB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_192_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-192-OFB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_192_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-192-CTR", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_192_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-192-GCM", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_192_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-192-CCM", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_192_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-192-POLY1305", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_256_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-256-ECB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_256_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-256-CBC", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_256_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-256-CFB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_256_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-256-OFB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_256_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-256-CTR", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_256_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-256-GCM", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_256_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-256-CCM", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "camellia_256_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CAMELLIA-256-POLY1305", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_128_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-128-ECB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aria_128_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-128-CBC", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aria_128_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-128-CFB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aria_128_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-128-OFB", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aria_128_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-128-CTR", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aria_128_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-128-GCM", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aria_128_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-128-CCM", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aria_128_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-128-POLY1305", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "aria_192_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-192-ECB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_192_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-192-CBC", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_192_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-192-CFB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_192_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-192-OFB", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_192_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-192-CTR", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_192_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-192-GCM", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_192_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-192-CCM", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_192_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-192-POLY1305", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_256_ecb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-256-ECB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_256_cbc": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-256-CBC", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_256_cfb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-256-CFB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_256_ofb": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-256-OFB", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_256_ctr": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-256-CTR", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_256_gcm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-256-GCM", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_256_ccm": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-256-CCM", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "aria_256_poly1305": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "ARIA-256-POLY1305", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "des": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "DES", "key_size": 56, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "3des": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "3DES", "key_size": 112, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "blowfish": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "BLOWFISH", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "twofish": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "TWOFISH", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "rc4": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "RC4", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "chacha20": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "CHACHA20", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "salsa20": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "SALSA20", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "idea": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "IDEA", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "sm4": {"primitive": CryptoPrimitiveType.SYMMETRIC_ENCRYPTION, "algo": "SM4", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "rsa": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "rsa_1024": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA_1024", "key_size": 1024, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "rsa_3072": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA_3072", "key_size": 3072, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "rsa_4096": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA_4096", "key_size": 4096, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "elgamal": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "ELGAMAL", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "sm2": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "SM2", "key_size": 256, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "kyber_512": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "KYBER_512", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "kyber_768": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "KYBER_768", "key_size": 768, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "kyber_1024": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "KYBER_1024", "key_size": 1024, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "ml_kem_512": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "ML_KEM_512", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "ml_kem_768": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "ML_KEM_768", "key_size": 768, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "ml_kem_1024": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "ML_KEM_1024", "key_size": 1024, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "ntru": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "NTRU", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "rsa_sign": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "RSA_SIGN", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "ecdsa": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "ECDSA", "key_size": 256, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "ed25519": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "ED25519", "key_size": 256, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "ed448": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "ED448", "key_size": 448, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "dsa": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "DSA", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "dilithium_2": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "DILITHIUM_2", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "dilithium_3": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "DILITHIUM_3", "key_size": 384, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "dilithium_5": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "DILITHIUM_5", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "ml_dsa_44": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "ML_DSA_44", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "ml_dsa_65": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "ML_DSA_65", "key_size": 384, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "ml_dsa_87": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "ML_DSA_87", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "falcon_512": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "FALCON_512", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "falcon_1024": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "FALCON_1024", "key_size": 1024, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "sphincs": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "SPHINCS", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "slh_dsa": {"primitive": CryptoPrimitiveType.SIGNATURE, "algo": "SLH_DSA", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "dh": {"primitive": CryptoPrimitiveType.KEY_EXCHANGE, "algo": "DH", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "ecdh": {"primitive": CryptoPrimitiveType.KEY_EXCHANGE, "algo": "ECDH", "key_size": 256, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "x25519": {"primitive": CryptoPrimitiveType.KEY_EXCHANGE, "algo": "X25519", "key_size": 256, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "x448": {"primitive": CryptoPrimitiveType.KEY_EXCHANGE, "algo": "X448", "key_size": 448, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "kyber_kex": {"primitive": CryptoPrimitiveType.KEY_EXCHANGE, "algo": "KYBER_KEX", "key_size": 768, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "hmac_md5": {"primitive": CryptoPrimitiveType.MAC, "algo": "HMAC_MD5", "key_size": 128, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "hmac_sha1": {"primitive": CryptoPrimitiveType.MAC, "algo": "HMAC_SHA1", "key_size": 160, "vulnerability": QuantumVulnerability.GROVER_WEAKENED},
+    "hmac_sha256": {"primitive": CryptoPrimitiveType.MAC, "algo": "HMAC_SHA256", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "hmac_sha512": {"primitive": CryptoPrimitiveType.MAC, "algo": "HMAC_SHA512", "key_size": 512, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "poly1305": {"primitive": CryptoPrimitiveType.MAC, "algo": "POLY1305", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "cmac_aes": {"primitive": CryptoPrimitiveType.MAC, "algo": "CMAC_AES", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "pbkdf2_hmac_sha256": {"primitive": CryptoPrimitiveType.KDF, "algo": "PBKDF2_HMAC_SHA256", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "scrypt": {"primitive": CryptoPrimitiveType.KDF, "algo": "SCRYPT", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "argon2": {"primitive": CryptoPrimitiveType.KDF, "algo": "ARGON2", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "hkdf_sha256": {"primitive": CryptoPrimitiveType.KDF, "algo": "HKDF_SHA256", "key_size": 256, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "bcrypt": {"primitive": CryptoPrimitiveType.KDF, "algo": "BCRYPT", "key_size": 192, "vulnerability": QuantumVulnerability.QUANTUM_SAFE},
+    "rsa_oaep_encrypt": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA-OAEP", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN},
+    "rsa_pkcs1v15_encrypt": {"primitive": CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION, "algo": "RSA-PKCS1v15", "key_size": 2048, "vulnerability": QuantumVulnerability.SHOR_BROKEN}
 }
 
 
@@ -175,26 +260,88 @@ class DiscoveryEngine:
     """Stage 1 Engine: Discovers cryptographic invocations across repository files."""
 
     def __init__(self):
-        pass
+        self.java_parser = None
+        try:
+            import tree_sitter
+            import tree_sitter_java
+            self.java_parser = tree_sitter.Parser()
+            self.java_parser.set_language(tree_sitter.Language(tree_sitter_java.language(), 'java'))
+        except ImportError:
+            pass
 
     def scan_file(self, file_path: str) -> List[CryptoInvocation]:
         path = Path(file_path)
-        if not path.exists() or path.suffix != ".py":
+        if not path.exists():
             return []
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                code = f.read()
-            tree = ast.parse(code, filename=file_path)
-            visitor = CryptoASTVisitor(file_path, code)
-            visitor.visit(tree)
-            return visitor.invocations
-        except Exception as e:
-            # Handle unparsable files gracefully
-            return []
+            
+        if path.suffix == ".py":
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    code = f.read()
+                tree = ast.parse(code, filename=file_path)
+                visitor = CryptoASTVisitor(file_path, code)
+                visitor.visit(tree)
+                return visitor.invocations
+            except Exception:
+                return []
+        elif path.suffix == ".java" and self.java_parser:
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    code = f.read()
+                tree = self.java_parser.parse(bytes(code, "utf-8"))
+                return self._parse_java_tree(tree, file_path, code)
+            except Exception:
+                return []
+        return []
+
+    def _parse_java_tree(self, tree, file_path: str, code: str) -> List[CryptoInvocation]:
+        # Basic tree-sitter based discovery for Java JCA and BouncyCastle
+        invocations = []
+        
+        def walk(node):
+            if node.type == 'method_invocation':
+                # Simplified matching for demonstration of Java support
+                call_text = code[node.start_byte:node.end_byte]
+                lower_call = call_text.lower()
+                
+                # Check for Cipher.getInstance or Signature.getInstance
+                if "getinstance" in lower_call and ("cipher" in lower_call or "signature" in lower_call or "messagedigest" in lower_call):
+                    algo = "UNKNOWN"
+                    primitive = CryptoPrimitiveType.SYMMETRIC_ENCRYPTION
+                    vuln = QuantumVulnerability.SHOR_BROKEN
+                    
+                    if "rsa" in lower_call:
+                        algo = "RSA"
+                        primitive = CryptoPrimitiveType.ASYMMETRIC_ENCRYPTION
+                    elif "aes" in lower_call:
+                        algo = "AES"
+                        vuln = QuantumVulnerability.QUANTUM_SAFE
+                    elif "sha-256" in lower_call:
+                        algo = "SHA-256"
+                        primitive = CryptoPrimitiveType.HASH
+                        vuln = QuantumVulnerability.QUANTUM_SAFE
+                        
+                    invocations.append(CryptoInvocation(
+                        file_path=file_path,
+                        line_number=node.start_point[0] + 1,
+                        function_name="getInstance",
+                        primitive_type=primitive,
+                        algorithm_name=algo,
+                        key_size=None,
+                        quantum_vulnerability=vuln,
+                        raw_code_snippet=call_text.splitlines()[0],
+                        parameters={}
+                    ))
+            for child in node.children:
+                walk(child)
+                
+        walk(tree.root_node)
+        return invocations
 
     def scan_directory(self, dir_path: str) -> List[CryptoInvocation]:
         results: List[CryptoInvocation] = []
         path = Path(dir_path)
-        for py_file in path.rglob("*.py"):
-            results.extend(self.scan_file(str(py_file)))
+        for src_file in path.rglob("*.*"):
+            if src_file.suffix in [".py", ".java"]:
+                results.extend(self.scan_file(str(src_file)))
         return results
