@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 from src.crypto_agility_navigator.discovery import DiscoveryEngine
 from src.crypto_agility_navigator.dataflow import DataflowBindingEngine
-from src.crypto_agility_navigator.scorer import HNDLScorer
+from src.crypto_agility_navigator.scorer import HNDLScoringEngine
 
 class TestBenchmarkRegression(unittest.TestCase):
     def test_benchmark_regression(self):
@@ -12,7 +12,7 @@ class TestBenchmarkRegression(unittest.TestCase):
             
         discovery_engine = DiscoveryEngine()
         dataflow_engine = DataflowBindingEngine()
-        scorer = HNDLScorer()
+        scorer = HNDLScoringEngine()
         
         # Stage 1: Discovery
         invocations = discovery_engine.scan_directory(str(project_dir))
@@ -23,7 +23,7 @@ class TestBenchmarkRegression(unittest.TestCase):
         self.assertEqual(len(paths), 3)
         
         # Stage 3: Scoring
-        scored_paths = [scorer.score_path(p) for p in paths]
+        scored_paths = [(p, scorer.score_data_path(p)) for p in paths]
         
         # Assertions based on expected benchmark results
         actionable = [p for p in scored_paths if p[0].is_security_relevant]

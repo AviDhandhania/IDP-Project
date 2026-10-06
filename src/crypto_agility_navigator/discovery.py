@@ -202,13 +202,9 @@ class CryptoASTVisitor(ast.NodeVisitor):
         return None
 
     def _match_crypto_api(self, call_name: str, node: ast.Call) -> Optional[Dict[str, Any]]:
-        # Direct pattern match
         lower_name = call_name.lower()
-        for pattern, info in KNOWN_CRYPTO_PATTERNS.items():
-            if pattern in lower_name:
-                return info
-
-        # Check standard libraries like hashlib or cryptography.hazmat
+        
+        # Check standard libraries like hashlib or cryptography.hazmat first
         if "hashlib" in lower_name:
             algo = call_name.split(".")[-1].upper()
             vuln = QuantumVulnerability.GROVER_WEAKENED if algo in ["MD5", "SHA1"] else QuantumVulnerability.QUANTUM_SAFE
@@ -236,6 +232,12 @@ class CryptoASTVisitor(ast.NodeVisitor):
                 "key_size": 2048,
                 "vulnerability": QuantumVulnerability.SHOR_BROKEN
             }
+
+        # Direct pattern match
+        # Match longest pattern first to avoid generic names swallowing specific ones
+        for pattern in sorted(KNOWN_CRYPTO_PATTERNS.keys(), key=len, reverse=True):
+            if pattern in lower_name:
+                return KNOWN_CRYPTO_PATTERNS[pattern]
 
         return None
 
@@ -300,12 +302,12 @@ class DiscoveryEngine:
         
         def walk(node):
             if node.type == 'method_invocation':
-                # Simplified matching for demonstration of Java support
                 call_text = code[node.start_byte:node.end_byte]
                 lower_call = call_text.lower()
                 
-                # Check for Cipher.getInstance or Signature.getInstance
-                if "getinstance" in lower_call and ("cipher" in lower_call or "signature" in lower_call or "messagedigest" in lower_call):
+                # Check for JCA (Cipher.getInstance, Signature.getInstance, MessageDigest.getInstance)
+                # or Bouncy Castle (new BouncyCastleProvider())
+                if "getinstance" in lower_call and ("cipher" in lower_call or "signature" in lower_call or "messagedigest" in lower_call or "keyagreement" in lower_call or "mac" in lower_call):
                     algo = "UNKNOWN"
                     primitive = CryptoPrimitiveType.SYMMETRIC_ENCRYPTION
                     vuln = QuantumVulnerability.SHOR_BROKEN
@@ -320,6 +322,9 @@ class DiscoveryEngine:
                         algo = "SHA-256"
                         primitive = CryptoPrimitiveType.HASH
                         vuln = QuantumVulnerability.QUANTUM_SAFE
+                    elif "ecdsa" in lower_call:
+                        algo = "ECDSA"
+                        primitive = CryptoPrimitiveType.SIGNATURE
                         
                     invocations.append(CryptoInvocation(
                         file_path=file_path,
@@ -332,6 +337,20 @@ class DiscoveryEngine:
                         raw_code_snippet=call_text.splitlines()[0],
                         parameters={}
                     ))
+                # Bouncy Castle explicit initialization
+                elif "bouncycastleprovider" in lower_call:
+                    invocations.append(CryptoInvocation(
+                        file_path=file_path,
+                        line_number=node.start_point[0] + 1,
+                        function_name="BouncyCastleProvider",
+                        primitive_type=CryptoPrimitiveType.SYMMETRIC_ENCRYPTION,
+                        algorithm_name="BouncyCastle-Init",
+                        key_size=None,
+                        quantum_vulnerability=QuantumVulnerability.SHOR_BROKEN,
+                        raw_code_snippet=call_text.splitlines()[0],
+                        parameters={}
+                    ))
+                    
             for child in node.children:
                 walk(child)
                 

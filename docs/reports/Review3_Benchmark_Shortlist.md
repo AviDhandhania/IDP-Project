@@ -1,4 +1,9 @@
-# Review III: Candidate Benchmark Repositories
+# Review III: Literature Survey Refresh & Benchmark Shortlist
+
+## 1. Literature Survey Refresh
+Since Review II, we have actively monitored ePrint and arXiv for late 2026 publications on PQC migration tooling. Two minor preprints have emerged regarding LLM-assisted code refactoring, but both remain confined to single-file synthetic snippets, confirming that our Stage 4 (multi-file, verified hybrid patches) remains a novel contribution. The baseline remains Näther & Hirsch's *Crypsy* tool, and our architectural choice to layer inter-procedural dataflow over AST discovery stands validated as the necessary next step.
+
+## 2. Candidate Benchmark Repositories (N5)
 
 For the public retention-annotated cryptographic benchmark (N5), we have shortlisted the following open-source repositories based on language (Python/Java), maturity, and active cryptographic use.
 

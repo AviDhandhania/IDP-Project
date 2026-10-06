@@ -12,3 +12,8 @@
 - Moved the **benchmark regression harness** forward to Review III (completed) to ensure stability while adding new rules.
 - Pushed **ORM retention extraction** (SQLAlchemy, Django ORM) to Review IV to allocate more time for the 145+ rule expansion.
 - The next major milestone (Review IV) will heavily focus on inter-procedural backward taint across multiple files, building upon the established `tree-sitter` foundation.
+
+## Updated Requirements (Addressing Sections 1 & 4)
+Based on panel feedback, the following Functional Requirements (FR) have been formally updated in our design:
+* **FR-1 (Updated)**: Multi-language AST discovery must parse Python (`ast`) and Java (`tree-sitter`) source files, specifically detecting standard library calls and major third-party APIs (JCA, Bouncy Castle, cryptography.hazmat).
+* **FR-5 (Updated)**: Retention policy extraction must ingest standard cloud lifecycle configuration objects (e.g. boto3 lifecycle configs, Google Cloud Storage lifecycle dicts) and reliably extract `Days` or `age` properties into numerical year equivalents for the Mosca equation.
