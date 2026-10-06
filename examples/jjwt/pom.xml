@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2014-2023 jsonwebtoken.io
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-root</artifactId>
+    <version>0.14.0-SNAPSHOT</version>
+    <name>JJWT</name>
+    <description>JSON Web Token support for the JVM and Android</description>
+    <packaging>pom</packaging>
+    <url>https://github.com/jwtk/jjwt</url>
+
+    <organization>
+        <name>jsonwebtoken.io</name>
+        <url>https://github.com/jwtk/jjwt</url>
+    </organization>
+    <inceptionYear>2014</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache-2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Les Hazlewood</name>
+            <email>121180+lhazlewood@users.noreply.github.com</email>
+            <organization>JJWT</organization>
+            <organizationUrl>https://github.com/jwtk/jjwt</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/jwtk/jjwt.git</connection>
+        <developerConnection>scm:git:https://github.com/jwtk/jjwt.git</developerConnection>
+        <url>https://github.com/jwtk/jjwt.git</url>
+        <tag>HEAD</tag>
+    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/jwtk/jjwt/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>TravisCI</system>
+        <url>https://travis-ci.org/jwtk/jjwt</url>
+    </ciManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>ossrh</id>
+            <name>OSSRH Snapshots</name>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <properties>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <arguments/>
+
+        <jjwt.root>${basedir}</jjwt.root>
+        <jjwt.previousVersion>0.11.2</jjwt.previousVersion>
+
+        <maven.jar.version>3.4.2</maven.jar.version>
+        <maven.compiler.version>3.14.0</maven.compiler.version>
+        <maven.javadoc.version>3.11.3</maven.javadoc.version>
+        <maven.source.version>3.3.1</maven.source.version>
+        <maven.resources.version>3.3.1</maven.resources.version>
+        <maven.gpg.version>3.2.8</maven.gpg.version>
+        <maven.japicmp.version>0.23.1</maven.japicmp.version>
+        <maven.toolchains.version>3.2.0</maven.toolchains.version>
+        <gmavenplus.version>4.2.1</gmavenplus.version>
+        <maven.license.version>4.6</maven.license.version>
+        <maven.license.skipExistingHeaders>true</maven.license.skipExistingHeaders>
+
+        <!-- Source/bytecode compatibility target for the compiled library.
+             Build requires JDK 17+. -->
+        <jdk.release.version>8</jdk.release.version>
+        <!-- Used by javadoc plugin <source> parameter -->
+        <jdk.version>8</jdk.version>
+
+        <buildNumber>${user.name}-${maven.build.timestamp}</buildNumber>
+
+        <jackson.version>2.22.1</jackson.version>
+        <orgjson.version>20250517</orgjson.version>
+        <gson.version>2.13.1</gson.version>
+
+        <maven.javadoc.additionalOptions />
+        <!-- Optional Runtime Dependencies: -->
+        <bouncycastle.version>1.84</bouncycastle.version>
+        <bcprov.artifactId>bcprov-jdk18on</bcprov.artifactId>
+        <bcpkix.artifactId>bcpkix-jdk18on</bcpkix.artifactId>
+
+        <!-- Test Dependencies: Only required for testing when building.  Not required by users at runtime: -->
+        <groovy.version>4.0.31</groovy.version>
+        <easymock.version>5.6.0</easymock.version>
+        <junit.version>4.13.2</junit.version>
+        <powermock.version>2.0.9</powermock.version>
+        <failsafe.plugin.version>3.1.2</failsafe.plugin.version>
+        <surefire.plugin.version>3.1.2</surefire.plugin.version>
+        <clover.version>4.5.2</clover.version>
+        <clover.db>${jjwt.root}/target/clover/clover.db</clover.db>
+        <!-- Default surefire argLine for JDK 17 (the required build JDK).
+             Individual jdk-N profiles override this for their toolchain executions. -->
+        <surefire.useModulePath>false</surefire.useModulePath>
+        <test.addOpens>
+            --add-opens java.base/java.lang=ALL-UNNAMED, <!-- Needed by EasyMock/cglib -->
+            --add-opens java.desktop/java.beans=ALL-UNNAMED, <!-- Needed by EasyMock/cglib -->
+            --add-opens java.base/java.lang.ref=ALL-UNNAMED, <!-- Needed by PowerMock -->
+            --add-opens java.base/java.security=ALL-UNNAMED, <!-- Needed by TestProvider.groovy on JDK 17 or later -->
+            <!-- needed by KeysImplTest.testKeyPairFor, KeysTest.testDeprecatedKeyPairFor, and
+                 KeysTest.testKeyPairBuilder: -->
+            --add-opens java.base/sun.security.util=ALL-UNNAMED
+        </test.addOpens>
+        <surefire.argLine>${test.addOpens}</surefire.argLine>
+    </properties>
+
+    <modules>
+        <module>api</module>
+        <module>impl</module>
+        <module>extensions</module>
+        <module>tdjar</module>
+        <module>bom</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-orgjson</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-gson</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${orgjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+
+            <!-- Used only during testing for PS256, PS384 and PS512 since JDK <= 10 doesn't support them: -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>${bcprov.artifactId}</artifactId>
+                <version>${bouncycastle.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>${bcpkix.artifactId}</artifactId>
+                <version>${bouncycastle.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Test Dependencies: Only required for testing when building.  Not required by users at runtime: -->
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>${groovy.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>${easymock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-easymock</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-core</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>2.1.0</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <releaseProfiles>ossrh</releaseProfiles>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.openclover</groupId>
+                    <artifactId>clover-maven-plugin</artifactId>
+                    <version>${clover.version}</version>
+                    <configuration>
+                        <cloverDatabase>${clover.db}</cloverDatabase>
+                        <!--
+                        cloverDatabase>${user.home}/.clover/${project.groupId}/jjwt/clover.db</cloverDatabase>
+                        <snapshot>${user.home}/.clover/${project.groupId}/jjwt/clover.snapshot</snapshot>
+                        <historyDir>${user.home}/.clover/${project.groupId}/jjwt</historyDir> -->
+                        <excludes>
+                            <exclude>io/jsonwebtoken/lang/*</exclude>
+                            <exclude>io/jsonwebtoken/all/JavaReadmeTest.java</exclude>
+                            <!-- Imported from commons-codec 585497f09b026f6602daf986723a554e051bdfe6, don't
+                            need full coverage: -->
+                            <exclude>io/jsonwebtoken/impl/io/CodecPolicy.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/BaseNCodec.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/Base64Codec.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/BaseNCodecOutputStream.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/BaseNCodecInputStream.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/Base64OutputStream.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/Base64InputStream.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/FilteredInputStream.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/FilteredOutputStream.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/io/CharSequenceReader.java</exclude>
+                            <exclude>io/jsonwebtoken/impl/lang/AddOpens.java</exclude>
+                        </excludes>
+                        <methodPercentage>100.000000%</methodPercentage>
+                        <statementPercentage>100.000000%</statementPercentage>
+                        <conditionalPercentage>100.000000%</conditionalPercentage>
+                        <targetPercentage>100.000000%</targetPercentage>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${maven.license.version}</version>
+                    <configuration>
+                        <skipExistingHeaders>${maven.license.skipExistingHeaders}</skipExistingHeaders>
+                        <mapping>
+                            <toml>SCRIPT_STYLE</toml> <!-- yaml -->
+                            <pem>SCRIPT_STYLE</pem> <!-- any will do -->
+                        </mapping>
+                        <licenseSets>
+                            <licenseSet>
+                                <header>${jjwt.root}/src/license/header.txt</header>
+                                <excludes>
+                                    <exclude>**/license/header.txt</exclude>
+                                    <exclude>**/*.test.orgjson</exclude>
+                                    <exclude>**/*.test.gson</exclude>
+                                    <exclude>**/*.test.override</exclude>
+                                    <exclude>**/*.bnd</exclude>
+                                    <exclude>LICENSE</exclude>
+                                     <exclude>**/mvnw</exclude>
+                                     <exclude>**/install-test-jdks.sh</exclude>
+                                    <exclude>**/lombok.config</exclude>
+                                    <exclude>.gitattributes</exclude>
+                                    <exclude>**/genkeys</exclude>
+                                    <exclude>**/softhsm</exclude>
+                                    <exclude>**.adoc</exclude>
+                                    <exclude>.mvn/.develocity/**</exclude>
+                                </excludes>
+                            </licenseSet>
+                        </licenseSets>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.mycila</groupId>
+                            <artifactId>license-maven-plugin-git</artifactId>
+                            <version>${maven.license.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.javadoc.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <release>${jdk.version}</release>
+                        <failOnError>true</failOnError>
+                        <failOnWarnings>false</failOnWarnings>
+                        <additionalOptions>-html5 ${maven.javadoc.additionalOptions}</additionalOptions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven.jar.version}</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven.source.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven.resources.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven.gpg.version}</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <!-- japicmp will scan code for binary breaking changes, Open api/target/japicmp/japicmp.html
+                         for a report of the changes since ${jjwt.previousVersion} -->
+                    <groupId>com.github.siom79.japicmp</groupId>
+                    <artifactId>japicmp-maven-plugin</artifactId>
+                    <version>${maven.japicmp.version}</version>
+                    <configuration>
+                        <oldVersion>
+                            <dependency>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                                <version>${jjwt.previousVersion}</version>
+                                <type>jar</type>
+                            </dependency>
+                        </oldVersion>
+                        <parameter>
+                            <onlyModified>true</onlyModified>
+                            <!-- <breakBuildOnBinaryIncompatibleModifications>true</breakBuildOnBinaryIncompatibleModifications> -->
+                            <!-- TODO: enable after 1.0 -->
+                            <breakBuildBasedOnSemanticVersioning>true</breakBuildBasedOnSemanticVersioning>
+
+                            <!-- All of the following can be removed after 0.11.1 is released: -->
+                            <!-- <excludes>
+                                <exclude>io.jsonwebtoken.Header#getAlgorithm()</exclude>
+                                <exclude>io.jsonwebtoken.Header#setAlgorithm(java.lang.String)</exclude>
+                                <exclude>io.jsonwebtoken.JwsHeader#getAlgorithm()</exclude>
+                                <exclude>io.jsonwebtoken.JwsHeader#setAlgorithm(java.lang.String)</exclude>
+                                <exclude>io.jsonwebtoken.lang.Assert#notNull(java.lang.Object,java.lang.String)</exclude>
+                            </excludes> -->
+                        </parameter>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>japicmp</id>
+                            <goals>
+                                <goal>cmp</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- The following plugin section is used in jjwt-jackson and jjwt-orgjson to repackage (and verify)
+                     binary compatibility with previous versions. In v0.11.0 the implementations changed packages to
+                     avoid split package issues with Java 9+ see: https://github.com/jwtk/jjwt/issues/399 -->
+                <!-- TODO: remove these deprecated packages and this config before v1.0 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.6.0</version>
+                    <configuration>
+                        <shadedClassifierName>deprecated</shadedClassifierName>
+                        <shadedArtifactAttached>true</shadedArtifactAttached>
+                        <createDependencyReducedPom>false</createDependencyReducedPom>
+                        <artifactSet>
+                            <includes>
+                                <include>${project.groupId}:${project.artifactId}</include>
+                            </includes>
+                        </artifactSet>
+                        <transformers>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                        </transformers>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-banned-dependencies</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <searchTransitive>true</searchTransitive>
+                                    <excludes>
+                                        <exclude>commons-logging</exclude>
+                                    </excludes>
+                                </bannedDependencies>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>enforce-java-17</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <!-- JDK 17+ is required to run Maven. -->
+                                    <version>[17,)</version>
+                                    <message>Build requires JDK 17 or later. Use SDKMAN: sdk install java 17.x.x-tem</message>
+                                </requireJavaVersion>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <release>${jdk.release.version}</release>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!-- Allow for writing tests in Groovy: -->
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>${gmavenplus.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>addSources</goal>
+                            <goal>addTestSources</goal>
+                            <goal>generateStubs</goal>
+                            <goal>compile</goal>
+                            <goal>generateTestStubs</goal>
+                            <goal>compileTests</goal>
+                            <goal>removeStubs</goal>
+                            <goal>removeTestStubs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                        <version>${groovy.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.plugin.version}</version>
+                <configuration>
+                    <argLine>${surefire.argLine}</argLine>
+                    <!-- Next two lines replace 'forkMode', removed in maven-surefire-plugin version 3.0.0-M8: -->
+                    <forkCount>1</forkCount>
+                    <reuseForks>true</reuseForks>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.plugin.version}</version>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include>
+                        <include>**/*IT.groovy</include>
+                        <include>**/*ITCase.java</include>
+                        <include>**/*ITCase.groovy</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/*ManualIT.java</exclude>
+                        <exclude>**/*ManualIT.groovy</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openclover</groupId>
+                <artifactId>clover-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.14</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://ossrh-staging-api.central.sonatype.com/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>5.1.9</version>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <instructions>
+                        <_include>-bnd.bnd</_include>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.jsonwebtoken.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.4.1</version>
+                <dependencies>
+                    <!-- coveralls-maven-plugin uses javax.xml.bind.DatatypeConverter (via MD5DigestInputStream),
+                         which was removed in JDK 11+. Pull in the last javax-namespace-compatible version so
+                         the plugin works when the coverage job runs on JDK 17. -->
+                    <dependency>
+                        <groupId>jakarta.xml.bind</groupId>
+                        <artifactId>jakarta.xml.bind-api</artifactId>
+                        <version>2.3.3</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <!--
+            Multi-JDK test profiles. Activate one or more to run an extra surefire execution
+            under that JDK via Surefire's jdkToolchain parameter. Example:
+                ./mvnw verify -P jdk-8,jdk-11,jdk-21,jdk-25
+
+            Local setup (SDKMAN): run ./install-test-jdks.sh to install required JDKs and
+            generate ~/.m2/toolchains.xml via maven-toolchains-plugin:generate-jdk-toolchains-xml.
+
+            CI: actions/setup-java is called once per target JDK (appending to ~/.m2/toolchains.xml),
+            then all profiles are activated in a single Maven invocation.
+
+            Compilation always uses the build JDK (17+). The jdkToolchain parameter in each surefire
+            execution selects which JDK runs the tests, independently of compilation.
+        -->
+
+        <!-- When test.jdk.version is explicitly set, skip the default surefire
+             execution — the matching jdk-N profile runs tests via toolchain. -->
+        <profile>
+            <id>skip-default-tests</id>
+            <activation>
+                <property>
+                    <name>test.jdk.version</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-test</id>
+                                <configuration>
+                                    <skip>true</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- ==================== JDK 8 test execution ==================== -->
+        <profile>
+            <id>jdk-8</id>
+            <activation>
+                <property>
+                    <name>test.jdk.version</name>
+                    <value>8</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>test-jdk-8</id>
+                                <goals><goal>test</goal></goals>
+                                <configuration combine.self="override">
+                                    <jdkToolchain>
+                                        <version>[1.8,1.9),[8,9)</version>
+                                    </jdkToolchain>
+                                    <argLine><!-- No add-opens flags supported on JDK 8 --></argLine>
+                                    <!-- Next two lines replace 'forkMode', removed in maven-surefire-plugin version 3.0.0-M8: -->
+                                    <forkCount>1</forkCount>
+                                    <reuseForks>true</reuseForks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- ==================== JDK 11 test execution ==================== -->
+        <profile>
+            <id>jdk-11</id>
+            <activation>
+                <property>
+                    <name>test.jdk.version</name>
+                    <value>11</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>test-jdk-11</id>
+                                <goals><goal>test</goal></goals>
+                                <configuration>
+                                    <jdkToolchain>
+                                        <version>11</version>
+                                    </jdkToolchain>
+                                    <argLine>${surefire.argLine}</argLine>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- ==================== JDK 17 test execution ==================== -->
+        <!-- No toolchain needed: the build JDK is 17+, so the default surefire
+             execution already runs on the current JVM. This profile exists so CI
+             can invoke tests on JDK 17 via the same -Dtest.jdk.version pattern
+             used for all other JDKs. -->
+        <profile>
+            <id>jdk-17</id>
+            <activation>
+                <property>
+                    <name>test.jdk.version</name>
+                    <value>17</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>test-jdk-17</id>
+                                <goals><goal>test</goal></goals>
+                                <configuration>
+                                    <argLine>${surefire.argLine}</argLine>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- ==================== JDK 21 test execution ==================== -->
+        <profile>
+            <id>jdk-21</id>
+            <activation>
+                <property>
+                    <name>test.jdk.version</name>
+                    <value>21</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>test-jdk-21</id>
+                                <goals><goal>test</goal></goals>
+                                <configuration>
+                                    <jdkToolchain>
+                                        <version>21</version>
+                                    </jdkToolchain>
+                                    <argLine>${surefire.argLine}</argLine>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- ==================== JDK 25 test execution ==================== -->
+        <profile>
+            <id>jdk-25</id>
+            <activation>
+                <property>
+                    <name>test.jdk.version</name>
+                    <value>25</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>test-jdk-25</id>
+                                <goals><goal>test</goal></goals>
+                                <configuration>
+                                    <jdkToolchain>
+                                        <version>25</version>
+                                    </jdkToolchain>
+                                    <argLine>${surefire.argLine}</argLine>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>docs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>ossrh</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
